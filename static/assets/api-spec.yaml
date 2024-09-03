@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Animal Service
+  version: 1.0.0
+  description: Generated from POST API Spec
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: animal
+    description: Everything about animals
+paths:
+  /animals/getAnimalByName:
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: Add a new pet to the store
+      operationId: addPet
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAnimalByNameRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAnimalByNameResult'
+components:
+  schemas:
+    GetAnimalByNameRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    GetAnimalByNameResult:
+      type: object
+      properties:
+        error:
+          type: string
+        result:
+          $ref: '#/components/schemas/Animal'
+    Animal:
+      type: object
+      properties:
+        name:
+          type: string
+        species:
+          type: string
