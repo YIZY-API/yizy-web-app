@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
 	import { type Service } from '$lib/apiSpec';
 	import { onMount } from 'svelte';
 
@@ -76,5 +77,6 @@
 </script>
 
 <div>
+	<Button>hello</Button>
 	{res}
 </div>
