@@ -1,8 +1,8 @@
 export interface Service {
-  name: LanguageSpecificName[];
+  serviceName: LanguageSpecificName[];
   baseUrls: string[];
   endpoints: Endpoint[];
-  models: Model[];
+  additionalTypes: Type[];
 }
 
 export interface Endpoint {
@@ -12,7 +12,7 @@ export interface Endpoint {
 }
 
 export interface Field {
-  name: LanguageSpecificName[];
+  field: LanguageSpecificName[];
   type:
   | 'number'
   | 'float'
@@ -23,8 +23,20 @@ export interface Field {
   | 'int32'
   | 'int64'
   | 'object'
-  | 'array'; //primative type, or array, or object
-  modelTypeID: string; // this field is ignored if type is a primative type
+  | 'array';
+  itemType?:
+  | 'number'
+  | 'float'
+  | 'double'
+  | 'string'
+  | 'boolean'
+  | 'int'
+  | 'int32'
+  | 'int64'
+  | 'object'
+  | 'array'
+  | string
+  | null; // this field is ignored if type is a primative type
 }
 
 export interface LanguageSpecificName {
@@ -32,8 +44,8 @@ export interface LanguageSpecificName {
   name: string;
 }
 
-export interface Model {
+export interface Type {
+  id: string;
   name: LanguageSpecificName[];
   fields: Field[];
-  id: string;
 }
