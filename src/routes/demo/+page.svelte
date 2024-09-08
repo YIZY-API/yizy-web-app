@@ -46,7 +46,6 @@ export interface Animal {
     	Species string \`json:"species"\`
     }
 
-    // some server structs here for the server to implement
     `;
 	let golangString = `
     HTTP Client So You Don't Have to Craft Your Own.
