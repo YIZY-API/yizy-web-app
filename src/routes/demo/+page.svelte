@@ -1,5 +1,5 @@
 <script lang="ts">
-	import YAML from 'yaml';
+	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import { type Service } from '$lib/apiSpec';
 	import { onMount } from 'svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
@@ -11,6 +11,15 @@
 	import go from 'svelte-highlight/languages/go';
 	import typescript from 'svelte-highlight/languages/typescript';
 	import Highlight from 'svelte-highlight';
+	import * as Alert from '$lib/components/ui/alert/index.js';
+
+	function onScreenResize() {
+		if (window.innerWidth < 550) {
+			isScreenTooSmall = true;
+		} else {
+			isScreenTooSmall = false;
+		}
+	}
 
 	let selectedProgrammingLang = { label: 'Golang', value: 'Golang' };
 
@@ -136,16 +145,16 @@ interface Animal {
 			}
 		]
 	};
-	let res: string = 'hello';
+	let isScreenTooSmall = false;
 
 	onMount(() => {
-		//res = JSON.stringify(animalService, null, 4); json
-		res = YAML.stringify(animalService, {
-			indent: 4
-		});
-		console.log(res);
+		if (window.innerWidth < 550) {
+			isScreenTooSmall = true;
+		}
 	});
 </script>
+
+<svelte:window on:resize={onScreenResize} />
 
 <svelte:head>
 	<style>
@@ -385,6 +394,15 @@ interface Animal {
 </svelte:head>
 
 <div>
+	{#if isScreenTooSmall}
+		<Alert.Root class="my-4 border-destructive text-destructive">
+			<TriangleAlert class="h-4 w-4 stroke-destructive" />
+			<Alert.Title>Heads up!</Alert.Title>
+			<Alert.Description>
+				Oops, this page isn't mobile friendly yet. Tilt your screen to view it in landscape mode!
+			</Alert.Description>
+		</Alert.Root>
+	{/if}
 	<Tabs.Root value="yizi-api-spec" class="w-full">
 		<Tabs.List class="grid w-full grid-cols-4">
 			<Tabs.Trigger value="yizi-api-spec">YIZI API Spec</Tabs.Trigger>

@@ -8,17 +8,25 @@
 		<h1 class="text-center text-lg font-bold">
 			Tailored for Schema First Design and Code Generation
 		</h1>
-		<div class="my-4 flex w-full">
+		<div class="my-4 flex w-full flex-col">
 			<div class="mx-auto flex gap-2">
 				<a href="/demo"
 					><Button class="rounded-full border-primary font-bold text-primary" variant="outline"
 						>DEMO</Button
 					></a
 				>
-				<a href="https://tally.so/r/wkWG0d">
+
+				<a href="https://tally.so/r/me2BZQ">
 					<Button class="rounded-full font-bold">SIGN ME UP</Button></a
 				>
 			</div>
+
+			<a
+				href="https://tally.so/r/wkWG0d"
+				class="m-auto mt-4 text-sm font-bold text-primary underline"
+			>
+				FILL OUT DEVELOPER SURVEY
+			</a>
 		</div>
 	</div>
 
@@ -73,7 +81,7 @@
 			survey and let me know your pain points with Open API Spec.
 		</p>
 
-		<a href="https://tally.so/r/wkWG0d"
+		<a href="https://tally.so/r/me2BZQ"
 			><Button class="rounded-full border-primary font-bold text-primary" variant="outline"
 				>SHUT UP AND TAKE MY MONEY!</Button
 			>
