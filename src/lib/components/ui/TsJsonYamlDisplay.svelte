@@ -7,138 +7,111 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Card from '$lib/components/ui/card';
 	import YAML from 'yaml';
+	import { animalService } from '$lib/yizySpec/examples/animalServiceSpec';
 
-	export let input: object;
-	let jsonString: string = '';
-	let yamlString: string = '';
+	export let input: object | null = null;
+	let jsonString: string = JSON.stringify(animalService, null, 4);
+	let yamlString: string = YAML.stringify(animalService, {
+		indent: 4
+	});
 	let tsString: string = `
-export interface Service {
-	serviceName: LanguageSpecificName[];
-	baseUrls: string[];
-	endpoints: Endpoint[];
-	additionalTypes: Type[];
-}
+import {
+	type Service,
+	field,
+	referenceType,
+	nullableReferenceType,
+	arrayType,
+	nullableArrayType,
+	objectType,
+	nullableObjectType
+} from '../YIZYSpec';
 
-export interface Endpoint {
-	url: string;
-	requestModel: Field[];
-	responseModel: Field[];
-}
-
-export interface Field {
-	field: LanguageSpecificName[];
-	type:
-		| 'number'
-		| 'float'
-		| 'double'
-		| 'string'
-		| 'boolean'
-		| 'int'
-		| 'int32'
-		| 'int64'
-		| 'object'
-		| 'array';
-	itemType?:
-		| 'number'
-		| 'float'
-		| 'double'
-		| 'string'
-		| 'boolean'
-		| 'int'
-		| 'int32'
-		| 'int64'
-		| 'object'
-		| 'array'
-		| string
-		| null; // this field is ignored if type is a primative type
-}
-
-export interface LanguageSpecificName {
-	language: 'default' | 'go' | 'js' | 'cs' | 'c'; // you get the idea
-	name: string;
-}
-
-export interface Type {
-	id: string;
-	name: LanguageSpecificName[];
-	fields: Field[];
-}
-
-let animalService: Service = {
-	serviceName: [
-		{
-			language: 'default',
-			name: 'animal-service'
-		},
-		{
-			language: 'go',
-			name: 'AnimalService'
-		}
-	],
-	baseUrls: [
-		'http://localhost:8080',
-		'https://dev-server.com',
-		'https://staging-server.com',
-		'https://server.com'
-	],
+export const animalService: Service = {
+	serviceName: 'AnimalService',
+	baseUrls: ['http://localhost:8080', 'https://dev-server.com'],
 	endpoints: [
 		{
 			url: '/animals/getAnimalByName',
-			requestModel: [
-				{
-					field: [{ language: 'default', name: 'name' }],
-					type: 'string'
-				}
-			],
-			responseModel: [
-				{
-					field: [{ language: 'default', name: 'error' }],
-					type: 'string'
-				},
-				{
-					field: [{ language: 'default', name: 'result' }],
-					type: 'object',
-					itemType: 'Animal'
-				}
-			]
+			name: 'getAnimalByName',
+			requestModel: objectType('GetAnimalByNameRequest', [field('name', 'string')]),
+			responseModel: objectType('GetAnimalByNameResponse', [
+				field('error', nullableReferenceType('AnimalServiceException')),
+				field('animal', referenceType('Animal'))
+			])
+		},
+		{
+			url: '/animals/searchCatsByName',
+			name: 'searchCatsByName',
+			requestModel: objectType('SearchCatsRequest', [field('query', 'string')]),
+			responseModel: objectType('SearchCatsResponse', [
+				field('error', nullableReferenceType('AnimalServiceException')),
+				field('resultSet', arrayType(referenceType('Cat'))),
+				field('totalCount', 'int'),
+				field('totalPages', 'int'),
+				field('page', 'int'),
+				field('page', 'int')
+			])
+		},
+		{
+			url: '/animal/locateMyCat',
+			name: 'locateMyCat',
+			requestModel: objectType('LocateMyCatRequest', [field('name', 'string')]),
+			responseModel: objectType('LocateMyCatResponse', [
+				field('error', nullableReferenceType('AnimalServiceException')),
+				field(
+					'location',
+					objectType('Location', [field('longitude', 'string'), field('lattitude', 'string')])
+				)
+			])
+		},
+		{
+			url: '/demo',
+			name: 'demo',
+			requestModel: objectType('DemoRequest', [
+				field('float', 'float'),
+				field('float?', 'float?'),
+				field('double', 'double'),
+				field('double?', 'double?'),
+				field('string', 'string'),
+				field('string?', 'string?'),
+				field('boolean', 'boolean'),
+				field('boolean?', 'boolean?'),
+				field('int', 'int'),
+				field('int?', 'int?'),
+				field('int32', 'int32'),
+				field('int32?', 'int32?'),
+				field('int64', 'int64'),
+				field('int64?', 'int64?'),
+				field('arrayOfStrings', arrayType('string')),
+				field('nullableArrayOfStrings', nullableArrayType('string')),
+				field('inlineObject', objectType('inlineObject', [field('test', 'string')])),
+				field(
+					'nullableInlinedObject',
+					nullableObjectType('nullableInlinedObject', [field('test', 'string')])
+				)
+			]),
+			responseModel: objectType('DemoResponse', [field('demo', 'string')])
 		}
 	],
-	additionalTypes: [
-		{
-			id: 'Animal',
-			name: [
-				{
-					language: 'default',
-					name: 'Animal'
-				}
-			],
-			fields: [
-				{
-					field: [
-						{
-							language: 'default',
-							name: 'name'
-						}
-					],
-					type: 'string'
-				},
-				{
-					field: [{ language: 'default', name: 'species' }],
-					type: 'string'
-				}
-			]
-		}
+	referenceTypes: [
+		objectType('Animal', [field('name', 'string'), field('species', 'string')]),
+		objectType('Cat', [field('name', 'string'), field('age', 'int'), field('sex', 'string')]),
+		objectType('AnimalServiceException', [
+			field('code', 'int'),
+			field('msg', 'string'),
+			field('name', 'string')
+		])
 	]
 };
-
-JSON.stringify(animalService);
     `;
 
 	onMount(() => {
-		jsonString = JSON.stringify(input, null, 4);
-		yamlString = YAML.stringify(input, {
-			indent: 4
-		});
+		if (input != null) {
+			jsonString = JSON.stringify(input, null, 4);
+			yamlString = YAML.stringify(input, {
+				indent: 4
+			});
+		}
 	});
 </script>
 
@@ -379,11 +352,11 @@ JSON.stringify(animalService);
 	</style>
 </svelte:head>
 
-<Tabs.Root value="yaml" class="w-full">
+<Tabs.Root value="ts" class="w-full">
 	<Tabs.List class="grid w-[300px] grid-cols-3">
+		<Tabs.Trigger value="ts">Typescript</Tabs.Trigger>
 		<Tabs.Trigger value="yaml">Yaml</Tabs.Trigger>
 		<Tabs.Trigger value="json">Json</Tabs.Trigger>
-		<Tabs.Trigger value="ts">Typescript</Tabs.Trigger>
 	</Tabs.List>
 
 	<Tabs.Content value="yaml">
