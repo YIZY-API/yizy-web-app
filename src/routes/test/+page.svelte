@@ -1,6 +1,17 @@
 <script lang="ts">
-	import { classifiiApi } from '$lib/yizySpec/examples/classifiiSpec';
-	import * as generator from '$lib/yizySpec/generators/php/modelGenerator';
+	//import { animalService } from '$lib/yizySpec/examples/animalServiceSpec';
+	//import { classifiiApi } from '$lib/yizySpec/examples/classifiiSpec';
+	//import * as generator from '$lib/yizySpec/generators/php/modelGenerator';
+	//import * as generator from '$lib/yizySpec/generators/php/sdkGenerator';
+	//import { objectType, field } from '$lib/yizySpec/YIZYSpec';
 
-	console.log(generator.generateModelFile(classifiiApi));
+	//console.log(
+	//	generator.generateFunction('test', {
+	//		name: 'testFunction',
+	//		url: '/test',
+	//		requestModel: objectType('TestReq', [field('name', 'string')]),
+	//		responseModel: objectType('TestReq', [field('name', 'string')])
+	//	})
+	//);
+	//console.log(generator.generateSdkFile('/baseUrl', animalService));
 </script>

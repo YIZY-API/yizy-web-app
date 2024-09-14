@@ -31,7 +31,6 @@ export const animalService: Service = {
 				field('resultSet', arrayType(referenceType('Cat'))),
 				field('totalCount', 'int'),
 				field('totalPages', 'int'),
-				field('page', 'int'),
 				field('page', 'int')
 			])
 		},
@@ -51,26 +50,26 @@ export const animalService: Service = {
 			url: '/demo',
 			name: 'demo',
 			requestModel: objectType('DemoRequest', [
-				field('float', 'float'),
-				field('float?', 'float?'),
-				field('double', 'double'),
-				field('double?', 'double?'),
-				field('string', 'string'),
-				field('string?', 'string?'),
-				field('boolean', 'boolean'),
-				field('boolean?', 'boolean?'),
-				field('int', 'int'),
-				field('int?', 'int?'),
-				field('int32', 'int32'),
-				field('int32?', 'int32?'),
-				field('int64', 'int64'),
-				field('int64?', 'int64?'),
+				field('floatField', 'float'),
+				field('floatField?', 'float?'),
+				field('doubleField', 'double'),
+				field('doubleField?', 'double?'),
+				field('stringField', 'string'),
+				field('stringField?', 'string?'),
+				field('booleanField', 'boolean'),
+				field('booleanField?', 'boolean?'),
+				field('intField', 'int'),
+				field('intField?', 'int?'),
+				field('int32Field', 'int32'),
+				field('int32Field?', 'int32?'),
+				field('int64Field', 'int64'),
+				field('int64Field?', 'int64?'),
 				field('arrayOfStrings', arrayType('string')),
 				field('nullableArrayOfStrings', nullableArrayType('string')),
 				field('inlineObject', objectType('InlineObject', [field('test', 'string')])),
 				field(
 					'nullableInlinedObject',
-					nullableObjectType('NullableInlinedObject', [field('test', 'string')])
+					nullableObjectType('InlinedObject', [field('test', 'string')])
 				)
 			]),
 			responseModel: objectType('DemoResponse', [field('demo', 'string')])

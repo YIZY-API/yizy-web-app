@@ -2,6 +2,10 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
+<svelte:head>
+	<title>YIZY API Spec</title>
+</svelte:head>
+
 <div class="mx-auto max-w-screen-lg pb-20">
 	<div class="my-24">
 		<h1 class="my-2 text-center text-5xl font-bold">Aggresively Simple API Spec</h1>
