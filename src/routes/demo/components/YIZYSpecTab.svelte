@@ -5,7 +5,7 @@
 
 <Card.Root>
 	<Card.Header>
-		<Card.Title>YIZI API Spec</Card.Title>
+		<Card.Title>YIZY API Spec</Card.Title>
 		<Card.Description>
 			Write it in Yaml, Json, or Typescript if you need code completion suggestions!
 		</Card.Description>

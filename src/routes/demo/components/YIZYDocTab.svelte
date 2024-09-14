@@ -30,7 +30,7 @@ interface Animal {
 
 <Card.Root>
 	<Card.Header>
-		<Card.Title>YIZI Doc</Card.Title>
+		<Card.Title>YIZY Doc</Card.Title>
 		<Card.Description>API Documentation</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">

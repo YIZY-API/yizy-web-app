@@ -41,17 +41,17 @@
 			</Alert.Description>
 		</Alert.Root>
 	{/if}
-	<Tabs.Root value="yizi-api-spec" class="w-full">
+	<Tabs.Root value="yizy-api-spec" class="w-full">
 		<Tabs.List class="grid w-full grid-cols-4">
-			<Tabs.Trigger value="yizi-api-spec">YIZI API Spec</Tabs.Trigger>
-			<Tabs.Trigger value="yizi-doc">YIZI Doc</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-api-spec">YIZY API Spec</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-doc">YIZY Doc</Tabs.Trigger>
 			<Tabs.Trigger value="models">Models</Tabs.Trigger>
 			<Tabs.Trigger value="client-sdk">Client SDK</Tabs.Trigger>
 		</Tabs.List>
-		<Tabs.Content value="yizi-api-spec">
+		<Tabs.Content value="yizy-api-spec">
 			<YizySpecTab />
 		</Tabs.Content>
-		<Tabs.Content value="yizi-doc">
+		<Tabs.Content value="yizy-doc">
 			<YizyDocTab />
 		</Tabs.Content>
 		<Tabs.Content value="client-sdk">
