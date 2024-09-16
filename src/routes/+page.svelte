@@ -36,7 +36,7 @@
 
 	<div class="prose prose-slate mx-auto dark:prose-invert">
 		<p>
-			I find Open API Specificatoin and the surrounding toolchains frustrating to work with. There
+			I find Open API Specification and the surrounding toolchains frustrating to work with. There
 			are a lot of new startups trying to solve existing problems surrounding Open API Spec.
 			Companies like Speakeasy, Fern, and Liblab are all trying to improve developer experience
 			surrounding Open API Spec. I want to take a different approach.
@@ -65,9 +65,9 @@
 		<p>
 			I finally find a good generator only to realize the generator outputs different code depending
 			on how you write your spec. Now I am tweaking the spec to get the generator to produce the
-			output I want. Oops, now my changes in the spec breaks the output of another generator. At
-			this point I might as well just develop the whole stack in a dynamically typed language and
-			call it a day.
+			output I want. Oops, now my changes in the spec break the output of another generator. At this
+			point I might as well just develop the whole stack in a dynamically typed language and call it
+			a day.
 		</p>
 
 		<p>
