@@ -1,6 +1,5 @@
 export enum ProgrammingLanguage {
 	Typescript = 'Typescript',
-	Golang = 'Golang',
 	Php = 'Php'
 }
 

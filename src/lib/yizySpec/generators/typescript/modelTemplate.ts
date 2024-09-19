@@ -10,21 +10,13 @@ export interface ModelTemplateInput {
 export interface FieldTemplateInput {
 	name: string;
 	type: string;
-	phpDocType: string;
 }
 
 export const MODEL_TEMPLATE = `
-class {{this.name}}
+export interface {{this.name}}
 {
     {{#each this.fields}}
-    {{#if this.type}}
-    public {{this.type}} \${{this.name}};
-    {{else}}
-    /**
-     * @var {{this.phpDocType}} 
-     */
-    public \${{this.name}};
-    {{/if}}
+    {{this.name}}: {{this.type}};
     {{/each}}
 }
 

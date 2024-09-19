@@ -2,7 +2,7 @@ export const FUNCTION_TEMPLATE = `
 /**
  * @return {{returnType}} 
  */
-function {{functionName}}({{argType}} $req): object
+function {{functionName}}({{#if argType}}{{argType}} $req{{/if}}): object
 {
     $ch = curl_init();
 

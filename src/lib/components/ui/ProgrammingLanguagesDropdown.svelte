@@ -4,7 +4,7 @@
 	import { ProgrammingLanguage, ProgrammingLanguageList } from '$lib/models/constants';
 
 	type onSelectionChangeFunc = (val: ProgrammingLanguage) => void;
-	export let defaultLang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	export let defaultLang: ProgrammingLanguage = ProgrammingLanguage.Php;
 	export let onSelectionChange: onSelectionChangeFunc | undefined = undefined;
 
 	function _onSelectionChange(val: unknown) {

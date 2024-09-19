@@ -1,4 +1,4 @@
-import { type Service, field, nullableReferenceType, objectType } from '../YIZYSpec';
+import { type Service, arrayType, field, nullableReferenceType, objectType } from '../YIZYSpec';
 
 export const classifiiApi: Service = {
 	serviceName: 'ClassifiiApi',
@@ -19,12 +19,31 @@ export const classifiiApi: Service = {
 			])
 		},
 		{
-			url: 'api/registerGuestWithPhoneNumber.php',
+			url: '/api/registerGuestWithPhoneNumber.php',
 			name: 'registerGuestWithPhoneNumber',
 			requestModel: objectType('RegisterGuestWithPhoneNumberRequest', [field('phone', 'string')]),
 			responseModel: objectType('RegisterGuestWithPhoneNumberResponse', [
 				field('error', nullableReferenceType('ClassifiiServiceException')),
 				field('userId', 'string')
+			])
+		},
+		{
+			url: '/api/getTransactionStatusMessages.php',
+			name: 'getTransactionStatusMessage',
+			requestModel: null,
+			responseModel: objectType('GetTransactionStatusMessageResponse', [
+				field('error', nullableReferenceType('ClassifiiServiceException')),
+				field(
+					'messages',
+					arrayType(
+						objectType('TransactionMessage', [
+							field('status', 'string'),
+							field('buyerDescription', 'string'),
+							field('sellerDescription', 'string'),
+							field('fulfillmentCenterDescription', 'string')
+						])
+					)
+				)
 			])
 		}
 	],

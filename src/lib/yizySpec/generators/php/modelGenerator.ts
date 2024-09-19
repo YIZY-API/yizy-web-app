@@ -1,6 +1,7 @@
 import {
 	type Service,
 	TypeIdentifier,
+	type ArrayType,
 	type DataType,
 	type Endpoint,
 	type NonPrimitiveType,
@@ -8,7 +9,8 @@ import {
 	type NullableReferenceType,
 	type ReferenceType,
 	type NullableObjectType,
-	isObjectType
+	isObjectType,
+	isArrayType
 } from '../../YIZYSpec';
 import {
 	type ModelFileTemplateInput,
@@ -58,9 +60,9 @@ function stringify(dataType: DataType): string {
 			case TypeIdentifier.NullableReferenceType:
 				return '?' + (dataType as NullableReferenceType).ref;
 			case TypeIdentifier.ArrayType:
-				return 'array';
+				return stringify((dataType as ArrayType).itemType) + '[]';
 			case TypeIdentifier.NullableArrayType:
-				return '?array';
+				return '?' + stringify((dataType as ArrayType).itemType) + '[]';
 			default:
 				return 'TODO';
 		}
@@ -90,10 +92,24 @@ function convertDataTypeToModelTemplates(dataType: DataType): ModelTemplateInput
 							convertDataTypeToModelTemplates(f.type)
 						);
 					}
-					fields.push({
-						name: typeof f.name === 'string' ? f.name : 'TODO',
-						type: stringify(f.type)
-					});
+					if (isArrayType(f.type)) {
+						modelTemplateInputs = modelTemplateInputs.concat(
+							convertDataTypeToModelTemplates(f.type)
+						);
+					}
+					if (isArrayType(f.type)) {
+						fields.push({
+							name: typeof f.name === 'string' ? f.name : 'TODO',
+							type: '',
+							phpDocType: stringify(f.type)
+						});
+					} else {
+						fields.push({
+							name: typeof f.name === 'string' ? f.name : 'TODO',
+							type: stringify(f.type),
+							phpDocType: ''
+						});
+					}
 				});
 				modelTemplateInputs.push({
 					name:
@@ -102,6 +118,13 @@ function convertDataTypeToModelTemplates(dataType: DataType): ModelTemplateInput
 							: 'TODO',
 					fields: fields
 				});
+				return modelTemplateInputs;
+			case TypeIdentifier.ArrayType:
+				if (isObjectType((dataType as ArrayType).itemType)) {
+					modelTemplateInputs = modelTemplateInputs.concat(
+						convertDataTypeToModelTemplates((dataType as ArrayType).itemType)
+					);
+				}
 				return modelTemplateInputs;
 			default:
 				return [
@@ -125,11 +148,15 @@ function convertServiceToTemplate(service: Service): ModelFileTemplateInput {
 	});
 
 	service.endpoints.forEach((endpoint: Endpoint) => {
-		const req = convertDataTypeToModelTemplates(endpoint.requestModel);
-		tmplInput.models = tmplInput.models.concat(req);
+		if (endpoint.requestModel != null) {
+			const req = convertDataTypeToModelTemplates(endpoint.requestModel);
+			tmplInput.models = tmplInput.models.concat(req);
+		}
 
-		const res = convertDataTypeToModelTemplates(endpoint.responseModel);
-		tmplInput.models = tmplInput.models.concat(res);
+		if (endpoint.responseModel != null) {
+			const res = convertDataTypeToModelTemplates(endpoint.responseModel);
+			tmplInput.models = tmplInput.models.concat(res);
+		}
 	});
 
 	return tmplInput;

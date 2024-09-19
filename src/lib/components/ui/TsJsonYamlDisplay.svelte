@@ -1,19 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Highlight from 'svelte-highlight';
 	import yaml from 'svelte-highlight/languages/yaml';
 	import json from 'svelte-highlight/languages/json';
 	import typescript from 'svelte-highlight/languages/typescript';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Card from '$lib/components/ui/card';
-	import YAML from 'yaml';
-	import { animalService } from '$lib/yizySpec/examples/animalServiceSpec';
+	import { serviceInJson, serviceInYaml } from '$lib/state';
 
-	export let input: object | null = null;
-	let jsonString: string = JSON.stringify(animalService, null, 4);
-	let yamlString: string = YAML.stringify(animalService, {
-		indent: 4
-	});
 	let tsString: string = `
 import {
 	type Service,
@@ -104,15 +97,6 @@ export const animalService: Service = {
 	]
 };
     `;
-
-	onMount(() => {
-		if (input != null) {
-			jsonString = JSON.stringify(input, null, 4);
-			yamlString = YAML.stringify(input, {
-				indent: 4
-			});
-		}
-	});
 </script>
 
 <svelte:head>
@@ -366,7 +350,7 @@ export const animalService: Service = {
 			</Card.Header>
 			<Card.Content class="space-y-2">
 				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={yaml} code={yamlString} />
+					<Highlight language={yaml} code={$serviceInYaml} />
 				</div>
 			</Card.Content>
 		</Card.Root>
@@ -379,7 +363,7 @@ export const animalService: Service = {
 			</Card.Header>
 			<Card.Content class="space-y-2">
 				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={json} code={jsonString} />
+					<Highlight language={json} code={$serviceInJson} />
 				</div>
 			</Card.Content>
 		</Card.Root>

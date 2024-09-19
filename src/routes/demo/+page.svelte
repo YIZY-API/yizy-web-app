@@ -41,6 +41,7 @@
 			</Alert.Description>
 		</Alert.Root>
 	{/if}
+
 	<Tabs.Root value="yizy-api-spec" class="w-full">
 		<Tabs.List class="grid w-full grid-cols-4">
 			<Tabs.Trigger value="yizy-api-spec">YIZY API Spec</Tabs.Trigger>

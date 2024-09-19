@@ -1,3 +1,5 @@
+import type { ProgrammingLanguage } from '$lib/models/constants';
+
 export interface Service {
 	serviceName: string | NameMap;
 	baseUrls: string[];
@@ -8,8 +10,8 @@ export interface Service {
 export interface Endpoint {
 	url: string;
 	name: string | NameMap;
-	requestModel: ObjectType | ReferenceType;
-	responseModel: ObjectType | ReferenceType;
+	requestModel: ObjectType | ReferenceType | null;
+	responseModel: ObjectType | ReferenceType | null;
 }
 
 export function field(field: string | NameMap, type: DataType): Field {
@@ -26,9 +28,9 @@ export interface Field {
 
 export interface NameMap {
 	default: string;
-	golang?: string | undefined;
-	php?: string | undefined;
-	typescript?: string | undefined;
+	golang: string | undefined;
+	php: string | undefined;
+	typescript: string | undefined;
 }
 
 export type DataType =
@@ -90,13 +92,14 @@ export function nullableObjectType(name: string | NameMap, fields: Field[]): Nul
 		fields: fields
 	};
 }
+
 export interface NullableObjectType {
 	type: TypeIdentifier;
 	name: string | NameMap;
 	fields: Field[];
 }
 
-export function arrayType(itemType: DataType) {
+export function arrayType(itemType: DataType): ArrayType {
 	return { itemType: itemType, type: TypeIdentifier.ArrayType };
 }
 export interface ArrayType {
@@ -104,7 +107,7 @@ export interface ArrayType {
 	type: TypeIdentifier;
 }
 
-export function nullableArrayType(itemType: DataType) {
+export function nullableArrayType(itemType: DataType): NullableArrayType {
 	return { itemType: itemType, type: TypeIdentifier.NullableArrayType };
 }
 
@@ -138,10 +141,13 @@ export interface NullableReferenceType {
 
 export function findObjectTypeFromReferenceType(
 	service: Service,
-	ref: ReferenceType
+	ref: ReferenceType | ObjectType
 ): ObjectType | null {
+	if (ref.type == TypeIdentifier.ObjectType) {
+		return ref as ObjectType;
+	}
 	const res = service.referenceTypes.filter((refType) => {
-		return refType.name == ref.ref;
+		return refType.name == (ref as ReferenceType).ref;
 	});
 	if (res.length == 0) return null;
 	return res[0];
@@ -151,4 +157,53 @@ export function isObjectType(type: DataType) {
 	if (typeof type === 'string') return false;
 	const t: NonPrimitiveType = type as NonPrimitiveType;
 	return t.type == TypeIdentifier.ObjectType;
+}
+
+export function isArrayType(type: DataType) {
+	if (typeof type === 'string') return false;
+	const t: NonPrimitiveType = type as NonPrimitiveType;
+	return t.type == TypeIdentifier.ArrayType;
+}
+
+export function isNullable(type: DataType) {
+	if (typeof type === 'string') {
+		switch (type) {
+			case 'float?':
+				return true;
+			case 'double?':
+				return true;
+			case 'string?':
+				return true;
+			case 'boolean?':
+				return true;
+			case 'int?':
+				return true;
+			case 'int32?':
+				return true;
+			case 'int64?':
+				return true;
+			default:
+				return false;
+		}
+	} else {
+		const t = type as NonPrimitiveType;
+		switch (t.type) {
+			case TypeIdentifier.NullableArrayType:
+				return true;
+			case TypeIdentifier.NullableObjectType:
+				return true;
+			case TypeIdentifier.NullableReferenceType:
+				return true;
+			default:
+				return false;
+		}
+	}
+}
+
+export function getLanguageSpecificName(nameMap: NameMap, lang: ProgrammingLanguage): string {
+	if (lang.toString() in nameMap) {
+		const key = lang.toString() as keyof typeof nameMap;
+		return nameMap[key] ?? nameMap.default;
+	}
+	return nameMap.default;
 }

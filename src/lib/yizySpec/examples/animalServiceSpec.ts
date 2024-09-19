@@ -51,28 +51,42 @@ export const animalService: Service = {
 			name: 'demo',
 			requestModel: objectType('DemoRequest', [
 				field('floatField', 'float'),
-				field('floatField?', 'float?'),
+				field('nullableFloat', 'float?'),
 				field('doubleField', 'double'),
-				field('doubleField?', 'double?'),
+				field('nullableDouble', 'double?'),
 				field('stringField', 'string'),
-				field('stringField?', 'string?'),
+				field('nullableString', 'string?'),
 				field('booleanField', 'boolean'),
-				field('booleanField?', 'boolean?'),
+				field('nullableBooleanField', 'boolean?'),
 				field('intField', 'int'),
-				field('intField?', 'int?'),
+				field('nullableInt', 'int?'),
 				field('int32Field', 'int32'),
-				field('int32Field?', 'int32?'),
+				field('nullableInt32', 'int32?'),
 				field('int64Field', 'int64'),
-				field('int64Field?', 'int64?'),
+				field('nullableInt64', 'int64?'),
 				field('arrayOfStrings', arrayType('string')),
 				field('nullableArrayOfStrings', nullableArrayType('string')),
+				field(
+					'nullableArrayOfNullableArrayOfStrings',
+					nullableArrayType(nullableArrayType('string'))
+				),
 				field('inlineObject', objectType('InlineObject', [field('test', 'string')])),
 				field(
 					'nullableInlinedObject',
 					nullableObjectType('InlinedObject', [field('test', 'string')])
-				)
+				),
+				field('arrayOfArrayOfStrings', arrayType(arrayType('string'))),
+				field('arrayOfArrayOfArrayOfStrings', arrayType(arrayType(arrayType('string')))),
+				field('arrayOfObjects', arrayType(objectType('TestObject', [field('test', 'string')]))),
+				field('arrayOfNullableInt', arrayType('int?'))
 			]),
 			responseModel: objectType('DemoResponse', [field('demo', 'string')])
+		},
+		{
+			url: '/endpointless',
+			name: 'noInputAndOutput',
+			requestModel: null,
+			responseModel: null
 		}
 	],
 	referenceTypes: [
