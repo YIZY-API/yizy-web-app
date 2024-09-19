@@ -2,7 +2,7 @@
 	import Highlight from 'svelte-highlight';
 	import { field, objectType, type ObjectType } from '$lib/yizySpec/YIZYSpec';
 	import * as phpGen from '$lib/yizySpec/generators/php/modelGenerator';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/modelGenerator';
+	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import php from 'svelte-highlight/languages/php';
 	import typescript from 'svelte-highlight/languages/typescript';

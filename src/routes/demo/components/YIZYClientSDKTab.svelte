@@ -4,7 +4,7 @@
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { currentService } from '$lib/state';
 	import { generateSdkFile } from '$lib/yizySpec/generators/php/sdkGenerator';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/sdkGenerator';
+	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import php from 'svelte-highlight/languages/php';
 	import Highlight from 'svelte-highlight';
 	import { onMount } from 'svelte';

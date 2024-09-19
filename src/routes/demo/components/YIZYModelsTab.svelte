@@ -7,7 +7,7 @@
 	import { generateModelFile } from '$lib/yizySpec/generators/php/modelGenerator';
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { typescript } from 'svelte-highlight/languages';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/modelGenerator';
+	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 
 	export let lang: ProgrammingLanguage = ProgrammingLanguage.Php;
 	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Php;

@@ -1,12 +1,14 @@
-import { type Service, ProgrammingLanguage, type Endpoint } from '../YIZYSpec';
-import Handlebars from 'handlebars';
+import type { ProgrammingLanguage } from '$lib/models/constants';
+import { type ObjectType } from '../YIZYSpec';
 
-export function generateModelsFromService(lang: ProgrammingLanguage, service: Service): string {
-	switch (lang) {
-		case ProgrammingLanguage.php:
-			return generatePhpModels(service);
+export interface GeneratorConfigs {
+	baseUrl: string;
+}
 
-		default:
-			return '';
-	}
+export interface Generator {
+	lang: ProgrammingLanguage;
+	generateClientSDKFile(): string;
+	generateModelsFile(): string;
+	generateRequestModel(object: ObjectType): string;
+	generateResponseModel(object: ObjectType): string;
 }

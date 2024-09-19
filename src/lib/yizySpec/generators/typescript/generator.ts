@@ -18,16 +18,19 @@ import {
 	type NameMap
 } from '../../YIZYSpec';
 import {
-	type ModelFileTemplateInput,
 	MODEL_FILE_TEMPLATE,
+	MODEL_TEMPLATE,
+	POST_REQUEST_FUNCTION_TEMPLATE,
+	type ModelFileTemplateInput,
 	type ModelTemplateInput,
 	type FieldTemplateInput,
-	MODEL_TEMPLATE
-} from './modelTemplate';
+	type PostRequestFunctionTemplateInput,
+	type ClientSdkFileTemplateInput
+} from './templates';
 import Handlebars from 'handlebars';
 
-function stringify(dataType: DataType): string {
-	const jsonToDatatypeStringMap = {
+function specTypeToNativeType(dataType: DataType): string {
+	const typeMap = {
 		float: 'number',
 		'float?': 'number | null',
 		double: 'number',
@@ -44,8 +47,8 @@ function stringify(dataType: DataType): string {
 		'int64?': 'number | null'
 	};
 	if (typeof dataType === 'string') {
-		if (dataType in jsonToDatatypeStringMap) {
-			return jsonToDatatypeStringMap[dataType];
+		if (dataType in typeMap) {
+			return typeMap[dataType];
 		} else {
 			return '';
 		}
@@ -72,15 +75,19 @@ function stringify(dataType: DataType): string {
 				return (dataType as NullableReferenceType).ref + ' | null';
 			case TypeIdentifier.ArrayType:
 				if (isNullable((dataType as ArrayType).itemType)) {
-					return '(' + stringify((dataType as ArrayType).itemType) + ')' + '[]';
+					return '(' + specTypeToNativeType((dataType as ArrayType).itemType) + ')' + '[]';
 				} else {
-					return stringify((dataType as ArrayType).itemType) + '[]';
+					return specTypeToNativeType((dataType as ArrayType).itemType) + '[]';
 				}
 			case TypeIdentifier.NullableArrayType:
 				if (isNullable((dataType as NullableArrayType).itemType)) {
-					return '(' + stringify((dataType as NullableArrayType).itemType) + ')[] | null';
+					return (
+						'(' + specTypeToNativeType((dataType as NullableArrayType).itemType) + ')[] | null'
+					);
 				} else {
-					return '(' + stringify((dataType as NullableArrayType).itemType) + '[]) | null';
+					return (
+						'(' + specTypeToNativeType((dataType as NullableArrayType).itemType) + '[]) | null'
+					);
 				}
 			default:
 				return 'UNKNOWN TYPE!';
@@ -88,7 +95,9 @@ function stringify(dataType: DataType): string {
 	}
 }
 
-function convertDataTypeToModelTemplates(nonPrimitiveType: NonPrimitiveType): ModelTemplateInput[] {
+function nonPrimitiveTypeToModelTemplateInput(
+	nonPrimitiveType: NonPrimitiveType
+): ModelTemplateInput[] {
 	let modelTemplateInputs: ModelTemplateInput[] = [];
 
 	const fields: FieldTemplateInput[] = [];
@@ -98,17 +107,17 @@ function convertDataTypeToModelTemplates(nonPrimitiveType: NonPrimitiveType): Mo
 			(nonPrimitiveType as ObjectType).fields.forEach((f) => {
 				if (isObjectType(f.type)) {
 					modelTemplateInputs = modelTemplateInputs.concat(
-						convertDataTypeToModelTemplates(f.type as ObjectType)
+						nonPrimitiveTypeToModelTemplateInput(f.type as ObjectType)
 					);
 				}
 				if (isArrayType(f.type)) {
 					modelTemplateInputs = modelTemplateInputs.concat(
-						convertDataTypeToModelTemplates(f.type as ObjectType)
+						nonPrimitiveTypeToModelTemplateInput(f.type as ObjectType)
 					);
 				}
 				fields.push({
 					name: typeof f.name === 'string' ? f.name : 'TODO',
-					type: stringify(f.type)
+					type: specTypeToNativeType(f.type)
 				});
 			});
 			modelTemplateInputs.push({
@@ -122,7 +131,9 @@ function convertDataTypeToModelTemplates(nonPrimitiveType: NonPrimitiveType): Mo
 		case TypeIdentifier.ArrayType:
 			if (isObjectType((nonPrimitiveType as ArrayType).itemType)) {
 				modelTemplateInputs = modelTemplateInputs.concat(
-					convertDataTypeToModelTemplates((nonPrimitiveType as ArrayType).itemType as ObjectType)
+					nonPrimitiveTypeToModelTemplateInput(
+						(nonPrimitiveType as ArrayType).itemType as ObjectType
+					)
 				);
 			}
 			return modelTemplateInputs;
@@ -131,24 +142,24 @@ function convertDataTypeToModelTemplates(nonPrimitiveType: NonPrimitiveType): Mo
 	}
 }
 
-function convertServiceToTemplate(service: Service): ModelFileTemplateInput {
+function serviceToModelFileTemplateInput(service: Service): ModelFileTemplateInput {
 	const tmplInput: ModelFileTemplateInput = {
 		models: []
 	};
 
 	service.referenceTypes.forEach((model: ObjectType) => {
-		const res = convertDataTypeToModelTemplates(model);
+		const res = nonPrimitiveTypeToModelTemplateInput(model);
 		tmplInput.models = tmplInput.models.concat(res);
 	});
 
 	service.endpoints.forEach((endpoint: Endpoint) => {
 		if (endpoint.requestModel != null) {
-			const req = convertDataTypeToModelTemplates(endpoint.requestModel);
+			const req = nonPrimitiveTypeToModelTemplateInput(endpoint.requestModel);
 			tmplInput.models = tmplInput.models.concat(req);
 		}
 
 		if (endpoint.responseModel != null) {
-			const res = convertDataTypeToModelTemplates(endpoint.responseModel);
+			const res = nonPrimitiveTypeToModelTemplateInput(endpoint.responseModel);
 			tmplInput.models = tmplInput.models.concat(res);
 		}
 	});
@@ -157,13 +168,13 @@ function convertServiceToTemplate(service: Service): ModelFileTemplateInput {
 }
 
 export function generateModelFile(service: Service): string {
-	const test: ModelFileTemplateInput = convertServiceToTemplate(service);
+	const test: ModelFileTemplateInput = serviceToModelFileTemplateInput(service);
 	const template = Handlebars.compile(MODEL_FILE_TEMPLATE);
 	return template(test);
 }
 
 export function generateModelClass(object: ObjectType) {
-	const result = convertDataTypeToModelTemplates(object);
+	const result = nonPrimitiveTypeToModelTemplateInput(object);
 	const template = Handlebars.compile(MODEL_TEMPLATE);
 	let stringRes = '';
 	result.forEach((tmpl) => {
@@ -171,4 +182,67 @@ export function generateModelClass(object: ObjectType) {
 	});
 
 	return stringRes;
+}
+
+function endpointToPostRequestFunctionTemplateInput(
+	baseUrl: string,
+	endpoint: Endpoint
+): PostRequestFunctionTemplateInput {
+	let argType = '';
+	if (endpoint.requestModel?.type === TypeIdentifier.ReferenceType) {
+		argType = (endpoint.requestModel as ReferenceType).ref;
+	} else if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
+		argType =
+			typeof (endpoint.requestModel as ObjectType).name === 'string'
+				? ((endpoint.requestModel as ObjectType).name as string)
+				: 'TODO';
+	}
+
+	let returnType = '';
+	if (endpoint.responseModel?.type === TypeIdentifier.ReferenceType) {
+		returnType = (endpoint.responseModel as ReferenceType).ref;
+	} else if (endpoint.responseModel?.type === TypeIdentifier.ObjectType) {
+		returnType =
+			typeof (endpoint.responseModel as ObjectType).name === 'string'
+				? ((endpoint.responseModel as ObjectType).name as string)
+				: 'TODO';
+	}
+
+	return {
+		functionName: typeof endpoint.name === 'string' ? endpoint.name : 'TODO',
+		postUrl: baseUrl + endpoint.url,
+		argType: argType,
+		returnType: returnType
+	};
+}
+
+function serviceToClientSdkTemplateInput(
+	baseUrl: string,
+	service: Service
+): ClientSdkFileTemplateInput {
+	const input: ClientSdkFileTemplateInput = {
+		functions: []
+	};
+	service.endpoints.forEach((e: Endpoint) => {
+		input.functions.push(endpointToPostRequestFunctionTemplateInput(baseUrl, e));
+	});
+	return input;
+}
+
+export function generatePostRequestFunction(baseUrl: string, endpoint: Endpoint): string {
+	const input = endpointToPostRequestFunctionTemplateInput(baseUrl, endpoint);
+	const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
+	return tmpl(input);
+}
+
+export function generateSdkFile(baseUrl: string, service: Service): string {
+	let result = generateModelFile(service);
+	const templateInputs = serviceToClientSdkTemplateInput(baseUrl, service);
+
+	templateInputs.functions.forEach((f) => {
+		const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
+		result = result + tmpl(f);
+	});
+
+	return result;
 }

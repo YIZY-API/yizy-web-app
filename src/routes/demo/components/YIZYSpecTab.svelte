@@ -4,7 +4,6 @@
 	import TsJsonYamlDisplay from '$lib/components/ui/TsJsonYamlDisplay.svelte';
 	import { importService } from '$lib/state';
 	import { classifiiApi } from '$lib/yizySpec/examples/classifiiSpec';
-	import { currentService } from '$lib/state';
 
 	const json = JSON.stringify(classifiiApi);
 </script>

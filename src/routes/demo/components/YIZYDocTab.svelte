@@ -3,9 +3,6 @@
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import { currentService } from '$lib/state';
-	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
-	import YizyModelDocDisplay from './YIZYModelDocDisplay.svelte';
-	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { findObjectTypeFromReferenceType } from '$lib/yizySpec/YIZYSpec';
 	import YizyEndpointModelsView from './YIZYEndpointModelsView.svelte';
 </script>
