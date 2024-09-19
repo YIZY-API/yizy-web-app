@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Highlight from 'svelte-highlight';
 	import { field, objectType, type ObjectType } from '$lib/yizySpec/YIZYSpec';
-	import * as phpGen from '$lib/yizySpec/generators/php/modelGenerator';
+	import * as phpGen from '$lib/yizySpec/generators/php/generator';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import php from 'svelte-highlight/languages/php';

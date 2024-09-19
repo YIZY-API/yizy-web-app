@@ -3,7 +3,7 @@
 	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { currentService } from '$lib/state';
-	import { generateSdkFile } from '$lib/yizySpec/generators/php/sdkGenerator';
+	import { generateSdkFile } from '$lib/yizySpec/generators/php/generator';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import php from 'svelte-highlight/languages/php';
 	import Highlight from 'svelte-highlight';

@@ -4,7 +4,7 @@
 	import Highlight from 'svelte-highlight';
 	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
 	import { currentService } from '$lib/state';
-	import { generateModelFile } from '$lib/yizySpec/generators/php/modelGenerator';
+	import { generateModelFile } from '$lib/yizySpec/generators/php/generator';
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { typescript } from 'svelte-highlight/languages';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
