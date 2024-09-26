@@ -10,8 +10,8 @@
 	import { onMount } from 'svelte';
 	import { typescript } from 'svelte-highlight/languages';
 
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Php;
-	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Php;
+	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Typescript;
 
 	onMount(() => {
 		currentLanguage = lang;

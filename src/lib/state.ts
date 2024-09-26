@@ -1,9 +1,9 @@
-import { animalService } from '$lib/yizySpec/examples/animalServiceSpec';
+import { secretService } from '$lib/yizySpec/examples/secretService';
 import { type Service } from '$lib/yizySpec/YIZYSpec';
 import { derived, readonly, writable } from 'svelte/store';
 import YAML from 'yaml';
 
-const _service = writable<Service>(animalService);
+const _service = writable<Service>(secretService);
 export const currentService = readonly(_service);
 
 export const serviceInJson = derived(currentService, ($currentService) => {

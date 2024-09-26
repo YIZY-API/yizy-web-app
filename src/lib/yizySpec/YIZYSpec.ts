@@ -14,7 +14,7 @@ export interface Endpoint {
 	responseModel: ObjectType | ReferenceType | null;
 }
 
-export function field(field: string | NameMap, type: DataType): Field {
+export function field(field: string | NameMap, type: FieldDataType): Field {
 	return {
 		name: field,
 		type: type
@@ -23,7 +23,7 @@ export function field(field: string | NameMap, type: DataType): Field {
 
 export interface Field {
 	name: string | NameMap;
-	type: DataType;
+	type: FieldDataType;
 }
 
 export interface NameMap {
@@ -33,8 +33,14 @@ export interface NameMap {
 	typescript: string | undefined;
 }
 
+export type FieldDataType =
+	| PrimitiveTypes
+	| ArrayType
+	| NullableArrayType
+	| ReferenceType
+	| NullableReferenceType;
 export type DataType =
-	| PrimativeTypes
+	| PrimitiveTypes
 	| ObjectType
 	| NullableObjectType
 	| ArrayType
@@ -42,7 +48,30 @@ export type DataType =
 	| ReferenceType
 	| NullableReferenceType;
 
-export type PrimativeTypes =
+export function isPrimitiveType(dataType: DataType): boolean {
+	if (typeof dataType != 'string') return false;
+	const s = dataType as string;
+	if (
+		s === 'float' ||
+		s === 'float?' ||
+		s === 'double' ||
+		s === 'double?' ||
+		s === 'string' ||
+		s === 'string?' ||
+		s === 'boolean' ||
+		s === 'boolean?' ||
+		s === 'int' ||
+		s === 'int?' ||
+		s === 'int32' ||
+		s === 'int32?' ||
+		s === 'int64' ||
+		s === 'int64?'
+	) {
+		return true;
+	}
+	return false;
+}
+export type PrimitiveTypes =
 	| 'float'
 	| 'float?'
 	| 'double'
@@ -99,20 +128,20 @@ export interface NullableObjectType {
 	fields: Field[];
 }
 
-export function arrayType(itemType: DataType): ArrayType {
+export function arrayType(itemType: FieldDataType): ArrayType {
 	return { itemType: itemType, type: TypeIdentifier.ArrayType };
 }
 export interface ArrayType {
-	itemType: DataType;
+	itemType: FieldDataType;
 	type: TypeIdentifier;
 }
 
-export function nullableArrayType(itemType: DataType): NullableArrayType {
+export function nullableArrayType(itemType: FieldDataType): NullableArrayType {
 	return { itemType: itemType, type: TypeIdentifier.NullableArrayType };
 }
 
 export interface NullableArrayType {
-	itemType: DataType;
+	itemType: FieldDataType;
 	type: TypeIdentifier;
 }
 
@@ -163,6 +192,23 @@ export function isArrayType(type: DataType) {
 	if (typeof type === 'string') return false;
 	const t: NonPrimitiveType = type as NonPrimitiveType;
 	return t.type == TypeIdentifier.ArrayType;
+}
+
+export function isNullableArrayType(type: DataType) {
+	if (typeof type === 'string') return false;
+	const t: NonPrimitiveType = type as NonPrimitiveType;
+	return t.type == TypeIdentifier.NullableArrayType;
+}
+
+export function isRefType(type: DataType) {
+	if (typeof type === 'string') return false;
+	const t: NonPrimitiveType = type as NonPrimitiveType;
+	return t.type == TypeIdentifier.ReferenceType;
+}
+export function isNullableRefType(type: DataType) {
+	if (typeof type === 'string') return false;
+	const t: NonPrimitiveType = type as NonPrimitiveType;
+	return t.type == TypeIdentifier.NullableReferenceType;
 }
 
 export function isNullable(type: DataType) {

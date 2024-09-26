@@ -5,11 +5,11 @@
 	import { onMount } from 'svelte';
 	import YizyModelDocDisplay from './YIZYModelDocDisplay.svelte';
 
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Php;
+	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
 	export let reqModel: ObjectType | null = objectType('ExampleReq', [field('example', 'string')]);
 	export let resModel: ObjectType | null = objectType('ExampleRes', [field('example', 'string')]);
 
-	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Php;
+	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Typescript;
 
 	function onLanguageChange(lang: ProgrammingLanguage) {
 		currentLanguage = lang;

@@ -1,53 +1,59 @@
 openapi: 3.0.3
 info:
-  title: Animal Service
-  version: 1.0.0
-  description: Generated from POST API Spec
+  title: Secret Service
+  description: 'This is a generated API Spec'
+  version: 0.0.0
 servers:
-  - url: http://localhost:8080
-tags:
-  - name: animal
-    description: Everything about animals
+  - url: https://petstore3.swagger.io/api/v3
 paths:
-  /animals/getAnimalByName:
+  /agents/getAgentByName:
     post:
-      tags:
-        - pet
-      summary: Add a new pet to the store
-      description: Add a new pet to the store
-      operationId: addPet
+      operationId: getAgentByName
       requestBody:
-        description: Create a new pet in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GetAnimalByNameRequest'
-        required: true
+              $ref: '#/components/schemas/GetAgentByNameRequest'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAnimalByNameResult'
+                $ref: '#/components/schemas/GetAgentByNameResponse'
 components:
   schemas:
-    GetAnimalByNameRequest:
+    GetAgentByNameRequest:
+      required:
+        - name
       type: object
       properties:
         name:
           type: string
-    GetAnimalByNameResult:
+    GetAgentByNameResponse:
       type: object
       properties:
+        agent:
+          $ref: '#/components/schemas/Agent'
         error:
-          type: string
-        result:
-          $ref: '#/components/schemas/Animal'
-    Animal:
+          $ref: '#/components/schemas/Grenade'
+    Agent:
       type: object
       properties:
         name:
           type: string
-        species:
+        age:
+          type: number
+          format: int
+        department:
+          type: string
+    Grenade:
+      type: object
+      properties:
+        code:
+          type: number
+          format: int
+        msg:
+          type: string
+        name:
           type: string

@@ -1,0 +1,98 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Secret Service",
+		"description": "This is a generated API Spec",
+		"version": "0.0.0"
+	},
+	"servers": [
+		{
+			"url": "https://petstore3.swagger.io/api/v3"
+		},
+		{
+			"url": "https://seroij"
+		}
+	],
+	"paths": {
+		"/agents/getAgentByName": {
+			"post": {
+				"operationId": "getAgentByName",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/GetAgentByNameRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetAgentByNameResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"GetAgentByNameRequest": {
+				"required": ["name"],
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				}
+			},
+			"GetAgentByNameResponse": {
+				"type": "object",
+				"properties": {
+					"agent": {
+						"$ref": "#/components/schemas/Agent"
+					},
+					"error": {
+						"$ref": "#/components/schemas/Grenade"
+					}
+				}
+			},
+			"Agent": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "int"
+					},
+					"department": {
+						"type": "string"
+					}
+				}
+			},
+			"Grenade": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "number",
+						"format": "int"
+					},
+					"msg": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

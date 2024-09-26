@@ -8,92 +8,29 @@
 	import { serviceInJson, serviceInYaml } from '$lib/state';
 
 	let tsString: string = `
-import {
-	type Service,
-	field,
-	referenceType,
-	nullableReferenceType,
-	arrayType,
-	nullableArrayType,
-	objectType,
-	nullableObjectType
-} from '../YIZYSpec';
+import { type Service, field, referenceType, nullableReferenceType, objectType } from '../YIZYSpec';
 
-export const animalService: Service = {
-	serviceName: 'AnimalService',
-	baseUrls: ['http://localhost:8080', 'https://dev-server.com'],
+export const secretService: Service = {
+	serviceName: 'SecretService',
+	baseUrls: ['http://localhost:8080'],
 	endpoints: [
 		{
-			url: '/animals/getAnimalByName',
-			name: 'getAnimalByName',
-			requestModel: objectType('GetAnimalByNameRequest', [field('name', 'string')]),
-			responseModel: objectType('GetAnimalByNameResponse', [
-				field('error', nullableReferenceType('AnimalServiceException')),
-				field('animal', referenceType('Animal'))
+			url: '/agents/getAgentByName',
+			name: 'getAgentByName',
+			requestModel: objectType('GetAgentByNameRequest', [field('name', 'string')]),
+			responseModel: objectType('GetAgentByNameResponse', [
+				field('error', nullableReferenceType('Grenade')),
+				field('agent', referenceType('Agent'))
 			])
-		},
-		{
-			url: '/animals/searchCatsByName',
-			name: 'searchCatsByName',
-			requestModel: objectType('SearchCatsRequest', [field('query', 'string')]),
-			responseModel: objectType('SearchCatsResponse', [
-				field('error', nullableReferenceType('AnimalServiceException')),
-				field('resultSet', arrayType(referenceType('Cat'))),
-				field('totalCount', 'int'),
-				field('totalPages', 'int'),
-				field('page', 'int'),
-				field('page', 'int')
-			])
-		},
-		{
-			url: '/animal/locateMyCat',
-			name: 'locateMyCat',
-			requestModel: objectType('LocateMyCatRequest', [field('name', 'string')]),
-			responseModel: objectType('LocateMyCatResponse', [
-				field('error', nullableReferenceType('AnimalServiceException')),
-				field(
-					'location',
-					objectType('Location', [field('longitude', 'string'), field('lattitude', 'string')])
-				)
-			])
-		},
-		{
-			url: '/demo',
-			name: 'demo',
-			requestModel: objectType('DemoRequest', [
-				field('float', 'float'),
-				field('float?', 'float?'),
-				field('double', 'double'),
-				field('double?', 'double?'),
-				field('string', 'string'),
-				field('string?', 'string?'),
-				field('boolean', 'boolean'),
-				field('boolean?', 'boolean?'),
-				field('int', 'int'),
-				field('int?', 'int?'),
-				field('int32', 'int32'),
-				field('int32?', 'int32?'),
-				field('int64', 'int64'),
-				field('int64?', 'int64?'),
-				field('arrayOfStrings', arrayType('string')),
-				field('nullableArrayOfStrings', nullableArrayType('string')),
-				field('inlineObject', objectType('inlineObject', [field('test', 'string')])),
-				field(
-					'nullableInlinedObject',
-					nullableObjectType('nullableInlinedObject', [field('test', 'string')])
-				)
-			]),
-			responseModel: objectType('DemoResponse', [field('demo', 'string')])
 		}
 	],
 	referenceTypes: [
-		objectType('Animal', [field('name', 'string'), field('species', 'string')]),
-		objectType('Cat', [field('name', 'string'), field('age', 'int'), field('sex', 'string')]),
-		objectType('AnimalServiceException', [
-			field('code', 'int'),
-			field('msg', 'string'),
-			field('name', 'string')
-		])
+		objectType('Agent', [
+			field('name', 'string'),
+			field('age', 'int'),
+			field('department', 'string')
+		]),
+		objectType('Grenade', [field('code', 'int'), field('msg', 'string'), field('name', 'string')])
 	]
 };
     `;

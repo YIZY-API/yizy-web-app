@@ -11,7 +11,7 @@
 	export let model: ObjectType | null = objectType('ExampleModel', [
 		field('exampleField', 'string')
 	]);
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Php;
+	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
 
 	onMount(() => {
 		if (!model) {

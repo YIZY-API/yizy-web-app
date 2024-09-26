@@ -18,7 +18,6 @@ export async function {{functionName}}({{#if argType}}req: {{argType}} {{/if}}):
     return;
     {{/if}}
   } catch (error) {
-    console.error('Error making POST request:', error);
     throw error;
   }
 }

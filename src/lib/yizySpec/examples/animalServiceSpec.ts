@@ -4,9 +4,7 @@ import {
 	referenceType,
 	nullableReferenceType,
 	arrayType,
-	nullableArrayType,
-	objectType,
-	nullableObjectType
+	objectType
 } from '../YIZYSpec';
 
 export const animalService: Service = {
@@ -35,61 +33,17 @@ export const animalService: Service = {
 			])
 		},
 		{
-			url: '/animal/locateMyCat',
+			url: '/animal/findMyCat',
 			name: 'locateMyCat',
 			requestModel: objectType('LocateMyCatRequest', [field('name', 'string')]),
 			responseModel: objectType('LocateMyCatResponse', [
 				field('error', nullableReferenceType('AnimalServiceException')),
-				field(
-					'location',
-					objectType('Location', [field('longitude', 'string'), field('lattitude', 'string')])
-				)
+				field('location', referenceType('Location'))
 			])
-		},
-		{
-			url: '/demo',
-			name: 'demo',
-			requestModel: objectType('DemoRequest', [
-				field('floatField', 'float'),
-				field('nullableFloat', 'float?'),
-				field('doubleField', 'double'),
-				field('nullableDouble', 'double?'),
-				field('stringField', 'string'),
-				field('nullableString', 'string?'),
-				field('booleanField', 'boolean'),
-				field('nullableBooleanField', 'boolean?'),
-				field('intField', 'int'),
-				field('nullableInt', 'int?'),
-				field('int32Field', 'int32'),
-				field('nullableInt32', 'int32?'),
-				field('int64Field', 'int64'),
-				field('nullableInt64', 'int64?'),
-				field('arrayOfStrings', arrayType('string')),
-				field('nullableArrayOfStrings', nullableArrayType('string')),
-				field(
-					'nullableArrayOfNullableArrayOfStrings',
-					nullableArrayType(nullableArrayType('string'))
-				),
-				field('inlineObject', objectType('InlineObject', [field('test', 'string')])),
-				field(
-					'nullableInlinedObject',
-					nullableObjectType('InlinedObject', [field('test', 'string')])
-				),
-				field('arrayOfArrayOfStrings', arrayType(arrayType('string'))),
-				field('arrayOfArrayOfArrayOfStrings', arrayType(arrayType(arrayType('string')))),
-				field('arrayOfObjects', arrayType(objectType('TestObject', [field('test', 'string')]))),
-				field('arrayOfNullableInt', arrayType('int?'))
-			]),
-			responseModel: objectType('DemoResponse', [field('demo', 'string')])
-		},
-		{
-			url: '/endpointless',
-			name: 'noInputAndOutput',
-			requestModel: null,
-			responseModel: null
 		}
 	],
 	referenceTypes: [
+		objectType('Location', [field('longitude', 'string'), field('lattitude', 'string')]),
 		objectType('Animal', [field('name', 'string'), field('species', 'string')]),
 		objectType('Cat', [field('name', 'string'), field('age', 'int'), field('sex', 'string')]),
 		objectType('AnimalServiceException', [

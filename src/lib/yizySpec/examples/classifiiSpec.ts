@@ -1,4 +1,11 @@
-import { type Service, arrayType, field, nullableReferenceType, objectType } from '../YIZYSpec';
+import {
+	type Service,
+	arrayType,
+	field,
+	nullableReferenceType,
+	objectType,
+	referenceType
+} from '../YIZYSpec';
 
 export const classifiiApi: Service = {
 	serviceName: 'ClassifiiApi',
@@ -33,17 +40,7 @@ export const classifiiApi: Service = {
 			requestModel: null,
 			responseModel: objectType('GetTransactionStatusMessageResponse', [
 				field('error', nullableReferenceType('ClassifiiServiceException')),
-				field(
-					'messages',
-					arrayType(
-						objectType('TransactionMessage', [
-							field('status', 'string'),
-							field('buyerDescription', 'string'),
-							field('sellerDescription', 'string'),
-							field('fulfillmentCenterDescription', 'string')
-						])
-					)
-				)
+				field('messages', arrayType(referenceType('TransactionMessage')))
 			])
 		}
 	],
@@ -52,6 +49,12 @@ export const classifiiApi: Service = {
 			field('code', 'int'),
 			field('msg', 'string'),
 			field('name', 'string')
+		]),
+		objectType('TransactionMessage', [
+			field('status', 'string'),
+			field('buyerDescription', 'string'),
+			field('sellerDescription', 'string'),
+			field('fulfillmentCenterDescription', 'string')
 		])
 	]
 };

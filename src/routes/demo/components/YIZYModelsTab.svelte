@@ -9,8 +9,8 @@
 	import { typescript } from 'svelte-highlight/languages';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Php;
-	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Php;
+	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Typescript;
 
 	function onLanguageChange(lang: ProgrammingLanguage) {
 		currentLanguage = lang;

@@ -1,311 +1,277 @@
 <script lang="ts">
-	import { type Service } from '$lib/yizySpec/YIZYSpec';
-	const json = `
-{
-    "serviceName": "AnimalService",
-    "baseUrls": [
-        "http://localhost:8080",
-        "https://dev-server.com"
-    ],
-    "endpoints": [
-        {
-            "url": "/animals/getAnimalByName",
-            "name": "getAnimalByName",
-            "requestModel": {
-                "name": "GetAnimalByNameRequest",
-                "fields": [
-                    {
-                        "name": "name",
-                        "type": "string"
-                    }
-                ],
-                "type": "Object"
-            },
-            "responseModel": {
-                "name": "GetAnimalByNameResponse",
-                "fields": [
-                    {
-                        "name": "error",
-                        "type": {
-                            "ref": "AnimalServiceException",
-                            "type": "NullableReference"
-                        }
-                    },
-                    {
-                        "name": "animal",
-                        "type": {
-                            "ref": "Animal",
-                            "type": "Reference"
-                        }
-                    }
-                ],
-                "type": "Object"
-            }
-        },
-        {
-            "url": "/animals/searchCatsByName",
-            "name": "searchCatsByName",
-            "requestModel": {
-                "name": "SearchCatsRequest",
-                "fields": [
-                    {
-                        "name": "query",
-                        "type": "string"
-                    }
-                ],
-                "type": "Object"
-            },
-            "responseModel": {
-                "name": "SearchCatsResponse",
-                "fields": [
-                    {
-                        "name": "error",
-                        "type": {
-                            "ref": "AnimalServiceException",
-                            "type": "NullableReference"
-                        }
-                    },
-                    {
-                        "name": "resultSet",
-                        "type": {
-                            "itemType": {
-                                "ref": "Cat",
-                                "type": "Reference"
-                            },
-                            "type": "Array"
-                        }
-                    },
-                    {
-                        "name": "totalCount",
-                        "type": "int"
-                    },
-                    {
-                        "name": "totalPages",
-                        "type": "int"
-                    },
-                    {
-                        "name": "page",
-                        "type": "int"
-                    }
-                ],
-                "type": "Object"
-            }
-        },
-        {
-            "url": "/animal/locateMyCat",
-            "name": "locateMyCat",
-            "requestModel": {
-                "name": "LocateMyCatRequest",
-                "fields": [
-                    {
-                        "name": "name",
-                        "type": "string"
-                    }
-                ],
-                "type": "Object"
-            },
-            "responseModel": {
-                "name": "LocateMyCatResponse",
-                "fields": [
-                    {
-                        "name": "error",
-                        "type": {
-                            "ref": "AnimalServiceException",
-                            "type": "NullableReference"
-                        }
-                    },
-                    {
-                        "name": "location",
-                        "type": {
-                            "name": "Location",
-                            "fields": [
-                                {
-                                    "name": "longitude",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "lattitude",
-                                    "type": "string"
-                                }
-                            ],
-                            "type": "Object"
-                        }
-                    }
-                ],
-                "type": "Object"
-            }
-        },
-        {
-            "url": "/demo",
-            "name": "demo",
-            "requestModel": {
-                "name": "DemoRequest",
-                "fields": [
-                    {
-                        "name": "floatField",
-                        "type": "float"
-                    },
-                    {
-                        "name": "floatField?",
-                        "type": "float?"
-                    },
-                    {
-                        "name": "doubleField",
-                        "type": "double"
-                    },
-                    {
-                        "name": "doubleField?",
-                        "type": "double?"
-                    },
-                    {
-                        "name": "stringField",
-                        "type": "string"
-                    },
-                    {
-                        "name": "stringField?",
-                        "type": "string?"
-                    },
-                    {
-                        "name": "booleanField",
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "booleanField?",
-                        "type": "boolean?"
-                    },
-                    {
-                        "name": "intField",
-                        "type": "int"
-                    },
-                    {
-                        "name": "intField?",
-                        "type": "int?"
-                    },
-                    {
-                        "name": "int32Field",
-                        "type": "int32"
-                    },
-                    {
-                        "name": "int32Field?",
-                        "type": "int32?"
-                    },
-                    {
-                        "name": "int64Field",
-                        "type": "int64"
-                    },
-                    {
-                        "name": "int64Field?",
-                        "type": "int64?"
-                    },
-                    {
-                        "name": "arrayOfStrings",
-                        "type": {
-                            "itemType": "string",
-                            "type": "Array"
-                        }
-                    },
-                    {
-                        "name": "nullableArrayOfStrings",
-                        "type": {
-                            "itemType": "string",
-                            "type": "NullableArray"
-                        }
-                    },
-                    {
-                        "name": "inlineObject",
-                        "type": {
-                            "name": "InlineObject",
-                            "fields": [
-                                {
-                                    "name": "test",
-                                    "type": "string"
-                                }
-                            ],
-                            "type": "Object"
-                        }
-                    },
-                    {
-                        "name": "nullableInlinedObject",
-                        "type": {
-                            "type": "NullableObject",
-                            "name": "InlinedObject",
-                            "fields": [
-                                {
-                                    "name": "test",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "type": "Object"
-            },
-            "responseModel": {
-                "name": "DemoResponse",
-                "fields": [
-                    {
-                        "name": "demo",
-                        "type": "string"
-                    }
-                ],
-                "type": "Object"
-            }
-        }
-    ],
-    "referenceTypes": [
-        {
-            "name": "Animal",
-            "fields": [
-                {
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "name": "species",
-                    "type": "string"
-                }
-            ],
-            "type": "Object"
-        },
-        {
-            "name": "Cat",
-            "fields": [
-                {
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "name": "age",
-                    "type": "int"
-                },
-                {
-                    "name": "sex",
-                    "type": "string"
-                }
-            ],
-            "type": "Object"
-        },
-        {
-            "name": "AnimalServiceException",
-            "fields": [
-                {
-                    "name": "code",
-                    "type": "int"
-                },
-                {
-                    "name": "msg",
-                    "type": "string"
-                },
-                {
-                    "name": "name",
-                    "type": "string"
-                }
-            ],
-            "type": "Object"
-        }
-    ]
-}
-`;
+	import { testService } from '$lib/yizySpec/examples/testSpec';
+	import * as oapi from '../../lib/yizySpec/generators/open-api-spec/openApiSpec';
 
-	const service: Service = JSON.parse(json);
+	console.log(oapi.serviceToOpenApiSpec(testService, oapi.OpenAPISpecType.JSON));
+	//import { TypeIdentifier } from '$lib/yizySpec/YIZYSpec';
+	//import {
+	//	type HeadTemplate,
+	//	OPEN_API_COMPONENTS_TEMPLATE,
+	//	OPEN_API_HEAD_TEMPLATE,
+	//	OPEN_API_PATHS_TEMPLATE,
+	//	//type PathTemplateInput,
+	//	type PathsTemplateInput,
+	//	type ComponentTemplateInput,
+	//	type Component,
+	//	type Field,
+	//	isOpenAPIPrimitiveType,
+	//	isOpenAPIRefType,
+	//	isOpenAPINullableRefType,
+	//	isOpenAPIArrayType,
+	//	isOpenAPINullableArrayType,
+	//	isOpenAPIObjectType,
+	//	isOpenAPINullableObjectType,
+	//	fieldToSpec
+	//} from '../../lib/yizySpec/generators/open-api-spec/templates';
+	//import Handlebars from 'handlebars';
+
+	//const tmpl = Handlebars.compile(OPEN_API_HEAD_TEMPLATE);
+	//const input: HeadTemplate = {
+	//	title: 'test service',
+	//	urls: ['hello', 'bye']
+	//};
+	//const s1 = tmpl(input);
+
+	//const pathTmpl = Handlebars.compile(OPEN_API_PATHS_TEMPLATE);
+	//const pathInput: PathsTemplateInput = {
+	//	paths: [
+	//		{
+	//			operationId: 'getSomething',
+	//			path: '/getSomething',
+	//			requestName: 'GetSomethingRequest',
+	//			responseName: 'GetSomethingResponse'
+	//		},
+	//		{
+	//			operationId: 'getSomethingElse',
+	//			path: '/getSomethingElse',
+	//			requestName: 'GetSomethingElseRequest',
+	//			responseName: 'GetSomethingElseResponse'
+	//		}
+	//	]
+	//};
+
+	//const s2 = pathTmpl(pathInput);
+
+	////Handlebars.registerHelper('isPrimitiveType', isOpenAPIPrimitiveType);
+	////Handlebars.registerHelper('isObjectType', isOpenAPIObjectType);
+	////Handlebars.registerHelper('isNullableObjectType', isOpenAPINullableObjectType);
+	////Handlebars.registerHelper('isArrayType', isOpenAPIArrayType);
+	////Handlebars.registerHelper('isNullableArrayType', isOpenAPINullableArrayType);
+	////Handlebars.registerHelper('isRefType', isOpenAPIRefType);
+	////Handlebars.registerHelper('isNullableRefType', isOpenAPINullableRefType);
+	//Handlebars.registerHelper('fieldToSpec', fieldToSpec);
+
+	//const compTepl = Handlebars.compile(OPEN_API_COMPONENTS_TEMPLATE);
+	//const compInput: ComponentTemplateInput = {
+	//	components: [
+	//		{
+	//			name: 'TestObject',
+	//			fields: [
+	//				{
+	//					name: 'stringField',
+	//					type: 'string'
+	//				},
+	//				{
+	//					name: 'nullableStringField',
+	//					type: 'string?'
+	//				},
+	//				{
+	//					name: 'intField',
+	//					type: 'int'
+	//				},
+	//				{
+	//					name: 'nullableIntField',
+	//					type: 'int?'
+	//				},
+	//				{
+	//					name: 'int32Field',
+	//					type: 'int32'
+	//				},
+	//				{
+	//					name: 'nullableInt32Field',
+	//					type: 'int32?'
+	//				},
+	//				{
+	//					name: 'int64Field',
+	//					type: 'int64'
+	//				},
+	//				{
+	//					name: 'nullableInt64Field',
+	//					type: 'int64?'
+	//				},
+	//				{
+	//					name: 'floatField',
+	//					type: 'float'
+	//				},
+	//				{
+	//					name: 'nullableFloatField',
+	//					type: 'float?'
+	//				},
+	//				{
+	//					name: 'doubleField',
+	//					type: 'double'
+	//				},
+	//				{
+	//					name: 'nullableDoubleField',
+	//					type: 'double?'
+	//				},
+	//				{
+	//					name: 'boolField',
+	//					type: 'boolean'
+	//				},
+	//				{
+	//					name: 'nullableBool',
+	//					type: 'boolean?'
+	//				}
+	//			]
+	//		},
+	//		{
+	//			name: 'GetSomethingRequest',
+	//			fields: [
+	//				{
+	//					name: 'test',
+	//					type: 'string'
+	//				}
+	//			]
+	//		},
+	//		{
+	//			name: 'GetSomethingResponse',
+	//			fields: [
+	//				{
+	//					name: 'test',
+	//					type: 'string'
+	//				}
+	//			]
+	//		},
+	//		{
+	//			name: 'GetSomethingElseRequest',
+	//			fields: [
+	//				{
+	//					name: 'test',
+	//					type: 'string'
+	//				}
+	//			]
+	//		},
+	//		{
+	//			name: 'GetSomethingElseResponse',
+	//			fields: [
+	//				{
+	//					name: 'test',
+	//					type: 'string'
+	//				}
+	//			]
+	//		}
+	//	]
+	//};
+
+	//const s3 = compTepl(compInput);
+
+	//console.log(s1 + s2 + s3);
+
+	//let doc: oapi.OpenApiDoc = new oapi.OpenApiDoc('TestService');
+	//doc.addServers(['https://test.com', 'http://localhost:8080']);
+	//doc.addPath({
+	//	name: '/api/getExample',
+	//	operationId: 'getExample',
+	//	requestRef: 'GetExampleRequest',
+	//	responseRef: 'GetExampleResponse'
+	//});
+	//doc.addComponent({
+	//	name: 'GetExampleRequest',
+	//	properties: [
+	//		{
+	//			name: 'input',
+	//			type: 'string'
+	//		}
+	//	]
+	//});
+
+	//doc.addComponent({
+	//	name: 'GetExampleResponse',
+	//	properties: [
+	//		{
+	//			name: 'output',
+	//			type: 'string'
+	//		}
+	//	]
+	//});
+
+	//doc.addPath({
+	//	name: '/api/demo',
+	//	operationId: 'DemoEndpoint',
+	//	requestRef: 'DemoRequest',
+	//	responseRef: 'DemoResponse'
+	//});
+
+	//doc.addComponent({
+	//	name: 'DemoRequest',
+	//	properties: [
+	//		{
+	//			name: 'stringField',
+	//			type: 'string'
+	//		},
+	//		{
+	//			name: 'nullableStringField',
+	//			type: 'string?'
+	//		},
+	//		{
+	//			name: 'int',
+	//			type: 'int'
+	//		},
+	//		{
+	//			name: 'nullableInt',
+	//			type: 'int?'
+	//		},
+	//		{
+	//			name: 'int32Field',
+	//			type: 'int32'
+	//		},
+	//		{
+	//			name: 'floatField',
+	//			type: 'float'
+	//		},
+	//		{
+	//			name: 'ramdomObj',
+	//			type: {
+	//				type: TypeIdentifier.ReferenceType,
+	//				ref: 'SomeObject'
+	//			}
+	//		},
+	//		{
+	//			name: 'arrayOfString',
+	//			type: {
+	//				type: TypeIdentifier.ArrayType,
+	//				itemType: 'string'
+	//			}
+	//		},
+	//		{
+	//			name: 'arrayOfObj',
+	//			type: {
+	//				type: TypeIdentifier.ReferenceType,
+	//				ref: 'SomeObject'
+	//			}
+	//		}
+	//	]
+	//});
+	//doc.addComponent({
+	//	name: 'DemoResponse',
+	//	properties: [
+	//		{
+	//			name: 'output',
+	//			type: 'string'
+	//		}
+	//	]
+	//});
+
+	//doc.addComponent({
+	//	name: 'SomeObject',
+	//	properties: [
+	//		{
+	//			name: 'output',
+	//			type: 'string'
+	//		}
+	//	]
+	//});
+
+	//console.log(doc.toJSON());
 </script>
