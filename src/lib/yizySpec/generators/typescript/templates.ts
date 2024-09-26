@@ -1,25 +1,21 @@
 export const POST_REQUEST_FUNCTION_TEMPLATE = `
 export async function {{functionName}}({{#if argType}}req: {{argType}} {{/if}}): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
-  try {
-    const response = await fetch( "{{postUrl}}", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      {{#if argType}}
-      body: JSON.stringify(req)
-      {{/if}}
-    });
-
-    {{#if returnType}}
-    const result: {{returnType}} = await response.json();
-    return result;
-    {{else}}
-    return;
+  const response = await fetch( "{{postUrl}}", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    {{#if argType}}
+    body: JSON.stringify(req)
     {{/if}}
-  } catch (error) {
-    throw error;
-  }
+  });
+
+  {{#if returnType}}
+  const result: {{returnType}} = await response.json();
+  return result;
+  {{else}}
+  return;
+  {{/if}}
 }
 `;
 

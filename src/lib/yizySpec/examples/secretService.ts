@@ -2,7 +2,7 @@ import { type Service, field, referenceType, nullableReferenceType, objectType }
 
 export const secretService: Service = {
 	serviceName: 'SecretService',
-	baseUrls: ['http://localhost:8080'],
+	baseUrls: ['http://localhost:4010', 'http://localhost:8080'],
 	endpoints: [
 		{
 			url: '/agents/getAgentByName',

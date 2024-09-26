@@ -4,18 +4,16 @@ import {
 	TypeIdentifier,
 	type DataType,
 	type Endpoint,
-	type NonPrimitiveType,
 	type ObjectType,
 	type NullableReferenceType,
 	type ReferenceType,
 	type NullableObjectType,
 	type NullableArrayType,
-	isObjectType,
-	isArrayType,
 	type ArrayType,
 	isNullable,
 	getLanguageSpecificName,
-	type NameMap
+	type NameMap,
+	isRefType
 } from '../../YIZYSpec';
 import {
 	MODEL_FILE_TEMPLATE,
@@ -95,51 +93,23 @@ function specTypeToNativeType(dataType: DataType): string {
 	}
 }
 
-function nonPrimitiveTypeToModelTemplateInput(
-	nonPrimitiveType: NonPrimitiveType
-): ModelTemplateInput[] {
-	let modelTemplateInputs: ModelTemplateInput[] = [];
-
+function objectTypeToModelTemplateInput(obj: ObjectType): ModelTemplateInput[] {
+	const modelTemplateInputs: ModelTemplateInput[] = [];
 	const fields: FieldTemplateInput[] = [];
 
-	switch (nonPrimitiveType.type) {
-		case TypeIdentifier.ObjectType:
-			(nonPrimitiveType as ObjectType).fields.forEach((f) => {
-				if (isObjectType(f.type)) {
-					modelTemplateInputs = modelTemplateInputs.concat(
-						nonPrimitiveTypeToModelTemplateInput(f.type as ObjectType)
-					);
-				}
-				if (isArrayType(f.type)) {
-					modelTemplateInputs = modelTemplateInputs.concat(
-						nonPrimitiveTypeToModelTemplateInput(f.type as ObjectType)
-					);
-				}
-				fields.push({
-					name: typeof f.name === 'string' ? f.name : 'TODO',
-					type: specTypeToNativeType(f.type)
-				});
-			});
-			modelTemplateInputs.push({
-				name:
-					typeof (nonPrimitiveType as ObjectType).name === 'string'
-						? ((nonPrimitiveType as ObjectType).name as string)
-						: 'TODO',
-				fields: fields
-			});
-			return modelTemplateInputs;
-		case TypeIdentifier.ArrayType:
-			if (isObjectType((nonPrimitiveType as ArrayType).itemType)) {
-				modelTemplateInputs = modelTemplateInputs.concat(
-					nonPrimitiveTypeToModelTemplateInput(
-						(nonPrimitiveType as ArrayType).itemType as ObjectType
-					)
-				);
-			}
-			return modelTemplateInputs;
-		default:
-			return [];
-	}
+	obj.fields.forEach((f) => {
+		fields.push({
+			name: typeof f.name === 'string' ? f.name : 'TODO',
+			type: specTypeToNativeType(f.type)
+		});
+	});
+
+	modelTemplateInputs.push({
+		name:
+			typeof (obj as ObjectType).name === 'string' ? ((obj as ObjectType).name as string) : 'TODO',
+		fields: fields
+	});
+	return modelTemplateInputs;
 }
 
 function serviceToModelFileTemplateInput(service: Service): ModelFileTemplateInput {
@@ -148,19 +118,23 @@ function serviceToModelFileTemplateInput(service: Service): ModelFileTemplateInp
 	};
 
 	service.referenceTypes.forEach((model: ObjectType) => {
-		const res = nonPrimitiveTypeToModelTemplateInput(model);
+		const res = objectTypeToModelTemplateInput(model);
 		tmplInput.models = tmplInput.models.concat(res);
 	});
 
 	service.endpoints.forEach((endpoint: Endpoint) => {
 		if (endpoint.requestModel != null) {
-			const req = nonPrimitiveTypeToModelTemplateInput(endpoint.requestModel);
-			tmplInput.models = tmplInput.models.concat(req);
+			if (!isRefType(endpoint.requestModel)) {
+				const req = objectTypeToModelTemplateInput(endpoint.requestModel as ObjectType);
+				tmplInput.models = tmplInput.models.concat(req);
+			}
 		}
 
 		if (endpoint.responseModel != null) {
-			const res = nonPrimitiveTypeToModelTemplateInput(endpoint.responseModel);
-			tmplInput.models = tmplInput.models.concat(res);
+			if (!isRefType(endpoint.responseModel)) {
+				const res = objectTypeToModelTemplateInput(endpoint.responseModel as ObjectType);
+				tmplInput.models = tmplInput.models.concat(res);
+			}
 		}
 	});
 
@@ -174,7 +148,7 @@ export function generateModelFile(service: Service): string {
 }
 
 export function generateModelClass(object: ObjectType) {
-	const result = nonPrimitiveTypeToModelTemplateInput(object);
+	const result = objectTypeToModelTemplateInput(object);
 	const template = Handlebars.compile(MODEL_TEMPLATE);
 	let stringRes = '';
 	result.forEach((tmpl) => {

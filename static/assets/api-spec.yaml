@@ -1,10 +1,10 @@
 openapi: 3.0.3
 info:
-  title: Secret Service
-  description: 'This is a generated API Spec'
-  version: 0.0.0
+  title: SecretService
+  description: This is a generated API Spec
+  version: This is a generated API Spec
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: http://localhost:8080
 paths:
   /agents/getAgentByName:
     post:
@@ -15,44 +15,54 @@ paths:
             schema:
               $ref: '#/components/schemas/GetAgentByNameRequest'
       responses:
-        '200':
-          description: Successful operation
+        default:
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAgentByNameResponse'
+          description: default response
 components:
   schemas:
     GetAgentByNameRequest:
+      type: object
       required:
         - name
-      type: object
       properties:
         name:
           type: string
     GetAgentByNameResponse:
       type: object
+      required:
+        - error
+        - agent
       properties:
+        error:
+          nullable: true
+          $ref: '#/components/schemas/Grenade'
         agent:
           $ref: '#/components/schemas/Agent'
-        error:
-          $ref: '#/components/schemas/Grenade'
     Agent:
       type: object
+      required:
+        - name
+        - age
+        - department
       properties:
         name:
           type: string
         age:
-          type: number
-          format: int
+          type: integer
         department:
           type: string
     Grenade:
       type: object
+      required:
+        - code
+        - msg
+        - name
       properties:
         code:
-          type: number
-          format: int
+          type: integer
         msg:
           type: string
         name:

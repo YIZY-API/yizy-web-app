@@ -1,8 +1,18 @@
 <script lang="ts">
-	import { testService } from '$lib/yizySpec/examples/testSpec';
-	import * as oapi from '../../lib/yizySpec/generators/open-api-spec/openApiSpec';
+	//import { testService } from '$lib/yizySpec/examples/testSpec';
+	import { onMount } from 'svelte';
+	//import * as oapi from '../../lib/yizySpec/generators/open-api-spec/openApiSpec';
+	import * as client from './testAPIClient';
 
-	console.log(oapi.serviceToOpenApiSpec(testService, oapi.OpenAPISpecType.JSON));
+	onMount(async () => {
+		const req: client.GetAgentByNameRequest = {
+			name: 'test'
+		};
+		const res = await client.getAgentByName(req);
+		console.log(res);
+	});
+
+	//console.log(oapi.serviceToOpenApiSpec(testService, oapi.OpenAPISpecType.JSON));
 	//import { TypeIdentifier } from '$lib/yizySpec/YIZYSpec';
 	//import {
 	//	type HeadTemplate,
