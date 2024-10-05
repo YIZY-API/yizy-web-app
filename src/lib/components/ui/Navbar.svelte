@@ -8,7 +8,7 @@
 		<div class="mx-2 h-12 w-12 text-xs">
 			<YizyLogo />
 		</div>
-		<h1 class="my-auto hidden text-lg font-black text-primary md:block">YIZY API Specification</h1>
+		<h1 class="my-auto hidden text-lg font-black text-primary md:block">YIZY API</h1>
 	</a>
 	<div class="my-auto flex flex-row px-4">
 		<a href="/" class="mx-4 my-auto font-bold hover:text-primary">Home</a>

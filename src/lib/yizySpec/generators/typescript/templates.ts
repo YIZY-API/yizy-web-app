@@ -1,5 +1,5 @@
 export const POST_REQUEST_FUNCTION_TEMPLATE = `
-export async function {{functionName}}({{#if argType}}req: {{argType}} {{/if}}): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
+export async function {{functionName}}({{#if argType}}req: {{argType}}{{/if}}): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
   const response = await fetch( "{{postUrl}}", {
     method: 'POST',
     headers: {

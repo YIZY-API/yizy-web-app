@@ -5,9 +5,6 @@
 	import YizySpecTab from './components/YIZYSpecTab.svelte';
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import YizyDocTab from './components/YIZYDocTab.svelte';
-	import YizyModelsTab from './components/YIZYModelsTab.svelte';
-	import YizyClientSdkTab from './components/YIZYClientSDKTab.svelte';
-	import { SelectTrigger } from '$lib/components/ui/select';
 	import YizyGeneratorTab from './components/YIZYGeneratorTab.svelte';
 
 	function onScreenResize() {
@@ -33,7 +30,7 @@
 
 <svelte:window on:resize={onScreenResize} />
 
-<div>
+<div class="w-full pb-8">
 	{#if isScreenTooSmall}
 		<Alert.Root class="my-4 border-destructive text-destructive">
 			<TriangleAlert class="h-4 w-4 stroke-destructive" />
@@ -44,7 +41,7 @@
 		</Alert.Root>
 	{/if}
 
-	<Tabs.Root value="yizy-api-spec" class="w-full">
+	<Tabs.Root value="yizy-api-spec" class="px-4">
 		<Tabs.List class="grid w-full grid-cols-3">
 			<Tabs.Trigger value="yizy-api-spec">YIZY API Spec</Tabs.Trigger>
 			<Tabs.Trigger value="yizy-doc">YIZY Doc</Tabs.Trigger>

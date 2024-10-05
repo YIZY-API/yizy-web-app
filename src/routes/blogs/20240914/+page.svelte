@@ -11,6 +11,10 @@ export interface ResponseObject {
     `;
 </script>
 
+<svelte:head>
+	<title>2024 Sep 14</title>
+</svelte:head>
+
 <div class="prose prose-slate mx-auto dark:prose-invert">
 	<h1>My First Attempt to Replace Open API Spec</h1>
 	<small>2024 Sep 14</small>

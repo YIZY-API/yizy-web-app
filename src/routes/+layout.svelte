@@ -8,6 +8,6 @@
 <GoogleAnalytics />
 <ModeWatcher />
 <Navbar />
-<div class="w-screen px-8">
+<div class="w-full">
 	<slot></slot>
 </div>

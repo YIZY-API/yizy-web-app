@@ -1,18 +1,40 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Decoration from './components/Decoration.svelte';
+	import Highlight from 'svelte-highlight';
+	import typescript from 'svelte-highlight/languages/typescript';
+	import json from 'svelte-highlight/languages/json';
+	import * as code from './components/constants';
+	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
+
+	enum Selection {
+		ts,
+		json,
+		sdk
+	}
+
+	let currentSelection = Selection.ts;
+	const selectBtnClass =
+		'w-full justify-start text-wrap rounded-lg border-2 border-solid border-[#171F30] px-4 py-2 text-left text-sm text-[#171F30] lg:max-w-64 hover:bg-[#171F30] hover:text-primary';
+	const selectedBtnClass =
+		'w-full justify-start text-wrap rounded-lg border-2 border-solid border-[#171F30] px-4 py-2 text-left text-sm text-primary lg:max-w-64 bg-[#171F30] font-bold';
+	$: tsSelectBtnClass = currentSelection == Selection.ts ? selectedBtnClass : selectBtnClass;
+	$: jsonSelectBtnClass = currentSelection == Selection.json ? selectedBtnClass : selectBtnClass;
+	$: sdkSelectBtnClass = currentSelection == Selection.sdk ? selectedBtnClass : selectBtnClass;
 </script>
 
 <svelte:head>
-	<title>YIZY API Spec</title>
+	<title>YIZY API</title>
 </svelte:head>
-
-<div class="mx-auto max-w-screen-lg pb-20">
-	<div class="my-24">
-		<h1 class="my-2 text-center text-5xl font-bold">Aggresively Simple API Spec</h1>
-		<h1 class="text-center text-lg font-bold">
-			Tailored for Schema First Design and Code Generation
+<section class="mx-auto w-full py-20">
+	<div class="my-16 flex flex-col">
+		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Aggressively Simple Json RPC</h1>
+		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Powered By Post Request</h1>
+		<h1 class="text-md mx-auto max-w-[600px] px-4 py-2 text-center font-light">
+			Write API Spec in Typescript and Generate Typesafe Models, Http Client SDKs, API
+			Documentation, and Open API Specification in an Instant with Zero Configs.
 		</h1>
-		<div class="my-4 flex w-full flex-col">
+		<div class="my-4 flex flex-col">
 			<div class="mx-auto flex gap-2">
 				<a href="/demo"
 					><Button class="rounded-full border-primary font-bold text-primary" variant="outline"
@@ -21,74 +43,124 @@
 				>
 
 				<a href="https://tally.so/r/me2BZQ">
-					<Button class="rounded-full font-bold">SIGN ME UP</Button></a
+					<Button class="rounded-full font-bold">JOIN WAITLIST</Button></a
 				>
 			</div>
-
-			<a
-				href="https://tally.so/r/wkWG0d"
-				class="m-auto mt-4 text-sm font-bold text-primary underline"
-			>
-				FILL OUT DEVELOPER SURVEY
-			</a>
 		</div>
 	</div>
-
-	<div class="prose prose-slate mx-auto dark:prose-invert">
-		<p>
-			I find Open API Specification and the surrounding toolchains frustrating to work with. There
-			are a lot of new startups trying to solve existing problems surrounding Open API Spec.
-			Companies like Speakeasy, Fern, and Liblab are all trying to improve developer experience
-			surrounding Open API Spec. I want to take a different approach.
-		</p>
-
-		<p>
-			I believe the frustrations surrounding the Open API toolchain is due to how bloated Open API
-			Spec is. I build JSON APIs mostly, and I need a quick and easy way to write a spec for my
-			APIs, generate server request and response models as well as http clients to get end-to-end
-			type safety across my services. If I can get API documentation out of this process, even
-			better.
-		</p>
-
-		<p>
-			Instead, doing what is supposed to be simple proves to be nearly impossible with Open API
-			Spec. First, I have to struggle my way through writing the spec in YAML with no code
-			completion help, and let’s face it, there are way too many fields in Open API Spec supporting
-			all kinds of weird API use cases. Writing it by hand is a tedious and annoying process.
-		</p>
-		<p>
-			Once I finally come up with a well-crafted Open API spec, I then have to wrestle my way
-			through tons of “official” and “unofficial” code generators out there with varying degrees of
-			Open API Spec support. 🫠
-		</p>
-
-		<p>
-			I finally find a good generator only to realize the generator outputs different code depending
-			on how you write your spec. Now I am tweaking the spec to get the generator to produce the
-			output I want. Oops, now my changes in the spec break the output of another generator. At this
-			point I might as well just develop the whole stack in a dynamically typed language and call it
-			a day.
-		</p>
-
-		<p>
-			Enough is enough. I am going to build my own tooling for Open API. Let me try parsing the spec
-			first.
-		</p>
-
-		<p>I gave up within 5 minutes. Open API Spec is so open-ended it’s impossible to work with.</p>
-
-		<p>
-			Time to design a new API spec from scratch. Something more lightweight and human-friendly.
-			Something tailored for code generation. Maybe it’s even time to ditch ‘restful’ practices
-			altogether and do everything with POST requests. I find restful practices a lot less ‘restful’
-			than the name suggests. I don’t know. What do you guys think? Leave your complaints in the
-			survey and let me know your pain points with Open API Spec.
-		</p>
-
-		<a href="https://tally.so/r/me2BZQ"
-			><Button class="rounded-full border-primary font-bold text-primary" variant="outline"
-				>SHUT UP AND TAKE MY MONEY!</Button
-			>
-		</a>
+</section>
+<Decoration />
+<section class="flex flex-col bg-primary p-8">
+	<div class="mx-auto w-full max-w-screen-xl">
+		<div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+			<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">
+				Instant Code Generation with Zero Config
+			</h1>
+			<div class="col-span-1 flex flex-col items-end gap-1 text-wrap">
+				<button
+					class={tsSelectBtnClass}
+					on:click={() => {
+						currentSelection = Selection.ts;
+					}}
+				>
+					1. Define Spec in Typescript
+				</button>
+				<button
+					class={jsonSelectBtnClass}
+					on:click={() => {
+						currentSelection = Selection.json;
+					}}
+				>
+					2. Upload Json
+				</button>
+				<button
+					class={sdkSelectBtnClass}
+					on:click={() => {
+						currentSelection = Selection.sdk;
+					}}
+				>
+					3. Generate Code Instantly
+				</button>
+			</div>
+			{#if currentSelection === Selection.ts}
+				<div
+					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
+				>
+					<Highlight language={typescript} code={code.tsSpec} class="text-sm" />
+				</div>
+			{:else if currentSelection === Selection.json}
+				<div
+					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
+				>
+					<Highlight language={json} code={code.jsonSpec} class="text-sm" />
+				</div>
+			{:else if currentSelection === Selection.sdk}
+				<div
+					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
+				>
+					<Highlight language={typescript} code={code.tsClient} class="text-sm" />
+				</div>
+			{/if}
+		</div>
 	</div>
-</div>
+</section>
+<Decoration rotate={true} />
+<section
+	class="mx-auto grid max-w-[280px] grid-cols-1 flex-wrap gap-4 py-16 sm:max-w-[650px] sm:grid-cols-2 lg:max-w-screen-lg lg:grid-cols-3"
+>
+	<h1 class="py-8 text-center text-4xl font-bold text-primary sm:col-span-3">
+		What Makes it YIZY?
+	</h1>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<File class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">Schema First Design</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">
+				Tailored for Schema First API Design, Decoupling Frontend and Backend
+			</p>
+		</div>
+	</div>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<HardHat class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">E2E Type Safety</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">
+				Request and Response Model Generation for Server and Client
+			</p>
+		</div>
+	</div>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<Zap class="mx-auto  text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">
+				Blazingly Fast Code Genenration
+			</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">
+				Instant Code Generation with Zero Configuration
+			</p>
+		</div>
+	</div>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<Languages class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">Language Agnostic</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">Multi-Language Support</p>
+		</div>
+	</div>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<CakeSlice class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">Aggressively Simple</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">POST Request Under the Hood</p>
+		</div>
+	</div>
+	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+		<div class="m-auto flex flex-col">
+			<Link class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">Open API Spec Support</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">
+				Generate Open API Spec for Tool Chain Support
+			</p>
+		</div>
+	</div>
+</section>

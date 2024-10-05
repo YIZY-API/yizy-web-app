@@ -291,3 +291,9 @@ code.hljs {
 .language-yaml .hljs-meta {
 	color: #d08770;
 }
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}

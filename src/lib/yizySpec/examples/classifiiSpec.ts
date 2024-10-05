@@ -15,6 +15,17 @@ export const classifiiApi: Service = {
 	],
 	endpoints: [
 		{
+			url: '/api/sendTransactionStatusUpdateNotification.php',
+			name: 'sendTransactionStatusUpdateNotification',
+			requestModel: objectType('SendTransactionStatusUpdateNotificationRequest', [
+				field('transactionId', 'string'),
+				field('transactionStatusId', 'string')
+			]),
+			responseModel: objectType('SendTransactionStatusUpdateNotificationResponse', [
+				field('error', nullableReferenceType('ClassifiiServiceException'))
+			])
+		},
+		{
 			url: '/api/updateTransactionStatus.php',
 			name: 'updateTransactionStatus',
 			requestModel: objectType('UpdateTransactionStatusRequest', [
