@@ -24,13 +24,11 @@
 	</Card.Header>
 	<Card.Content class="space-y-2">
 		<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
-		<div class="whitespace-pre-wrap rounded-lg bg-secondary">
-			{#if currentLanguage === ProgrammingLanguage.Php}
-				<HighlightCode language={php} code={generateModelFile($currentService)} />
-			{/if}
-			{#if currentLanguage === ProgrammingLanguage.Typescript}
-				<HighlightCode language={typescript} code={tsGen.generateModelFile($currentService)} />
-			{/if}
-		</div>
+		{#if currentLanguage === ProgrammingLanguage.Php}
+			<HighlightCode language={php} code={generateModelFile($currentService)} />
+		{/if}
+		{#if currentLanguage === ProgrammingLanguage.Typescript}
+			<HighlightCode language={typescript} code={tsGen.generateModelFile($currentService)} />
+		{/if}
 	</Card.Content>
 </Card.Root>
