@@ -7,7 +7,7 @@
 	import { generateSdkFile } from '$lib/yizySpec/generators/php/generator';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import php from 'svelte-highlight/languages/php';
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import { onMount } from 'svelte';
 	import { typescript } from 'svelte-highlight/languages';
 
@@ -64,16 +64,14 @@
 			</Select.Root>
 		</div>
 		<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
-		<div class="not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-			{#if currentLanguage === ProgrammingLanguage.Php}
-				<Highlight language={php} code={generateSdkFile(currentBaseUrl, $currentService)} />
-			{/if}
-			{#if currentLanguage === ProgrammingLanguage.Typescript}
-				<Highlight
-					language={typescript}
-					code={tsGen.generateSdkFile(currentBaseUrl, $currentService)}
-				/>
-			{/if}
-		</div>
+		{#if currentLanguage === ProgrammingLanguage.Php}
+			<HighlightCode language={php} code={generateSdkFile(currentBaseUrl, $currentService)} />
+		{/if}
+		{#if currentLanguage === ProgrammingLanguage.Typescript}
+			<HighlightCode
+				language={typescript}
+				code={tsGen.generateSdkFile(currentBaseUrl, $currentService)}
+			/>
+		{/if}
 	</Card.Content>
 </Card.Root>

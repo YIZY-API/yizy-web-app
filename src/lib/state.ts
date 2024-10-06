@@ -1,8 +1,9 @@
 import { secretService } from "$lib/yizySpec/examples/secretService";
 //import { classifiiApi } from "$lib/yizySpec/examples/classifiiSpec";
-import { type Service } from "$lib/yizySpec/YIZYSpec";
+//import { type Service } from "$lib/yizySpec/YIZYSpec";
 import { derived, readonly, writable } from "svelte/store";
 import YAML from "yaml";
+import { type Service } from "@yizy/specification";
 //import YIZY from 'yizy';
 
 //const _service = writable<Service>(classifiiApi);

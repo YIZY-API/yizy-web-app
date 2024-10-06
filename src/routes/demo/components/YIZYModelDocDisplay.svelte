@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import { field, objectType, type ObjectType } from '$lib/yizySpec/YIZYSpec';
 	import * as phpGen from '$lib/yizySpec/generators/php/generator';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
@@ -20,12 +20,10 @@
 	});
 </script>
 
-<div class="not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-	{#if lang === ProgrammingLanguage.Php && model != null}
-		<Highlight language={php} code={phpGen.generateModelClass(model)} />
-	{/if}
+{#if lang === ProgrammingLanguage.Php && model != null}
+	<HighlightCode language={php} code={phpGen.generateModelClass(model)} />
+{/if}
 
-	{#if lang === ProgrammingLanguage.Typescript && model != null}
-		<Highlight language={typescript} code={tsGen.generateModelClass(model)} />
-	{/if}
-</div>
+{#if lang === ProgrammingLanguage.Typescript && model != null}
+	<HighlightCode language={typescript} code={tsGen.generateModelClass(model)} />
+{/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import yaml from 'svelte-highlight/languages/yaml';
 	import json from 'svelte-highlight/languages/json';
 	import * as Tabs from '$lib/components/ui/tabs';
@@ -258,9 +258,7 @@
 				<Card.Title>Yaml</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={yaml} code={yamlText} />
-				</div>
+				<HighlightCode language={yaml} code={yamlText} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
@@ -271,9 +269,7 @@
 				<Card.Title>Json</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={json} code={jsonText} />
-				</div>
+				<HighlightCode language={json} code={jsonText} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import php from 'svelte-highlight/languages/php';
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
 	import { currentService } from '$lib/state';
 	import { generateModelFile } from '$lib/yizySpec/generators/php/generator';
@@ -25,14 +25,12 @@
 	<Card.Content class="space-y-2">
 		<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
 		<div class="whitespace-pre-wrap rounded-lg bg-secondary">
-			<div class="rounded-lg bg-[#0d121c] p-2">
-				{#if currentLanguage === ProgrammingLanguage.Php}
-					<Highlight language={php} code={generateModelFile($currentService)} />
-				{/if}
-				{#if currentLanguage === ProgrammingLanguage.Typescript}
-					<Highlight language={typescript} code={tsGen.generateModelFile($currentService)} />
-				{/if}
-			</div>
+			{#if currentLanguage === ProgrammingLanguage.Php}
+				<HighlightCode language={php} code={generateModelFile($currentService)} />
+			{/if}
+			{#if currentLanguage === ProgrammingLanguage.Typescript}
+				<HighlightCode language={typescript} code={tsGen.generateModelFile($currentService)} />
+			{/if}
 		</div>
 	</Card.Content>
 </Card.Root>

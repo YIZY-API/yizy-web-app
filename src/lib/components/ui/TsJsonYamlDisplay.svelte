@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import yaml from 'svelte-highlight/languages/yaml';
 	import json from 'svelte-highlight/languages/json';
 	import typescript from 'svelte-highlight/languages/typescript';
@@ -286,9 +286,7 @@ export const secretService: Service = {
 				<Card.Title>Yaml</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={yaml} code={$serviceInYaml} />
-				</div>
+				<HighlightCode language={yaml} code={$serviceInYaml} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
@@ -299,9 +297,7 @@ export const secretService: Service = {
 				<Card.Title>Json</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={json} code={$serviceInJson} />
-				</div>
+				<HighlightCode language={json} code={$serviceInJson} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
@@ -315,9 +311,7 @@ export const secretService: Service = {
 				>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				<div class="whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-					<Highlight language={typescript} code={tsString} />
-				</div>
+				<HighlightCode language={typescript} code={tsString} />
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>

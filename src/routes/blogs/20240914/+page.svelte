@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from 'svelte-highlight';
 	import typescript from 'svelte-highlight/languages/typescript';
 
 	const errorExample = ` 
@@ -33,9 +33,7 @@ export interface ResponseObject {
 		as long as it’s the same across all of your responses.
 	</p>
 
-	<div class="not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] p-2">
-		<Highlight language={typescript} code={errorExample} />
-	</div>
+	<HighlightCode language={typescript} code={errorExample} />
 	<p>
 		As of now the site does not support uploading the spec yet and it only generates php code that
 		might not work, because I am desperately trying to avoid writing php code at work and I am doing

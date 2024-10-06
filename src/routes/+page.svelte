@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
-	import Highlight from 'svelte-highlight';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import typescript from 'svelte-highlight/languages/typescript';
 	import json from 'svelte-highlight/languages/json';
 	import * as code from './components/constants';
@@ -83,22 +83,28 @@
 				</button>
 			</div>
 			{#if currentSelection === Selection.ts}
-				<div
-					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
-				>
-					<Highlight language={typescript} code={code.tsSpec} class="text-sm" />
+				<div class=" col-span-1 sm:col-span-2">
+					<HighlightCode
+						language={typescript}
+						code={code.tsSpec}
+						class="h-[500px] overflow-auto text-sm"
+					/>
 				</div>
 			{:else if currentSelection === Selection.json}
-				<div
-					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
-				>
-					<Highlight language={json} code={code.jsonSpec} class="text-sm" />
+				<div class=" col-span-1 sm:col-span-2">
+					<HighlightCode
+						language={json}
+						code={code.jsonSpec}
+						class="h-[500px] overflow-auto text-sm"
+					/>
 				</div>
 			{:else if currentSelection === Selection.sdk}
-				<div
-					class="not-prose col-span-1 h-[500px] overflow-scroll whitespace-pre-wrap rounded-lg border-solid bg-[#0d121c] p-2 sm:col-span-2"
-				>
-					<Highlight language={typescript} code={code.tsClient} class="text-sm" />
+				<div class="col-span-1 sm:col-span-2">
+					<HighlightCode
+						language={typescript}
+						code={code.tsClient}
+						class="h-[500px] overflow-auto text-sm"
+					/>
 				</div>
 			{/if}
 		</div>
@@ -106,12 +112,12 @@
 </section>
 <Decoration rotate={true} />
 <section
-	class="mx-auto grid max-w-[280px] grid-cols-1 flex-wrap gap-4 py-16 sm:max-w-[650px] sm:grid-cols-2 lg:max-w-screen-lg lg:grid-cols-3"
+	class="mx-auto grid max-w-[280px] grid-cols-1 flex-wrap gap-4 px-4 py-16 sm:max-w-[650px] lg:max-w-screen-lg xl:grid-cols-3"
 >
-	<h1 class="py-8 text-center text-4xl font-bold text-primary sm:col-span-3">
+	<h1 class="col-span-full py-8 text-center text-4xl font-bold text-primary">
 		What Makes it YIZY?
 	</h1>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<File class="mx-auto text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">Schema First Design</h1>
@@ -120,7 +126,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<HardHat class="mx-auto text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">E2E Type Safety</h1>
@@ -129,7 +135,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<Zap class="mx-auto  text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">
@@ -140,21 +146,21 @@
 			</p>
 		</div>
 	</div>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<Languages class="mx-auto text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">Language Agnostic</h1>
 			<p class="px-4 text-center text-sm font-light text-foreground">Multi-Language Support</p>
 		</div>
 	</div>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<CakeSlice class="mx-auto text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">Aggressively Simple</h1>
 			<p class="px-4 text-center text-sm font-light text-foreground">POST Request Under the Hood</p>
 		</div>
 	</div>
-	<div class="mx-auto flex h-48 w-full rounded-lg border-2 border-primary">
+	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
 			<Link class="mx-auto text-primary" />
 			<h1 class="pt-2 text-center text-lg font-bold text-primary">Open API Spec Support</h1>
