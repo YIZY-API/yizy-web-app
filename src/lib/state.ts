@@ -22,6 +22,7 @@ export const serviceInYaml = derived(currentService, ($currentService) => {
 
 //UI Level Functions
 export function importService(jsonString: string) {
+  // TODO validate json here
   const service: Service = JSON.parse(jsonString);
   updateService(service);
 }
