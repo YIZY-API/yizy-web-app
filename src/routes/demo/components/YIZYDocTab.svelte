@@ -3,7 +3,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import { currentService } from '$lib/state';
-	import { findObjectTypeFromReferenceType } from '$lib/yizySpec/YIZYSpec';
+	import { findObjectTypeFromReferenceType } from '@yizy/specification';
 	import YizyEndpointModelsView from './YIZYEndpointModelsView.svelte';
 </script>
 

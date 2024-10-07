@@ -19,7 +19,7 @@
 	}
 </script>
 
-<div class={cn('not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c]', className)}>
+<div class={cn('not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] pb-2', className)}>
 	<button
 		class="sticky right-6 top-6 z-10 float-right border-none pr-2 pt-2 text-primary"
 		on:click={() => onCopyBtnClicked()}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
-	import { field, objectType, type ObjectType } from '$lib/yizySpec/YIZYSpec';
+	import { field, objectType, type ObjectType } from '@yizy/specification';
 	import * as phpGen from '$lib/yizySpec/generators/php/generator';
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import { ProgrammingLanguage } from '$lib/models/constants';

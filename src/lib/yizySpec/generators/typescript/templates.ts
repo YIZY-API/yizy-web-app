@@ -20,14 +20,14 @@ export async function {{functionName}}({{#if argType}}req: {{argType}}{{/if}}): 
 `;
 
 export interface PostRequestFunctionTemplateInput {
-	returnType: string;
-	functionName: string;
-	argType: string;
-	postUrl: string;
+  returnType: string;
+  functionName: string;
+  argType: string;
+  postUrl: string;
 }
 
 export interface ClientSdkFileTemplateInput {
-	functions: PostRequestFunctionTemplateInput[];
+  functions: PostRequestFunctionTemplateInput[];
 }
 
 export const MODEL_TEMPLATE = `
@@ -39,18 +39,19 @@ export interface {{this.name}}
 }
 
 `;
-export const MODEL_FILE_TEMPLATE = `{{#each models}}` + MODEL_TEMPLATE + `{{/each}}`;
+export const MODEL_FILE_TEMPLATE = `{{#each models}}` + MODEL_TEMPLATE +
+  `{{/each}}`;
 
 export interface ModelFileTemplateInput {
-	models: ModelTemplateInput[];
+  models: ModelTemplateInput[];
 }
 
 export interface ModelTemplateInput {
-	name: string;
-	fields: FieldTemplateInput[];
+  name: string;
+  fields: FieldTemplateInput[];
 }
 
 export interface FieldTemplateInput {
-	name: string;
-	type: string;
+  name: string;
+  type: string;
 }

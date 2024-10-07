@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
 	import { ProgrammingLanguage } from '$lib/models/constants';
-	import { objectType, type ObjectType, field } from '$lib/yizySpec/YIZYSpec';
+	import { objectType, type ObjectType, field } from '@yizy/specification';
 	import { onMount } from 'svelte';
 	import YizyModelDocDisplay from './YIZYModelDocDisplay.svelte';
 
