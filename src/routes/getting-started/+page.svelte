@@ -89,5 +89,8 @@ const output = JSON.stringify(secretService);
 	<h2>Example</h2>
 	<HighlightCode language={typescript} code={tsString}></HighlightCode>
 
-	And that's it! It's that YIZY!
+	<p>
+		Copy and paste the output to the <a href="https://yizy.rootxsnowstudio.com/demo">demo page</a>.
+		That's it. It's that YIZY!
+	</p>
 </div>
