@@ -61,7 +61,7 @@ const output = JSON.stringify(secretService);
 		<TriangleAlert class="h-4 w-4 stroke-destructive" />
 		<Alert.Title>Heads up!</Alert.Title>
 		<Alert.Description>
-			YIZY is still under active developement and is <b>NOT PRODUCTION READY</b>.
+			YIZY is still under active development and is <b>NOT PRODUCTION READY</b>.
 		</Alert.Description>
 	</Alert.Root>
 
@@ -79,7 +79,12 @@ const output = JSON.stringify(secretService);
 	</div>
 
 	<div class="my-2">
-		<Label>Others (Yarn, Bun, Pnpm)</Label>
+		<Label>Bun</Label>
+		<HighlightCode language={shell} code={'bunx jsr add @yizy/specification'}></HighlightCode>
+	</div>
+
+	<div class="my-2">
+		<Label>Others (Yarn, Pnpm)</Label>
 		<div>
 			Checkout the package page on <a href="https://jsr.io/@yizy/specification">JSR</a> for more installation
 			details.
@@ -90,7 +95,6 @@ const output = JSON.stringify(secretService);
 	<HighlightCode language={typescript} code={tsString}></HighlightCode>
 
 	<p>
-		Copy and paste the output to the <a href="https://yizy.rootxsnowstudio.com/app">app page</a>.
-		That's it. It's that YIZY!
+		Copy and paste the output to the <a href="/app">app page</a>. That's it. It's that YIZY!
 	</p>
 </div>

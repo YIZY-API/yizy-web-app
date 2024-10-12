@@ -20,6 +20,7 @@
 					</Card.Description>
 				</div>
 				<Button
+					class="ml-4"
 					on:click={() => {
 						if (dialog != null) {
 							dialog.show();

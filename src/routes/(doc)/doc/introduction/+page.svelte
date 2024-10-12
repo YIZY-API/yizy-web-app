@@ -1,17 +1,6 @@
 <script lang="ts">
 	import * as Alert from '$lib/components/ui/alert/index.js';
-	//import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
-	//import { shell } from 'svelte-highlight/languages/shell';
-	//import { typescript } from 'svelte-highlight/languages/typescript';
-	//import Label from '$lib/components/ui/label/label.svelte';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
-
-	const ts = `typescript
-interface ExampleResponse {
-  error?: SomeNullableErrorType;
-  result?: SomeNullableResultType;
-}
-`;
 </script>
 
 <svelte:head>
@@ -25,7 +14,7 @@ interface ExampleResponse {
 		<TriangleAlert class="h-4 w-4 stroke-destructive" />
 		<Alert.Title>Heads up!</Alert.Title>
 		<Alert.Description>
-			YIZY is still under active developement and is <b>NOT PRODUCTION READY</b>.
+			YIZY is still under active development and is <b>NOT PRODUCTION READY</b>.
 		</Alert.Description>
 	</Alert.Root>
 	<h1>What is YIZY API?</h1>
@@ -37,7 +26,7 @@ interface ExampleResponse {
 	<p>
 		What makes an API 'Restful'? I get different answers talking to different engineers. When should
 		a server return a 404 Not Found and not a 200 OK with null in the response body? I am not sure.
-		What I do know is that in my experience, trying to follow Restful convension isn't as restful as
+		What I do know is that in my experience, trying to follow Restful convention isn't as restful as
 		the name suggests, so I decided to built my own convention.
 	</p>
 
@@ -47,7 +36,7 @@ interface ExampleResponse {
 	<p>A server following YIZY practices should:</p>
 	<ul>
 		<li>
-			Have a URL that contains a descriptive name of the action being perfomed by the endpoint
+			Have a URL that contains a descriptive name of the action being performed by the endpoint
 			starting with a VERB. EX. '/getUserById'
 		</li>
 
@@ -77,9 +66,9 @@ interface ExampleResponse {
 	<h2>YIZY Code Generators</h2>
 	<p>
 		One of the most important benefit of having an API spec is that code can be generated to enforce
-		E2E type-safety across the server and the client. Traditional code generators usually requires
-		tedious installation and configuration to get up and running. YIZY API Code Generators takes a
-		different approach. Upload your spec and you will see generated code you can copy and paste into
-		your favorite editor with zero config!
+		end to end type-safety across the server and the client. Traditional code generators usually
+		requires tedious installation and configuration to get up and running. YIZY API Code Generators
+		takes a different approach. Upload your spec and you will see generated code you can copy and
+		paste into your favorite editor with zero configuration!
 	</p>
 </div>
