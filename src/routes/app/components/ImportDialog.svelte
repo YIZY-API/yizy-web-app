@@ -21,6 +21,7 @@
 	function onUploadClicked() {
 		try {
 			importService(jsonInput);
+			close();
 		} catch (error) {
 			importErrorDialog.show();
 		}
