@@ -14,7 +14,7 @@
 					<Card.Title>YIZY API Spec</Card.Title>
 					<Card.Description>
 						Write API spec in Typescript with code completion then upload your json! Check the <a
-							href="/getting-started"
+							href="/doc/getting-started"
 							class="text-primary underline">getting started</a
 						> page on how to get started.
 					</Card.Description>

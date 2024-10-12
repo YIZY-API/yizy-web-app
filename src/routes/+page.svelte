@@ -26,19 +26,18 @@
 <svelte:head>
 	<title>YIZY API</title>
 </svelte:head>
-<section class="mx-auto w-full py-20">
-	<div class="my-16 flex flex-col">
-		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Aggressively Simple Json RPC</h1>
-		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Powered By Post Request</h1>
+<section class="mx-auto w-full pb-20 pt-40">
+	<div class="my-28 flex flex-col">
+		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Build Json API The YIZY Way</h1>
 		<h1 class="text-md mx-auto max-w-[600px] px-4 py-2 text-center font-light">
-			Write API Spec in Typescript and Generate Typesafe Models, Http Client SDKs, API
-			Documentation, and Open API Specification in an Instant with Zero Configs.
+			Forget About Restful Practices, Write API Spec in Typescript and Generate Type-safe Server and
+			Client Code Instantly with Zero Configs.
 		</h1>
 		<div class="my-4 flex flex-col">
 			<div class="mx-auto flex gap-2">
-				<a href="/demo"
+				<a href="/app"
 					><Button class="rounded-full border-primary font-bold text-primary" variant="outline"
-						>DEMO</Button
+						>TRY BETA</Button
 					></a
 				>
 
@@ -63,7 +62,7 @@
 						currentSelection = Selection.ts;
 					}}
 				>
-					1. Define Spec in Typescript
+					1. Write YIZY Spec
 				</button>
 				<button
 					class={jsonSelectBtnClass}

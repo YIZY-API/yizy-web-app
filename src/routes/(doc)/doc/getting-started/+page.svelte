@@ -45,7 +45,7 @@ export const secretService: Service = {
 };
 
 // Copy the output and paste it to the 
-// website at https://yizy.rootxsnowstudio.com/demo
+// website at https://yizy.rootxsnowstudio.com/app
 const output = JSON.stringify(secretService);
 `;
 </script>
@@ -90,7 +90,7 @@ const output = JSON.stringify(secretService);
 	<HighlightCode language={typescript} code={tsString}></HighlightCode>
 
 	<p>
-		Copy and paste the output to the <a href="https://yizy.rootxsnowstudio.com/demo">demo page</a>.
+		Copy and paste the output to the <a href="https://yizy.rootxsnowstudio.com/app">app page</a>.
 		That's it. It's that YIZY!
 	</p>
 </div>

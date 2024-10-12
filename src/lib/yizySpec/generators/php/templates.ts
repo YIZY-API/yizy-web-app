@@ -14,19 +14,24 @@ class {{this.name}}
 }
 
 `;
-export const MODEL_FILE_TEMPLATE = `{{#each models}}` + MODEL_TEMPLATE + `{{/each}}`;
+export const MODEL_FILE_TEMPLATE = `<?php\n\n` + `{{#each models}}` +
+  MODEL_TEMPLATE +
+  `{{/each}}`;
 
 export const POST_REQUEST_FUNCTION_TEMPLATE = `
 /**
+ * @param headers string[]
  * @return {{returnType}} 
  */
-function {{functionName}}({{#if argType}}{{argType}} $req{{/if}}): object
+function {{functionName}}({{#if argType}}{{argType}} $req, {{/if}}$headers = []): object
 {
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, "{{postUrl}}");
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($req));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    $defaultHeaders = array('Content-Type:application/json');
+    $allHeaders = array_merge($defaultHeaders, $headers);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $allHeaders);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $res = curl_exec($ch);
@@ -38,27 +43,27 @@ function {{functionName}}({{#if argType}}{{argType}} $req{{/if}}): object
 `;
 
 export interface ModelFileTemplateInput {
-	models: ModelTemplateInput[];
+  models: ModelTemplateInput[];
 }
 
 export interface ModelTemplateInput {
-	name: string;
-	fields: FieldTemplateInput[];
+  name: string;
+  fields: FieldTemplateInput[];
 }
 
 export interface FieldTemplateInput {
-	name: string;
-	type: string;
-	phpDocType: string;
+  name: string;
+  type: string;
+  phpDocType: string;
 }
 
 export interface PostRequestFunctionTemplateInput {
-	returnType: string;
-	functionName: string;
-	argType: string;
-	postUrl: string;
+  returnType: string;
+  functionName: string;
+  argType: string;
+  postUrl: string;
 }
 
 export interface ClientSdkFileTemplateInput {
-	functions: PostRequestFunctionTemplateInput[];
+  functions: PostRequestFunctionTemplateInput[];
 }

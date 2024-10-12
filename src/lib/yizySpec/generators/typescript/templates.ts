@@ -1,10 +1,16 @@
 export const POST_REQUEST_FUNCTION_TEMPLATE = `
-export async function {{functionName}}({{#if argType}}req: {{argType}}{{/if}}): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
+export async function {{functionName}}({{#if argType}}req: {{argType}}{{/if}}, headers?: Record<string, string> ): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
+  let defaultHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  if (headers) {
+    defaultHeaders = { ...defaultHeaders, ...headers };
+  }
+
   const response = await fetch( "{{postUrl}}", {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: defaultHeaders,
     {{#if argType}}
     body: JSON.stringify(req)
     {{/if}}

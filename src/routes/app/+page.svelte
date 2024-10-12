@@ -25,12 +25,12 @@
 </script>
 
 <svelte:head>
-	<title>Demo</title>
+	<title>Web App</title>
 </svelte:head>
 
 <svelte:window on:resize={onScreenResize} />
 
-<div class="w-full pb-8">
+<div class="w-full pb-8 pt-24">
 	{#if isScreenTooSmall}
 		<Alert.Root class="my-4 border-destructive text-destructive">
 			<TriangleAlert class="h-4 w-4 stroke-destructive" />

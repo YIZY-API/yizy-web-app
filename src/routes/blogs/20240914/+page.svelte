@@ -25,7 +25,7 @@ export interface ResponseObject {
 		and client SDK code right in the browser so you can see the result right away and copy the code
 		right into your editor without having to set up any tooling yourself. Salute to shadcn.
 	</p>
-	<a href="/demo" class="text-primary">Check out the Demo Page</a>
+	<a href="/app" class="text-primary">Check out the Beta Version</a>
 	<p>
 		The approach I am taking to simplify the spec aggressively is to only support POST requests and
 		standardize the response model regardless of the returned http status code. The response will

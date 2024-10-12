@@ -14,12 +14,12 @@
 		<a href="/" class="mx-2 my-auto text-sm font-bold hover:text-primary sm:mx-4 sm:text-lg">Home</a
 		>
 		<a
-			href="/getting-started"
+			href="/doc/getting-started"
 			class="mx-2 my-auto text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg"
 			>Getting Started</a
 		>
-		<a href="/demo" class="mx-2 my-auto text-sm font-bold hover:text-primary sm:mr-4 sm:text-lg"
-			>Demo</a
+		<a href="/app" class="mx-2 my-auto text-sm font-bold hover:text-primary sm:mr-4 sm:text-lg"
+			>Web App</a
 		>
 		<DarkModeToggle />
 	</div>

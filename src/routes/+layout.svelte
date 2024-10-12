@@ -7,7 +7,11 @@
 
 <GoogleAnalytics />
 <ModeWatcher />
-<Navbar />
-<div class="w-full">
-	<slot></slot>
+<div>
+	<div class="fixed top-0 z-20 w-full border-b border-b-muted bg-background">
+		<Navbar />
+	</div>
+	<div class="h-screen w-full">
+		<slot></slot>
+	</div>
 </div>
