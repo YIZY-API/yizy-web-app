@@ -1,6 +1,9 @@
 <script lang="ts">
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
+	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
+	import * as code from '$lib/constants';
+	import typescript from 'svelte-highlight/languages/typescript';
 </script>
 
 <svelte:head>
@@ -32,27 +35,7 @@
 
 	<h2>YIZY API Convention and Practices</h2>
 	<p>Let's start by violating restful practices 😈</p>
-
-	<p>A server following YIZY practices should:</p>
-	<ul>
-		<li>
-			Have a URL that contains a descriptive name of the action being performed by the endpoint
-			starting with a VERB. EX. '/getUserById'
-		</li>
-
-		<li>
-			Only accept POST request with body in Json format if body is required. This forces all
-			endpoints to have consistent input interfaces. No query param or path param is allowed.
-		</li>
-		<li>
-			Return 200 Status Code for Result and Expected Errors along with a Json body. All other
-			response status codes are considered exceptions. 'Expected Error' in this context is known
-			application level errors, an example of this would be when the requested result does not
-			exist, returning a null with an OK response. 'Exception' is for unexpected errors.
-		</li>
-		<li>Return Response that contains a nullable error object and an optional result object</li>
-		<li>Choose to process headers sent by clients as long as the response format is maintained</li>
-	</ul>
+	<img src="/assets/doc/yizy-api-convention.png" alt="Yizy API Convention" class="w-[300px]" />
 
 	<h2>YIZY API Specification</h2>
 	<p>
@@ -62,6 +45,14 @@
 		means it can be converted into an Open API Spec format easily. You can write an YIZY API Spec in
 		Typescript with code completion as well as Json and Yaml.
 	</p>
+
+	<div class=" col-span-1 sm:col-span-2">
+		<HighlightCode
+			language={typescript}
+			code={code.tsSpec}
+			class="h-[500px] overflow-auto text-sm"
+		/>
+	</div>
 
 	<h2>YIZY Code Generators</h2>
 	<p>

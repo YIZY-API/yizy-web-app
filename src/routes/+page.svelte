@@ -4,7 +4,7 @@
 	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import typescript from 'svelte-highlight/languages/typescript';
 	import json from 'svelte-highlight/languages/json';
-	import * as code from './components/constants';
+	import * as code from '$lib/constants';
 	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
 
 	enum Selection {

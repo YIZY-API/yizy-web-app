@@ -67,6 +67,10 @@ const output = JSON.stringify(secretService);
 
 	<h1>Getting Started with YIZY API</h1>
 	<h2>Installation</h2>
+	<div>
+		Install the <a href="https://jsr.io/@yizy/specification">@yizy/specification</a> package to start
+		writing YIZY Spec in Typescript!
+	</div>
 
 	<div class="my-2">
 		<Label>Npm</Label>
