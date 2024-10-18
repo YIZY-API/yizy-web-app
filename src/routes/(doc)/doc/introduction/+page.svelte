@@ -22,9 +22,9 @@
 	</Alert.Root>
 	<h1>What is YIZY API?</h1>
 	<p>
-		YIZY API is an opinionated framework that helps you build Json API easily. You've probably heard
-		of Restful APIs, it's a set of rules that governs how your API should be built. YIZY API is also
-		a set of rules that governs how Json API should be built.
+		YIZY API is an opinionated style of building Json API. You've probably heard of Restful APIs,
+		it's a set of rules that governs how your API should be built. YIZY API is also a set of rules
+		that governs how Json API should be built.
 	</p>
 	<p>
 		What makes an API 'Restful'? I get different answers talking to different engineers. When should
@@ -40,10 +40,11 @@
 	<h2>YIZY API Specification</h2>
 	<p>
 		Open API Spec is a very popular format for documenting 'Restful-ish' APIs, YIZY API also has its
-		own specification format called the YIZY API Spec. YIZY API Spec is a lean api specification
-		format following YIZY API conventions and practices. It's also a subset of Open API spec which
-		means it can be converted into an Open API Spec format easily. You can write an YIZY API Spec in
-		Typescript with code completion as well as Json and Yaml.
+		own specification format. YIZY API Spec is a lean api specification format following YIZY API
+		conventions and practices. It's also a subset of Open API spec which means it can be converted
+		into an Open API Spec easily, just not the other way around. You can write an YIZY API Spec in
+		Typescript with code completion as well as Json and Yaml. I plan on adding a GUI for editing the
+		spec and collaboration easier in the future as well.
 	</p>
 
 	<div class=" col-span-1 sm:col-span-2">
@@ -59,7 +60,13 @@
 		One of the most important benefit of having an API spec is that code can be generated to enforce
 		end to end type-safety across the server and the client. Traditional code generators usually
 		requires tedious installation and configuration to get up and running. YIZY API Code Generators
-		takes a different approach. Upload your spec and you will see generated code you can copy and
-		paste into your favorite editor with zero configuration!
+		takes a different approach. Upload your spec and copy the generated code into your favorite
+		editor with zero configuration! The generator runs in the browser!
 	</p>
+
+	<img
+		src="/assets/doc/yizy-generator.png"
+		alt="Yizy Generator"
+		class="max-w-[300px] md:w-full md:max-w-none"
+	/>
 </div>
