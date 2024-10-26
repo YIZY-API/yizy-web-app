@@ -3,13 +3,17 @@
 	import { type LanguageType } from 'svelte-highlight/languages';
 	import { cn } from '$lib/utils.js';
 
-	export let language: LanguageType<string>;
-	export let code: any;
 
-	let className: string = '';
-	export { className as class };
+	interface Props {
+		language: LanguageType<string>;
+		code: any;
+		class?: string;
+	}
 
-	let copyBtnText = 'Copy';
+	let { language, code, class: className = '' }: Props = $props();
+	
+
+	let copyBtnText = $state('Copy');
 	function onCopyBtnClicked() {
 		copyBtnText = 'Copied!';
 		setTimeout(() => {
@@ -22,7 +26,7 @@
 <div class={cn('not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] pb-2', className)}>
 	<button
 		class="sticky right-6 top-6 z-10 float-right border-none pr-2 pt-2 text-primary"
-		on:click={() => onCopyBtnClicked()}
+		onclick={() => onCopyBtnClicked()}
 	>
 		<div class="flex flex-row">
 			<svg

@@ -15,7 +15,7 @@
 		}
 	}
 
-	let isScreenTooSmall = false;
+	let isScreenTooSmall = $state(false);
 
 	onMount(() => {
 		if (window.innerWidth < 550) {
@@ -28,7 +28,7 @@
 	<title>Web App</title>
 </svelte:head>
 
-<svelte:window on:resize={onScreenResize} />
+<svelte:window onresize={onScreenResize} />
 
 <div class="w-full pb-8 pt-24">
 	{#if isScreenTooSmall}

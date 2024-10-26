@@ -14,7 +14,7 @@
 		// You can disable and enable it anytime you want
 		swapy.enable(true);
 	});
-	let search: string;
+	let search: string = $state();
 </script>
 
 <div class="w-full pb-8 pt-24">
@@ -35,7 +35,7 @@
 				<textarea
 					class="w-full bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of an service documentation"
-				/>
+				></textarea>
 				<div id="baseUrls" class="my-2">
 					<div
 						class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground"
@@ -107,7 +107,7 @@
 				<textarea
 					class="w-full bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of an endpoint documentation"
-				/>
+				></textarea>
 
 				<div
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground"

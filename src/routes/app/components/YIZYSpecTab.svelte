@@ -3,7 +3,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import SpecDisplay from '$lib/components/ui/SpecDisplay.svelte';
 	import ImportDialog from './ImportDialog.svelte';
-	let dialog: ImportDialog | null = null;
+	let dialog: ImportDialog | null = $state(null);
 </script>
 
 <Card.Root>

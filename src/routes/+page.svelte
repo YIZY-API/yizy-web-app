@@ -7,20 +7,19 @@
 	import * as code from '$lib/constants';
 	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
 
-	enum Selection {
-		ts,
-		json,
-		sdk
-	}
+	type Selection = 'ts' | 'json' | 'sdk';
 
-	let currentSelection = Selection.ts;
+	let currentSelection = $state<Selection>('ts');
 	const selectBtnClass =
 		'w-full justify-start text-wrap rounded-lg border-2 border-solid border-[#171F30] px-4 py-2 text-left text-sm text-[#171F30] lg:max-w-64 hover:bg-[#171F30] hover:text-primary';
 	const selectedBtnClass =
 		'w-full justify-start text-wrap rounded-lg border-2 border-solid border-[#171F30] px-4 py-2 text-left text-sm text-primary lg:max-w-64 bg-[#171F30] font-bold';
-	$: tsSelectBtnClass = currentSelection == Selection.ts ? selectedBtnClass : selectBtnClass;
-	$: jsonSelectBtnClass = currentSelection == Selection.json ? selectedBtnClass : selectBtnClass;
-	$: sdkSelectBtnClass = currentSelection == Selection.sdk ? selectedBtnClass : selectBtnClass;
+	let tsSelectBtnClass = $derived(currentSelection === 'ts' ? selectedBtnClass : selectBtnClass);
+
+	let jsonSelectBtnClass = $derived(
+		currentSelection === 'json' ? selectedBtnClass : selectBtnClass
+	);
+	let sdkSelectBtnClass = $derived(currentSelection === 'sdk' ? selectedBtnClass : selectBtnClass);
 </script>
 
 <svelte:head>
@@ -58,30 +57,30 @@
 			<div class="col-span-1 flex flex-col items-end gap-1 text-wrap">
 				<button
 					class={tsSelectBtnClass}
-					on:click={() => {
-						currentSelection = Selection.ts;
+					onclick={() => {
+						currentSelection = 'ts';
 					}}
 				>
 					1. Write YIZY Spec
 				</button>
 				<button
 					class={jsonSelectBtnClass}
-					on:click={() => {
-						currentSelection = Selection.json;
+					onclick={() => {
+						currentSelection = 'json';
 					}}
 				>
 					2. Upload Json
 				</button>
 				<button
 					class={sdkSelectBtnClass}
-					on:click={() => {
-						currentSelection = Selection.sdk;
+					onclick={() => {
+						currentSelection = 'sdk';
 					}}
 				>
 					3. Generate Code Instantly
 				</button>
 			</div>
-			{#if currentSelection === Selection.ts}
+			{#if currentSelection === 'ts'}
 				<div class=" col-span-1 sm:col-span-2">
 					<HighlightCode
 						language={typescript}
@@ -89,7 +88,7 @@
 						class="h-[500px] overflow-auto text-sm"
 					/>
 				</div>
-			{:else if currentSelection === Selection.json}
+			{:else if currentSelection === 'json'}
 				<div class=" col-span-1 sm:col-span-2">
 					<HighlightCode
 						language={json}
@@ -97,7 +96,7 @@
 						class="h-[500px] overflow-auto text-sm"
 					/>
 				</div>
-			{:else if currentSelection === Selection.sdk}
+			{:else if currentSelection === 'sdk'}
 				<div class="col-span-1 sm:col-span-2">
 					<HighlightCode
 						language={typescript}

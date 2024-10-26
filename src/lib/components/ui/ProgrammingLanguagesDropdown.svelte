@@ -4,8 +4,12 @@
 	import { ProgrammingLanguage, ProgrammingLanguageList } from '$lib/models/constants';
 
 	type onSelectionChangeFunc = (val: ProgrammingLanguage) => void;
-	export let defaultLang: ProgrammingLanguage = ProgrammingLanguage.Php;
-	export let onSelectionChange: onSelectionChangeFunc | undefined = undefined;
+	interface Props {
+		defaultLang?: ProgrammingLanguage;
+		onSelectionChange?: onSelectionChangeFunc | undefined;
+	}
+
+	let { defaultLang = ProgrammingLanguage.Php, onSelectionChange = undefined }: Props = $props();
 
 	function _onSelectionChange(val: unknown) {
 		if (onSelectionChange) {

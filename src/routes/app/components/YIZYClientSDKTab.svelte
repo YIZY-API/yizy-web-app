@@ -11,8 +11,12 @@
 	import { onMount } from 'svelte';
 	import { typescript } from 'svelte-highlight/languages';
 
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
-	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	interface Props {
+		lang?: ProgrammingLanguage;
+	}
+
+	let { lang = ProgrammingLanguage.Typescript }: Props = $props();
+	let currentLanguage: ProgrammingLanguage = $state(ProgrammingLanguage.Typescript);
 
 	onMount(() => {
 		currentLanguage = lang;
@@ -23,7 +27,7 @@
 		currentLanguage = lang;
 	}
 
-	let currentBaseUrl: string = 'https://localhost/';
+	let currentBaseUrl: string = $state('https://localhost/');
 
 	function onBaseUrlChange(val: unknown) {
 		const typedResult: { value: string; label: string } = val as { value: string; label: string };

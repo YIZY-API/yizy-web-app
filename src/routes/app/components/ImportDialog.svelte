@@ -6,8 +6,8 @@
 	import { Label } from '$lib/components/ui/label';
 	import { importService } from '$lib/state';
 
-	let isDialogOpen = false;
-	let importErrorDialog: ImportErrorDialog;
+	let isDialogOpen = $state(false);
+	let importErrorDialog: ImportErrorDialog = $state();
 
 	export function show() {
 		isDialogOpen = true;
@@ -16,7 +16,7 @@
 		isDialogOpen = false;
 	}
 
-	let jsonInput = ``;
+	let jsonInput = $state(``);
 
 	function onUploadClicked() {
 		try {

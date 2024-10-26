@@ -8,10 +8,12 @@
 	import typescript from 'svelte-highlight/languages/typescript';
 	import { onMount } from 'svelte';
 
-	export let model: ObjectType | null = objectType('ExampleModel', [
-		field('exampleField', 'string')
-	]);
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	interface Props {
+		model?: ObjectType | null;
+		lang?: ProgrammingLanguage;
+	}
+
+	let { model = null, lang = ProgrammingLanguage.Typescript }: Props = $props();
 
 	onMount(() => {
 		if (!model) {

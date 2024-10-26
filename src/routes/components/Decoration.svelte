@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let rotate = false;
+	interface Props {
+		rotate?: boolean;
+	}
+
+	let { rotate = false }: Props = $props();
 </script>
 
 <div class="flex w-full flex-col" style={rotate ? 'transform: rotate(180deg);' : ''}>

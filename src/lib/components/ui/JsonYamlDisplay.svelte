@@ -5,8 +5,12 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Card from '$lib/components/ui/card';
 
-	export let jsonText = '';
-	export let yamlText = '';
+	interface Props {
+		jsonText?: string;
+		yamlText?: string;
+	}
+
+	let { jsonText = '', yamlText = '' }: Props = $props();
 </script>
 
 <svelte:head>

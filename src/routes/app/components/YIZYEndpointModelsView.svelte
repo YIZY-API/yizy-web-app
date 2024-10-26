@@ -5,11 +5,19 @@
 	import { onMount } from 'svelte';
 	import YizyModelDocDisplay from './YIZYModelDocDisplay.svelte';
 
-	export let lang: ProgrammingLanguage = ProgrammingLanguage.Typescript;
-	export let reqModel: ObjectType | null = objectType('ExampleReq', [field('example', 'string')]);
-	export let resModel: ObjectType | null = objectType('ExampleRes', [field('example', 'string')]);
+	interface Props {
+		lang?: ProgrammingLanguage;
+		reqModel?: ObjectType | null;
+		resModel?: ObjectType | null;
+	}
 
-	let currentLanguage: ProgrammingLanguage = ProgrammingLanguage.Typescript;
+	let {
+		lang = ProgrammingLanguage.Typescript,
+		reqModel = objectType('ExampleReq', [field('example', 'string')]),
+		resModel = objectType('ExampleRes', [field('example', 'string')])
+	}: Props = $props();
+
+	let currentLanguage: ProgrammingLanguage = $state(ProgrammingLanguage.Typescript);
 
 	function onLanguageChange(lang: ProgrammingLanguage) {
 		currentLanguage = lang;
@@ -30,9 +38,10 @@
 
 <div class="my-2">
 	<h4 class="pl-2 font-bold">Request Model</h4>
-	<YizyModelDocDisplay bind:model={reqModel} bind:lang={currentLanguage} />
+	<YizyModelDocDisplay model={reqModel} lang={currentLanguage} />
 </div>
 <div class="my-2">
 	<h4 class="pl-2 font-bold">Response Model</h4>
-	<YizyModelDocDisplay bind:model={resModel} bind:lang={currentLanguage} />
+	<YizyModelDocDisplay model={resModel} lang={currentLanguage} />
 </div>
+<div>hello</div>
