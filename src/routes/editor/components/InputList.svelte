@@ -1,75 +1,67 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { createSwapy, type SwapEventArray, type Swapy } from 'swapy';
-	import { GripVertical, PlusIcon } from 'lucide-svelte';
-	import { v4 as uuidv4 } from 'uuid';
-	import { writable } from 'svelte/store';
-
-	let items = [
-		{ id: '1', val: 'helloA' },
-		{ id: '2', val: 'helloB' },
-		{ id: '3', val: 'helloC' }
+	import { GripVertical, PlusIcon, MinusIcon } from 'lucide-svelte';
+	import { twMerge } from 'tailwind-merge';
+	import { v4 as uuid } from 'uuid';
+	interface Environment {
+		id: string;
+		name: string;
+		url: string;
+	}
+	let envs: Environment[] = [
+		{ id: uuid(), name: '', url: '' },
+		{ id: uuid(), name: '', url: '' }
 	];
 
-	let slotItemsMap = $state<SwapEventArray>([
-		...items.map((item) => ({
-			slotId: item.id,
-			itemId: item.id
-		}))
-	]);
+	let draggedItem: Environment | null = null;
+	let currentDropzoneIndex: number | null = null;
 
-	let urlsToDisplay = $derived(
-		slotItemsMap.map((item) => {
-			return {
-				slotId: item.slotId,
-				itemId: item.itemId,
-				val: items.find((url) => url.id === item.itemId)?.val
-			};
-		})
-	);
+	function handleDragStart(e: DragEvent, item: Environment) {
+		e.dataTransfer!.setDragImage(document.getElementById(item.id)!, 30, 5);
+		draggedItem = item;
+		e.dataTransfer!.effectAllowed = 'move';
+		(e.target! as HTMLElement).classList.add('dragging');
+	}
 
-	let swapy: Swapy | null = null;
-	onMount(() => {
-		const container = document.getElementById('baseUrls');
-		swapy = createSwapy(container, {
-			animation: 'dynamic',
-			manualSwap: true,
-			swapMode: 'drop'
-		});
-		swapy.onSwap(({ data }) => {
-			if (swapy) {
-				swapy!.setData({ array: data.array });
-				slotItemsMap = data.array;
-			}
-		});
-	});
+	function handleDragEnd(e: DragEvent) {
+		(e.target! as HTMLElement).classList.remove('dragging');
+		draggedItem = null;
+		currentDropzoneIndex = null;
+	}
 
-	function addUrl() {
-		let item = {
-			id: uuidv4(),
-			val: 'test'
-		};
-		items = items.concat([item]);
+	function handleDragOver(e: DragEvent, index: number) {
+		e.preventDefault();
+		const draggingElement = document.querySelector('.dragging');
 
-		//const newItems = items
-		//	.filter((item) => !slotItemsMap.some((slotItem) => slotItem.itemId === item.id))
-		//	.map((item) => ({
-		//		slotId: item.id,
-		//		itemId: item.id
-		//	}));
-
-		//// Remove items from slotItemsMap if they no longer exist in items
-		//const withoutRemovedItems = slotItemsMap.filter(
-		//	(slotItem) => items.some((item) => item.id === slotItem.itemId) || !slotItem.itemId
-		//);
-
-		slotItemsMap = slotItemsMap.concat({
-			itemId: item.id,
-			slotId: item.id
-		});
-		if (swapy) {
-			swapy.setData({ array: slotItemsMap });
+		if (draggingElement) {
+			currentDropzoneIndex = index;
 		}
+	}
+
+	function handleDrop(e: DragEvent, index: number) {
+		const currentItems = envs.filter((item) => item !== draggedItem);
+		currentItems.splice(index, 0, draggedItem!);
+		envs = currentItems;
+	}
+
+	function addNewItem(fromIndex: number) {
+		const newItem = {
+			id: uuid(),
+			name: '',
+			url: ''
+		};
+
+		const updatedItems = [...envs];
+		updatedItems.splice(fromIndex, 0, newItem);
+		envs = updatedItems;
+	}
+
+	function removeItem(fromIndex: number) {
+		const updatedItems = [...envs];
+		if (updatedItems.length === 1) {
+			return;
+		}
+		updatedItems.splice(fromIndex, 1);
+		envs = updatedItems;
 	}
 </script>
 
@@ -77,76 +69,54 @@
 	<div class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 		Base Urls
 	</div>
-	{#each urlsToDisplay as url}
-		<div class="group w-full" data-swapy-slot={url.slotId}>
-			<div class="content-a flex w-full flex-row" data-swapy-item={url.itemId}>
-				<button class="flex h-6 w-6" onclick={() => addUrl()}>
-					<PlusIcon
-						class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-					/>
-				</button>
-				<div class="handle flex h-6 w-6" data-swapy-handle>
-					<GripVertical
-						class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-					/>
-				</div>
-				<div class="flex-grow">
-					<input
-						placeholder="http://localhost:5050"
-						class="w-full bg-transparent outline-none placeholder:text-muted"
-						value={url.val}
-					/>
-				</div>
-			</div>
-		</div>
-	{/each}
-	<!--
-	<div class="section-1 group w-full" data-swapy-slot="foo">
-		<div class="content-a flex w-full flex-row" data-swapy-item="a">
-			<div class="handle flex h-6 w-6" data-swapy-handle>
-				<GripVertical
-					class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-				/>
-			</div>
-			<div class="flex-grow">
-				<input
-					placeholder="http://localhost:5050"
-					class="w-full bg-transparent outline-none placeholder:text-muted"
-				/>
-			</div>
-		</div>
-	</div>
+	<div class="w-full">
+		<div>
+			{#each envs as item, index}
+				<div
+					id={item.id}
+					role="none"
+					class={twMerge(
+						'group flex flex-row',
+						index === currentDropzoneIndex && 'border-b-2 border-primary'
+					)}
+					ondragstart={(e) => handleDragStart(e, item)}
+					ondragend={(e) => handleDragEnd(e)}
+					ondragover={(e) => handleDragOver(e, index)}
+					ondrop={(e) => handleDrop(e, index)}
+				>
+					<button class="flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
+						<PlusIcon
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
+						/>
+					</button>
 
-	<div class="section-2 w-full" data-swapy-slot="bar">
-		<div class="content-b group flex w-full flex-row" data-swapy-item="b">
-			<div class="handle flex h-6 w-6" data-swapy-handle>
-				<GripVertical
-					class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-				/>
-			</div>
-			<div class="flex-grow">
-				<input
-					placeholder="http://localhost:5050"
-					class="w-full bg-transparent outline-none placeholder:text-muted"
-				/>
-			</div>
-		</div>
-	</div>
+					<button class="flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
+						<MinusIcon
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
+						/>
+					</button>
 
-	<div class="section-3 w-full" data-swapy-slot="baz">
-		<div class="content-c group flex w-full flex-row" data-swapy-item="c">
-			<div class="handle flex h-6 w-6" data-swapy-handle>
-				<GripVertical
-					class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-				/>
-			</div>
-			<div class="flex-grow">
-				<input
-					placeholder="http://localhost:5050"
-					class="w-full bg-transparent outline-none placeholder:text-muted"
-				/>
-			</div>
+					<div role="list" class="flex h-6 w-4 hover:cursor-grab" draggable={true} tabindex="-1">
+						<GripVertical
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
+						/>
+					</div>
+
+					<div class="ml-2 flex flex-row">
+						<input
+							placeholder="Environment"
+							class="w-full bg-transparent font-semibold outline-none placeholder:text-muted"
+							bind:value={item.name}
+						/>
+
+						<input
+							placeholder="http://localhost:5050"
+							class="w-full bg-transparent outline-none placeholder:text-muted"
+							bind:value={item.url}
+						/>
+					</div>
+				</div>
+			{/each}
 		</div>
 	</div>
-    -->
 </div>

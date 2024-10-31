@@ -33,11 +33,11 @@
 	/>
 	<Command.Root class="border-none bg-transparent">
 		<Command.Input
-			bindValue={search}
+			bind:value={search}
 			placeholder="type"
 			class="text-md w-full flex-grow border-none border-transparent bg-transparent text-primary outline-none placeholder:text-muted active:border-none"
 		/>
-		{#if search != ''}
+		{#if search !== ''}
 			<Command.List class="absolute z-10 my-10 rounded-b-lg bg-muted">
 				<Command.Empty>No results found.</Command.Empty>
 				<Command.Group heading="Primitive Types">
@@ -84,3 +84,10 @@
 		class="text-md w-full flex-grow border-none border-transparent bg-transparent text-primary outline-none placeholder:text-muted active:border-none"
 	/>
 </div>
+
+<style>
+	textarea {
+		field-sizing: content;
+		resize: none;
+	}
+</style>

@@ -3,7 +3,7 @@
 	import InputList from './components/InputList.svelte';
 </script>
 
-<div class="w-full pb-8 pt-24">
+<div class="w-full pb-48 pt-24">
 	<div class="mx-auto grid w-full grid-cols-1 p-2 md:max-w-4xl md:grid-cols-3">
 		<div class="col-span-1 md:col-span-2">
 			<div class="my-2 border-muted">
@@ -19,7 +19,7 @@
 					Doc
 				</div>
 				<textarea
-					class="w-full bg-transparent outline-none placeholder:text-muted"
+					class="w-full resize-none bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of an service documentation"
 				></textarea>
 				<InputList />
