@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GripVertical, PlusIcon, MinusIcon } from 'lucide-svelte';
+	import { GripVertical, PlusIcon, TrashIcon } from 'lucide-svelte';
 	import { twMerge } from 'tailwind-merge';
 	import { v4 as uuid } from 'uuid';
 	interface Environment {
@@ -67,7 +67,7 @@
 
 <div id="baseUrls" class="my-2 w-full">
 	<div class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
-		Base Urls
+		Environments
 	</div>
 	<div class="w-full">
 		<div>
@@ -91,7 +91,7 @@
 					</button>
 
 					<button class="flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
-						<MinusIcon
+						<TrashIcon
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
 						/>
 					</button>

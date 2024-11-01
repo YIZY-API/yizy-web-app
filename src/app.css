@@ -529,3 +529,35 @@ code.hljs {
 .language-yaml .hljs-meta {
 	color: #d08770;
 }
+
+div::-webkit-scrollbar {
+	width: 6px;
+}
+
+div::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+div::-webkit-scrollbar-thumb {
+	background-color: hsl(var(--muted-foreground));
+	border-radius: 20px;
+}
+div::-webkit-scrollbar-corner {
+	background-color: hsl(var(--muted-foreground));
+}
+
+textarea::-webkit-scrollbar {
+	width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+	background-color: hsl(var(--muted-foreground));
+	border-radius: 20px;
+}
+textarea::-webkit-scrollbar-corner {
+	background-color: hsl(var(--muted-foreground));
+}

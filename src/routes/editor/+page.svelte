@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Endpoint from './components/Endpoint.svelte';
-	import InputList from './components/InputList.svelte';
+	import EndpointList from './components/EndpointList.svelte';
+	import EnvironmentList from './components/EnvironmentList.svelte';
 </script>
 
 <div class="w-full pb-48 pt-24">
@@ -22,11 +22,11 @@
 					class="w-full resize-none bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of an service documentation"
 				></textarea>
-				<InputList />
+				<EnvironmentList />
 			</div>
 			<div class="my-2 w-full rounded-lg">
 				<div class="text-sm font-bold text-primary">Endpoints</div>
-				<Endpoint />
+				<EndpointList />
 			</div>
 		</div>
 		<div class="col-span-1">
