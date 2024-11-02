@@ -23,23 +23,20 @@
 		<a
 			href="/"
 			class="mx-2 my-auto hidden text-sm font-bold hover:text-primary sm:mx-4 sm:text-lg md:block"
-			>Home</a
-		>
+			>Home</a>
 		<a
 			href="/doc/getting-started"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
-			>Getting Started</a
-		>
+			>Getting Started</a>
 		<a
 			href="/app"
 			class="mx-2 my-auto hidden text-sm font-bold hover:text-primary sm:mr-4 sm:text-lg md:block"
-			>Web App</a
-		>
+			>Web App</a>
 		<div class="hidden md:block">
 			<DarkModeToggle />
 		</div>
 
-		<Button on:click={() => openSidebar()} variant="ghost" size="icon" class="mx-2 md:hidden">
+		<Button onclick={() => openSidebar()} variant="ghost" size="icon" class="mx-2 md:hidden">
 			<Menu class="h-[1.2rem] w-[1.2rem]" />
 		</Button>
 	</div>

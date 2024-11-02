@@ -2,7 +2,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import ImportErrorDialog from './ImportErrorDialog.svelte';
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import { Label } from '$lib/components/ui/label';
 	import { importService } from '$lib/state';
 
@@ -19,6 +19,7 @@
 	let jsonInput = $state('');
 
 	function onUploadClicked() {
+		console.log('clicked');
 		try {
 			importService(jsonInput);
 			close();
@@ -39,7 +40,10 @@
 			<Textarea class="max-h-24 w-full" bind:value={jsonInput as string} />
 		</div>
 		<Dialog.Footer>
-			<Button on:click={onUploadClicked}>Upload</Button>
+			<Button
+				onclick={() => {
+					onUploadClicked();
+				}}>Upload</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>

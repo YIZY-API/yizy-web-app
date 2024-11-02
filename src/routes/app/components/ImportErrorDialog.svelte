@@ -16,11 +16,10 @@
 		<Dialog.Header>
 			<Dialog.Title>Oops</Dialog.Title>
 			<Dialog.Description
-				>Json parsing error. More descriptive errors coming soon!</Dialog.Description
-			>
+				>Json parsing error. More descriptive errors coming soon!</Dialog.Description>
 		</Dialog.Header>
 		<Dialog.Footer>
-			<Button on:click={() => close()}>Ok</Button>
+			<Button onclick={() => close()}>Ok</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>
