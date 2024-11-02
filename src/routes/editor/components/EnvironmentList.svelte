@@ -2,18 +2,20 @@
 	import { GripVertical, PlusIcon, TrashIcon } from 'lucide-svelte';
 	import { twMerge } from 'tailwind-merge';
 	import { v4 as uuid } from 'uuid';
+
 	interface Environment {
 		id: string;
 		name: string;
 		url: string;
 	}
-	let envs: Environment[] = [
+
+	let envs: Environment[] = $state([
 		{ id: uuid(), name: '', url: '' },
 		{ id: uuid(), name: '', url: '' }
-	];
+	]);
 
 	let draggedItem: Environment | null = null;
-	let currentDropzoneIndex: number | null = null;
+	let currentDropzoneIndex: number | null = $state(null);
 
 	function handleDragStart(e: DragEvent, item: Environment) {
 		e.dataTransfer!.setDragImage(document.getElementById(item.id)!, 30, 5);
@@ -38,6 +40,7 @@
 	}
 
 	function handleDrop(e: DragEvent, index: number) {
+		console.log('dropped!');
 		const currentItems = envs.filter((item) => item !== draggedItem);
 		currentItems.splice(index, 0, draggedItem!);
 		envs = currentItems;
@@ -82,38 +85,32 @@
 					ondragstart={(e) => handleDragStart(e, item)}
 					ondragend={(e) => handleDragEnd(e)}
 					ondragover={(e) => handleDragOver(e, index)}
-					ondrop={(e) => handleDrop(e, index)}
-				>
+					ondrop={(e) => handleDrop(e, index)}>
 					<button class="flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
 						<PlusIcon
-							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-						/>
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
 
 					<button class="flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
 						<TrashIcon
-							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-						/>
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
 
 					<div role="list" class="flex h-6 w-4 hover:cursor-grab" draggable={true} tabindex="-1">
 						<GripVertical
-							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted"
-						/>
+							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</div>
 
 					<div class="ml-2 flex flex-row">
 						<input
 							placeholder="Environment"
 							class="w-full bg-transparent font-semibold outline-none placeholder:text-muted"
-							bind:value={item.name}
-						/>
+							bind:value={item.name} />
 
 						<input
 							placeholder="http://localhost:5050"
 							class="w-full bg-transparent outline-none placeholder:text-muted"
-							bind:value={item.url}
-						/>
+							bind:value={item.url} />
 					</div>
 				</div>
 			{/each}

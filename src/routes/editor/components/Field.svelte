@@ -1,8 +1,34 @@
+<script lang="ts" module>
+	export interface FieldValue {
+		name: string;
+		type: string;
+	}
+</script>
+
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command';
-	let search: string = $state('');
+
+	//let search: string = $state('');
+	//let name: string = $state('');
+	let { search = $bindable(''), name = $bindable('') }: { search: string; name: string } = $props();
+
+	//let {
+	//	onChange
+	//}: {
+	//	onChange?: (val: FieldValue) => void;
+	//} = $props();
 
 	let promptOpen: boolean = $state(false);
+
+	//function onNameOrTypeChange(event: Event) {
+	//	console.log('changed!');
+	//	if (onChange) {
+	//		onChange({
+	//			name: name,
+	//			type: search
+	//		});
+	//	}
+	//}
 
 	function onKeyPress(event: KeyboardEvent) {
 		if (event.key === 'Enter' || event.key == 'Tab' || event.key == 'Escape') {
@@ -12,6 +38,7 @@
 		}
 		promptOpen = true;
 		event.stopPropagation();
+		//onNameOrTypeChange(event);
 	}
 
 	const primitiveTypes = [
@@ -34,6 +61,7 @@
 
 <div class="flex w-full flex-row">
 	<input
+		bind:value={name}
 		placeholder="field"
 		class="text-md flex-grow border-none border-transparent bg-transparent outline-none placeholder:text-muted active:border-none" />
 	<Command.Root class="border-none bg-transparent">
@@ -42,6 +70,7 @@
 			placeholder="type"
 			class="text-md border-none border-transparent bg-transparent py-0 font-semibold text-primary outline-none placeholder:text-muted active:border-none"
 			onkeydown={onKeyPress} />
+
 		{#if promptOpen}
 			<Command.List class="absolute z-10 my-10 rounded-b-lg bg-muted">
 				<Command.Empty class="px-4">No results found.</Command.Empty>
