@@ -10,7 +10,7 @@
 
 	//let search: string = $state('');
 	//let name: string = $state('');
-	let { search = $bindable(''), name = $bindable('') }: { search: string; name: string } = $props();
+	let { props = $bindable({ name: '', type: '' }) }: { props: FieldValue } = $props();
 
 	//let {
 	//	onChange
@@ -61,12 +61,12 @@
 
 <div class="flex w-full flex-row">
 	<input
-		bind:value={name}
+		bind:value={props.name}
 		placeholder="field"
 		class="text-md flex-grow border-none border-transparent bg-transparent outline-none placeholder:text-muted active:border-none" />
 	<Command.Root class="border-none bg-transparent">
 		<Command.Input
-			bind:value={search}
+			bind:value={props.type}
 			placeholder="type"
 			class="text-md border-none border-transparent bg-transparent py-0 font-semibold text-primary outline-none placeholder:text-muted active:border-none"
 			onkeydown={onKeyPress} />
@@ -78,7 +78,7 @@
 					{#each primitiveTypes as type}
 						<Command.Item
 							onSelect={() => {
-								search = type;
+								props.type = type;
 								promptOpen = false;
 							}}>
 							{type}

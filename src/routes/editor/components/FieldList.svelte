@@ -50,7 +50,7 @@
 			currentItems.splice(index, 0, draggedItem!);
 			items = currentItems;
 		} else {
-			console.log('drop: different');
+			console.log('drop: different!!');
 		}
 	}
 
@@ -111,7 +111,7 @@
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</div>
 					<div class="ml-2 flex-grow">
-						<Field bind:search={item.field.type} bind:name={item.field.name}></Field>
+						<Field bind:props={item.field}></Field>
 					</div>
 				</div>
 			</div>
