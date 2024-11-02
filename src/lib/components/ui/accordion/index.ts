@@ -5,12 +5,13 @@ import Trigger from "./accordion-trigger.svelte";
 const Root = AccordionPrimitive.Root;
 
 export {
-  Content,
-  Content as AccordionContent,
-  Item,
-  Item as AccordionItem,
-  Root,
-  Root as Accordion,
-  Trigger,
-  Trigger as AccordionTrigger,
+	Root,
+	Content,
+	Item,
+	Trigger,
+	//
+	Root as Accordion,
+	Content as AccordionContent,
+	Item as AccordionItem,
+	Trigger as AccordionTrigger,
 };

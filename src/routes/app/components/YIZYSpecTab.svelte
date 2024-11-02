@@ -3,7 +3,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import SpecDisplay from '$lib/components/ui/SpecDisplay.svelte';
 	import ImportDialog from './ImportDialog.svelte';
-	let dialog: ImportDialog | null = $state(null);
+	let dialog: ImportDialog;
 </script>
 
 <Card.Root>
@@ -15,18 +15,16 @@
 					<Card.Description>
 						Write API spec in Typescript with code completion then upload your json! Check the <a
 							href="/doc/getting-started"
-							class="text-primary underline">getting started</a
-						> page on how to get started.
+							class="text-primary underline">getting started</a> page on how to get started.
 					</Card.Description>
 				</div>
 				<Button
 					class="ml-4"
-					on:click={() => {
+					onclick={() => {
 						if (dialog != null) {
 							dialog.show();
 						}
-					}}>Upload</Button
-				>
+					}}>Upload</Button>
 			</div>
 		</Card.Header>
 	</div>

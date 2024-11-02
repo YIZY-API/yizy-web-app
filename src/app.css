@@ -561,3 +561,8 @@ textarea::-webkit-scrollbar-thumb {
 textarea::-webkit-scrollbar-corner {
 	background-color: hsl(var(--muted-foreground));
 }
+
+::selection {
+	color: hsl(var(--background));
+	background: hsl(var(--primary));
+}

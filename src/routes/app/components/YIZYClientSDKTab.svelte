@@ -8,31 +8,18 @@
 	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
 	import php from 'svelte-highlight/languages/php';
 	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
-	import { onMount } from 'svelte';
 	import { typescript } from 'svelte-highlight/languages';
 
 	interface Props {
 		lang?: ProgrammingLanguage;
 	}
 
-	let { lang = ProgrammingLanguage.Typescript }: Props = $props();
-	let currentLanguage: ProgrammingLanguage = $state(ProgrammingLanguage.Typescript);
+	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 
-	onMount(() => {
-		currentLanguage = lang;
-		currentBaseUrl = $currentService.baseUrls[0];
-	});
-
-	function onLanguageChange(lang: ProgrammingLanguage) {
-		currentLanguage = lang;
-	}
-
-	let currentBaseUrl: string = $state('https://localhost/');
-
-	function onBaseUrlChange(val: unknown) {
-		const typedResult: { value: string; label: string } = val as { value: string; label: string };
-		currentBaseUrl = typedResult.value;
-	}
+	let url: string = $state('');
+	const triggerContent = $derived(
+		$currentService.baseUrls.find((f) => f === url) ?? 'Select an environment'
+	);
 </script>
 
 <Card.Root>
@@ -45,37 +32,26 @@
 	<Card.Content class="space-y-2">
 		<h4>Base Url</h4>
 		<div class="my-2">
-			<Select.Root
-				portal={null}
-				selected={{
-					value: $currentService.baseUrls[0],
-					label: $currentService.baseUrls[0]
-				}}
-				onSelectedChange={onBaseUrlChange}
-			>
+			<Select.Root type="single" name="baseUrl" bind:value={url as string}>
 				<Select.Trigger class="w-[300px]">
-					<Select.Value placeholder="Select a base url" />
+					{triggerContent}
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
-						<Select.Label>Base Urls</Select.Label>
+						<Select.GroupHeading>Environments</Select.GroupHeading>
 						{#each $currentService.baseUrls as url}
 							<Select.Item value={url} label={url}>{url}</Select.Item>
 						{/each}
 					</Select.Group>
 				</Select.Content>
-				<Select.Input name="favoriteUrl" />
 			</Select.Root>
 		</div>
-		<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
-		{#if currentLanguage === ProgrammingLanguage.Php}
-			<HighlightCode language={php} code={generateSdkFile(currentBaseUrl, $currentService)} />
+		<ProgrammingLanguagesDropdown bind:lang />
+		{#if lang === ProgrammingLanguage.Php}
+			<HighlightCode language={php} code={generateSdkFile(url, $currentService)} />
 		{/if}
-		{#if currentLanguage === ProgrammingLanguage.Typescript}
-			<HighlightCode
-				language={typescript}
-				code={tsGen.generateSdkFile(currentBaseUrl, $currentService)}
-			/>
+		{#if lang === ProgrammingLanguage.Typescript}
+			<HighlightCode language={typescript} code={tsGen.generateSdkFile(url, $currentService)} />
 		{/if}
 	</Card.Content>
 </Card.Root>

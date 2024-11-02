@@ -7,7 +7,7 @@
 	import { importService } from '$lib/state';
 
 	let isDialogOpen = $state(false);
-	let importErrorDialog: ImportErrorDialog = $state();
+	let importErrorDialog: ImportErrorDialog;
 
 	export function show() {
 		isDialogOpen = true;
@@ -16,7 +16,7 @@
 		isDialogOpen = false;
 	}
 
-	let jsonInput = $state(``);
+	let jsonInput = $state('');
 
 	function onUploadClicked() {
 		try {
@@ -36,7 +36,7 @@
 		</Dialog.Header>
 		<div class="flex flex-col">
 			<Label class="py-2">Json</Label>
-			<Textarea class="max-h-24 w-full" bind:value={jsonInput} />
+			<Textarea class="max-h-24 w-full" bind:value={jsonInput as string} />
 		</div>
 		<Dialog.Footer>
 			<Button on:click={onUploadClicked}>Upload</Button>

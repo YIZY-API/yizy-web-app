@@ -19,10 +19,6 @@
 
 	let currentLanguage: ProgrammingLanguage = $state(ProgrammingLanguage.Typescript);
 
-	function onLanguageChange(lang: ProgrammingLanguage) {
-		currentLanguage = lang;
-	}
-
 	onMount(() => {
 		currentLanguage = lang;
 		if (reqModel == null) {
@@ -34,7 +30,7 @@
 	});
 </script>
 
-<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
+<ProgrammingLanguagesDropdown bind:lang={currentLanguage} />
 
 <div class="my-2">
 	<h4 class="pl-2 font-bold">Request Model</h4>
@@ -44,4 +40,3 @@
 	<h4 class="pl-2 font-bold">Response Model</h4>
 	<YizyModelDocDisplay model={resModel} lang={currentLanguage} />
 </div>
-<div>hello</div>

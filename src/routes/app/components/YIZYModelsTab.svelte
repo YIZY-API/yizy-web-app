@@ -13,12 +13,7 @@
 		lang?: ProgrammingLanguage;
 	}
 
-	let { lang = ProgrammingLanguage.Typescript }: Props = $props();
-	let currentLanguage: ProgrammingLanguage = $state(ProgrammingLanguage.Typescript);
-
-	function onLanguageChange(lang: ProgrammingLanguage) {
-		currentLanguage = lang;
-	}
+	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 </script>
 
 <Card.Root>
@@ -27,11 +22,11 @@
 		<Card.Description>Request and Response Models in Every Languages</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">
-		<ProgrammingLanguagesDropdown defaultLang={lang} onSelectionChange={onLanguageChange} />
-		{#if currentLanguage === ProgrammingLanguage.Php}
+		<ProgrammingLanguagesDropdown bind:lang />
+		{#if lang === ProgrammingLanguage.Php}
 			<HighlightCode language={php} code={generateModelFile($currentService)} />
 		{/if}
-		{#if currentLanguage === ProgrammingLanguage.Typescript}
+		{#if lang === ProgrammingLanguage.Typescript}
 			<HighlightCode language={typescript} code={tsGen.generateModelFile($currentService)} />
 		{/if}
 	</Card.Content>

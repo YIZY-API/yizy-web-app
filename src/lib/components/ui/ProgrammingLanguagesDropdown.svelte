@@ -3,45 +3,29 @@
 	import * as Select from '$lib/components/ui/select';
 	import { ProgrammingLanguage, ProgrammingLanguageList } from '$lib/models/constants';
 
-	type onSelectionChangeFunc = (val: ProgrammingLanguage) => void;
 	interface Props {
-		defaultLang?: ProgrammingLanguage;
-		onSelectionChange?: onSelectionChangeFunc | undefined;
+		lang?: ProgrammingLanguage;
 	}
 
-	let { defaultLang = ProgrammingLanguage.Php, onSelectionChange = undefined }: Props = $props();
+	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 
-	function _onSelectionChange(val: unknown) {
-		if (onSelectionChange) {
-			const typedResult: { value: string; label: string } = val as { value: string; label: string };
-			onSelectionChange(typedResult.value as ProgrammingLanguage);
-		}
-	}
+	const triggerContent = $derived(
+		ProgrammingLanguageList.find((f) => f === lang) ?? 'Select a programming language'
+	);
 </script>
 
-<div class="not-prose">
+<div class="not-prose px-2">
 	<Label class="text-sm font-bold">Programming Language</Label>
-	<Select.Root
-		onSelectedChange={_onSelectionChange}
-		portal={null}
-		selected={{
-			value: defaultLang.toString(),
-			label: defaultLang.toString()
-		}}
-	>
-		<Select.Trigger class="mt-2 w-[300px]">
-			<Select.Value placeholder="Select a programming language" />
-		</Select.Trigger>
+	<Select.Root type="single" bind:value={lang as string}>
+		<Select.Trigger class="mt-2 w-[300px]">{triggerContent}</Select.Trigger>
 		<Select.Content>
 			<Select.Group>
-				<Select.Label>Programming Language</Select.Label>
+				<Select.SelectGroupHeading>Programming Language</Select.SelectGroupHeading>
 				{#each ProgrammingLanguageList as lang}
 					<Select.Item value={lang} label={typeof lang != 'string' ? 'Typescript' : lang}
-						>{lang}</Select.Item
-					>
+						>{lang}</Select.Item>
 				{/each}
 			</Select.Group>
 		</Select.Content>
-		<Select.Input name="favoriteLang" />
 	</Select.Root>
 </div>
