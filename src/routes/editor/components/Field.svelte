@@ -8,27 +8,8 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command';
 
-	//let search: string = $state('');
-	//let name: string = $state('');
 	let { props = $bindable({ name: '', type: '' }) }: { props: FieldValue } = $props();
-
-	//let {
-	//	onChange
-	//}: {
-	//	onChange?: (val: FieldValue) => void;
-	//} = $props();
-
 	let promptOpen: boolean = $state(false);
-
-	//function onNameOrTypeChange(event: Event) {
-	//	console.log('changed!');
-	//	if (onChange) {
-	//		onChange({
-	//			name: name,
-	//			type: search
-	//		});
-	//	}
-	//}
 
 	function onKeyPress(event: KeyboardEvent) {
 		if (event.key === 'Enter' || event.key == 'Tab' || event.key == 'Escape') {
@@ -38,7 +19,6 @@
 		}
 		promptOpen = true;
 		event.stopPropagation();
-		//onNameOrTypeChange(event);
 	}
 
 	const primitiveTypes = [
