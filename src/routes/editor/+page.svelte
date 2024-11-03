@@ -1,6 +1,7 @@
 <script lang="ts">
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
+	import FieldList from './components/FieldList.svelte';
 </script>
 
 <div class="w-full pb-48 pt-24">
@@ -10,18 +11,11 @@
 				<div class="text-sm font-bold text-primary">Service</div>
 				<input
 					placeholder="ServiceName"
-					class="w-full border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
-				/>
+					class="w-full border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none" />
 
-				<div
-					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground"
-				>
-					Doc
-				</div>
 				<textarea
 					class="w-full resize-none bg-transparent outline-none placeholder:text-muted"
-					placeholder="This is an example of an service documentation"
-				></textarea>
+					placeholder="This is an example of a service documentation"></textarea>
 				<EnvironmentList />
 			</div>
 			<div class="my-2 w-full rounded-lg">
@@ -35,29 +29,10 @@
 
 				<input
 					placeholder="ModelName"
-					class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none"
-				/>
+					class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none" />
 
 				<div class="flex w-full flex-row">
-					<input
-						placeholder="field"
-						class="text-md w-full flex-grow border-none border-transparent bg-transparent outline-none placeholder:text-muted active:border-none"
-					/>
-					<input
-						placeholder="type"
-						class="text-md w-full flex-grow border-none border-transparent bg-transparent text-primary outline-none placeholder:text-muted active:border-none"
-					/>
-				</div>
-
-				<div class="flex w-full flex-row">
-					<input
-						placeholder="field"
-						class="text-md w-full flex-grow border-none border-transparent bg-transparent outline-none placeholder:text-muted active:border-none"
-					/>
-					<input
-						placeholder="type"
-						class="text-md w-full flex-grow border-none border-transparent bg-transparent text-primary outline-none placeholder:text-muted active:border-none"
-					/>
+					<FieldList />
 				</div>
 			</div>
 		</div>

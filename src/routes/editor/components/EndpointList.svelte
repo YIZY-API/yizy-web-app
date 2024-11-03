@@ -13,10 +13,7 @@
 		endpoint: EndpointProps;
 	}
 
-	let envs: Item[] = [
-		{ id: uuid(), endpoint: { name: '' } },
-		{ id: uuid(), endpoint: { name: '' } }
-	];
+	let envs: Item[] = [{ id: uuid(), endpoint: { name: '' } }];
 
 	function addNewItem(fromIndex: number) {
 		const newItem: Item = {

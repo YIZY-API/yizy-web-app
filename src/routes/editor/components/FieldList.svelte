@@ -3,7 +3,22 @@
 	import { twMerge } from 'tailwind-merge';
 	import Field, { type FieldValue } from './Field.svelte';
 
-	let { props = $bindable([{ name: '', type: '' }]) }: { props: FieldValue[] } = $props();
+	let { props = $bindable([{ name: '', type: '' }]) }: { props?: FieldValue[] } = $props();
+
+	function focusPrevItem() {
+		const focusableElements = Array.from(
+			document.querySelectorAll<HTMLElement>(
+				'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+			)
+		).filter((el) => !el.hasAttribute('disabled') && el.tabIndex >= 0);
+
+		const activeElement = document.activeElement as HTMLElement;
+		const currentIndex = focusableElements.indexOf(activeElement);
+		const prevIndex = currentIndex - 1;
+		if (prevIndex > 0) {
+			focusableElements[prevIndex].focus();
+		}
+	}
 
 	function addNewItem(fromIndex: number) {
 		const newItem = { name: '', type: '' };
@@ -13,6 +28,7 @@
 	}
 
 	function removeItem(fromIndex: number) {
+		focusPrevItem();
 		const updatedItems = [...props];
 		if (updatedItems.length === 1) {
 			return;
@@ -38,7 +54,14 @@
 					</button>
 
 					<div class="ml-2 flex-grow">
-						<Field bind:props={props[index]}></Field>
+						<Field
+							bind:props={props[index]}
+							onAddNewItem={() => {
+								addNewItem(index + 1);
+							}}
+							onRemove={() => {
+								removeItem(index);
+							}}></Field>
 					</div>
 				</div>
 			</div>
