@@ -1,11 +1,5 @@
-<script lang="ts" module>
-	export interface EnvironmentProps {
-		name: string;
-		baseUrl: string;
-	}
-</script>
-
 <script lang="ts">
+	import { type Environment as EnvironmentProps } from '../models/models';
 	let {
 		props = $bindable({ name: '', baseUrl: '' }),
 		onAddNewItem,

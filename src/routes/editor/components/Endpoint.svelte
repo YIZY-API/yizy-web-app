@@ -1,31 +1,31 @@
-<script lang="ts" module>
-	export interface FieldValue {
-		name: string;
-		type: string;
-	}
-	export interface EndpointProps {
-		name: string;
-		url: string;
-		doc: string;
-		reqName: string;
-		reqFields: FieldValue[];
-		resName: string;
-		resFields: FieldValue[];
-	}
-</script>
-
 <script lang="ts">
 	import FieldList from './FieldList.svelte';
+	import { type Endpoint as EndpointProps } from '../models/models';
 
 	let {
 		props = $bindable({
 			name: '',
+			description: '',
 			url: '',
 			doc: '',
-			reqName: '',
-			reqFields: [],
-			resName: '',
-			resFields: []
+			req: {
+				name: '',
+				fields: [
+					{
+						name: '',
+						type: ''
+					}
+				]
+			},
+			res: {
+				name: '',
+				fields: [
+					{
+						name: '',
+						type: ''
+					}
+				]
+			}
 		})
 	}: { props: EndpointProps } = $props();
 </script>
@@ -33,33 +33,38 @@
 <div class="pb-4">
 	<input
 		placeholder="endpointName"
-		class="w-full border-none border-transparent bg-transparent text-xl font-bold outline-none placeholder:text-muted active:border-none" />
+		class="w-full border-none border-transparent bg-transparent text-xl font-bold outline-none placeholder:text-muted active:border-none"
+		bind:value={props.name} />
 
 	<input
 		placeholder="/route/endpointName"
-		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none" />
+		class="text-md w-full border-none border-transparent bg-transparent font-light text-primary outline-none placeholder:text-muted active:border-none"
+		bind:value={props.url} />
 
 	<textarea
 		class="w-full bg-transparent outline-none placeholder:text-muted"
-		placeholder="This is an example of an endpoint documentation"></textarea>
+		placeholder="This is an example of an endpoint documentation"
+		bind:value={props.description}></textarea>
 
 	<div class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 		Request
 	</div>
 	<input
 		placeholder="NameOfRequest"
-		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none" />
+		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none"
+		bind:value={props.req.name} />
 
-	<FieldList />
+	<FieldList bind:props={props.req.fields} />
 
 	<div class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 		Response
 	</div>
 	<input
 		placeholder="NameOfResponse"
-		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none" />
+		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none"
+		bind:value={props.res.name} />
 
-	<FieldList />
+	<FieldList bind:props={props.res.fields} />
 </div>
 
 <style>

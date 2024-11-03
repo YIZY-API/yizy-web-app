@@ -1,18 +1,12 @@
-<script lang="ts" module>
-	export interface FieldValue {
-		name: string;
-		type: string;
-	}
-</script>
-
 <script lang="ts">
+	import { type Field as FieldProps } from '../models/models';
 	import * as Command from '$lib/components/ui/completion';
 
 	let {
 		props = $bindable({ name: '', type: '' }),
 		onAddNewItem,
 		onRemove
-	}: { props: FieldValue; onAddNewItem?: () => void; onRemove?: () => void } = $props();
+	}: { props: FieldProps; onAddNewItem?: () => void; onRemove?: () => void } = $props();
 	let promptOpen: boolean = $state(false);
 
 	function onFocusOut() {

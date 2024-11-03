@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { PlusIcon, TrashIcon } from 'lucide-svelte';
 	import { twMerge } from 'tailwind-merge';
-	import Environment, { type EnvironmentProps } from './Environment.svelte';
+	import Environment from './Environment.svelte';
+	import { type Environment as EnvironmentProps } from '../models/models';
 
-	let envs: EnvironmentProps[] = $state([{ name: '', baseUrl: '' }]);
+	let { props = $bindable([{ name: '', baseUrl: '' }]) }: { props?: EnvironmentProps[] } = $props();
 
 	function addNewItem(fromIndex: number) {
 		const newItem = {
@@ -11,19 +12,19 @@
 			baseUrl: ''
 		};
 
-		const updatedItems = [...envs];
+		const updatedItems = [...props];
 		updatedItems.splice(fromIndex, 0, newItem);
-		envs = updatedItems;
+		props = updatedItems;
 	}
 
 	function removeItem(fromIndex: number) {
 		focusPrevItem();
-		const updatedItems = [...envs];
+		const updatedItems = [...props];
 		if (updatedItems.length === 1) {
 			return;
 		}
 		updatedItems.splice(fromIndex, 1);
-		envs = updatedItems;
+		props = updatedItems;
 	}
 
 	function focusPrevItem() {
@@ -61,7 +62,7 @@
 	</div>
 	<div class="w-full">
 		<div>
-			{#each envs as item, index}
+			{#each props as _, index}
 				<div role="none" class={twMerge('group flex flex-row')}>
 					<button class="flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
 						<PlusIcon
@@ -73,6 +74,7 @@
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
 					<Environment
+						bind:props={props[index]}
 						onAddNewItem={() => {
 							addNewItem(index + 1);
 						}}
