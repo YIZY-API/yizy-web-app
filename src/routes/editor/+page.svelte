@@ -3,6 +3,7 @@
 	import EnvironmentList from './components/EnvironmentList.svelte';
 	import FieldList from './components/FieldList.svelte';
 	import { type Document } from './models/models';
+	import { updateLspTypes } from './state';
 
 	let document: Document = $state({
 		name: '',
@@ -50,13 +51,17 @@
 			}
 		]
 	});
+
+	let types = $derived.by(() => {
+		return document.additionalModels.flatMap((model) => model.name);
+	});
+
+	$effect(() => {
+		updateLspTypes(types);
+	});
 </script>
 
 <div class="w-full pb-48 pt-24">
-	<button
-		onclick={() => {
-			console.log(document);
-		}}>save</button>
 	<div class="mx-auto grid w-full grid-cols-1 p-2 md:max-w-4xl md:grid-cols-3">
 		<div class="col-span-1 md:col-span-2">
 			<div class="my-2 border-muted">
@@ -95,6 +100,11 @@
 		</div>
 	</div>
 </div>
+
+<button
+	onclick={() => {
+		console.log(document);
+	}}>save</button>
 
 <style>
 	textarea {

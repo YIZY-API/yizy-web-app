@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type Field as FieldProps } from '../models/models';
 	import * as Command from '$lib/components/ui/completion';
+	import { lspTypes } from '../state';
 
 	let {
 		props = $bindable({ name: '', type: '' }),
@@ -87,11 +88,15 @@
 					{/each}
 				</Command.Group>
 				<Command.Separator />
-				<!--
 				<Command.Group heading="Additional Types">
-					<Command.Item>UserDefinedModel1</Command.Item>
+					{#each $lspTypes as type}
+						<Command.Item
+							onSelect={() => {
+								props.type = type;
+								promptOpen = false;
+							}}>{type}</Command.Item>
+					{/each}
 				</Command.Group>
-                -->
 			</Command.List>
 		{/if}
 	</Command.Root>
