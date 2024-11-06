@@ -5,7 +5,7 @@ import {
   objectType,
   referenceType,
   type Service,
-} from "@yizy/specification";
+} from "@yizy/spec";
 
 export const testService: Service = {
   serviceName: "TestService",
@@ -14,6 +14,7 @@ export const testService: Service = {
     {
       url: "/demo",
       name: "demo",
+      description: "",
       requestModel: objectType("DemoRequest", [
         field("floatField", "float"),
         field("nullableFloat", "float?"),

@@ -18,7 +18,7 @@
 
 	let url: string = $state('');
 	const triggerContent = $derived(
-		$currentService.baseUrls.find((f) => f === url) ?? 'Select an environment'
+		$currentService.environment.find((f) => f.url === url) ?? 'Select an environment'
 	);
 </script>
 
@@ -30,7 +30,7 @@
 		</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">
-		<h4>Base Url</h4>
+		<h4>Environment</h4>
 		<div class="my-2">
 			<Select.Root type="single" name="baseUrl" bind:value={url as string}>
 				<Select.Trigger class="w-[300px]">
@@ -39,8 +39,8 @@
 				<Select.Content>
 					<Select.Group>
 						<Select.GroupHeading>Environments</Select.GroupHeading>
-						{#each $currentService.baseUrls as url}
-							<Select.Item value={url} label={url}>{url}</Select.Item>
+						{#each $currentService.environment as env}
+							<Select.Item value={env.url} label={env.url}>{env.name + ': ' + env.url}</Select.Item>
 						{/each}
 					</Select.Group>
 				</Select.Content>

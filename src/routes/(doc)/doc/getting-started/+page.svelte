@@ -11,7 +11,7 @@ import { type Service,
         field,
         referenceType,
         nullableReferenceType,
-        objectType } from '@yizy/specification';
+        objectType } from '@yizy/spec';
 
 export const secretService: Service = {
 	serviceName: 'SecretService',
@@ -55,8 +55,7 @@ const output = JSON.stringify(secretService);
 </svelte:head>
 
 <div
-	class="prose prose-slate mx-auto w-full max-w-4xl px-4 pb-20 dark:prose-invert prose-a:text-primary"
->
+	class="prose prose-slate mx-auto w-full max-w-4xl px-4 pb-20 dark:prose-invert prose-a:text-primary">
 	<Alert.Root class="my-4 border-destructive text-destructive">
 		<TriangleAlert class="h-4 w-4 stroke-destructive" />
 		<Alert.Title>Heads up!</Alert.Title>
@@ -68,29 +67,29 @@ const output = JSON.stringify(secretService);
 	<h1>Getting Started with YIZY API</h1>
 	<h2>Installation</h2>
 	<div>
-		Install the <a href="https://jsr.io/@yizy/specification">@yizy/specification</a> package to start
-		writing YIZY Spec in Typescript!
+		Install the <a href="https://jsr.io/@yizy/spec">@yizy/spec</a> package to start writing YIZY Spec
+		in Typescript!
 	</div>
 
 	<div class="my-2">
 		<Label>Npm</Label>
-		<HighlightCode language={shell} code={'npx jsr add @yizy/specification'}></HighlightCode>
+		<HighlightCode language={shell} code={'npx jsr add @yizy/spec'}></HighlightCode>
 	</div>
 
 	<div class="my-2">
 		<Label>Deno</Label>
-		<HighlightCode language={shell} code={'deno add jsr:@yizy/specification'}></HighlightCode>
+		<HighlightCode language={shell} code={'deno add jsr:@yizy/spec'}></HighlightCode>
 	</div>
 
 	<div class="my-2">
 		<Label>Bun</Label>
-		<HighlightCode language={shell} code={'bunx jsr add @yizy/specification'}></HighlightCode>
+		<HighlightCode language={shell} code={'bunx jsr add @yizy/spec'}></HighlightCode>
 	</div>
 
 	<div class="my-2">
 		<Label>Others (Yarn, Pnpm)</Label>
 		<div>
-			Checkout the package page on <a href="https://jsr.io/@yizy/specification">JSR</a> for more installation
+			Checkout the package page on <a href="https://jsr.io/@yizy/spec">JSR</a> for more installation
 			details.
 		</div>
 	</div>

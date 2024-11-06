@@ -30,7 +30,7 @@
 	}: { props: EndpointProps } = $props();
 </script>
 
-<div class="pb-4">
+<div class="w-full pb-4">
 	<input
 		placeholder="endpointName"
 		class="w-full border-none border-transparent bg-transparent text-xl font-bold outline-none placeholder:text-muted active:border-none"
@@ -38,7 +38,7 @@
 
 	<input
 		placeholder="/route/endpointName"
-		class="text-md w-full border-none border-transparent bg-transparent font-light text-primary outline-none placeholder:text-muted active:border-none"
+		class="w-full border-none border-transparent bg-transparent font-light text-primary outline-none placeholder:text-muted active:border-none"
 		bind:value={props.url} />
 
 	<textarea
@@ -51,7 +51,7 @@
 	</div>
 	<input
 		placeholder="NameOfRequest"
-		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none"
+		class="w-full border-none border-transparent bg-transparent font-light text-accent outline-none placeholder:text-muted active:border-none"
 		bind:value={props.req.name} />
 
 	<FieldList bind:props={props.req.fields} />
@@ -61,7 +61,7 @@
 	</div>
 	<input
 		placeholder="NameOfResponse"
-		class="text-md w-full border-none border-transparent bg-transparent font-bold outline-none placeholder:text-muted active:border-none"
+		class="w-full border-none border-transparent bg-transparent font-light text-accent outline-none placeholder:text-muted active:border-none"
 		bind:value={props.res.name} />
 
 	<FieldList bind:props={props.res.fields} />
@@ -71,5 +71,6 @@
 	textarea {
 		field-sizing: content;
 		resize: none;
+		word-break: break-all;
 	}
 </style>

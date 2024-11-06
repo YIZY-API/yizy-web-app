@@ -14,7 +14,7 @@ import {
   type ReferenceType,
   type Service,
   TypeIdentifier,
-} from "@yizy/specification";
+} from "@yizy/spec";
 import {
   type ClientSdkFileTemplateInput,
   type FieldTemplateInput,

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { PlusIcon, TrashIcon } from 'lucide-svelte';
-	import { twMerge } from 'tailwind-merge';
 	import Endpoint from './Endpoint.svelte';
 	import { type Endpoint as EndpointProps } from '../models/models';
 
@@ -72,25 +71,23 @@
 </script>
 
 <div class="my-2 w-full">
-	<div>
-		{#each props as _, index}
-			<div role="none" class={twMerge('group my-auto flex flex-col')}>
-				<div class="flex flex-row">
-					<button class="mt-2 flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
-						<PlusIcon
-							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
-					</button>
+	{#each props as _, index}
+		<div role="none" class="group my-auto flex w-full flex-col">
+			<div class="flex w-full flex-row">
+				<button class="mt-2 flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
+					<PlusIcon
+						class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+				</button>
 
-					<button class="mt-2 flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
-						<TrashIcon
-							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
-					</button>
+				<button class="mt-2 flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
+					<TrashIcon
+						class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+				</button>
 
-					<div class="ml-2 flex-grow">
-						<Endpoint bind:props={props[index]} />
-					</div>
+				<div class="ml-2 flex-grow">
+					<Endpoint bind:props={props[index]} />
 				</div>
 			</div>
-		{/each}
-	</div>
+		</div>
+	{/each}
 </div>

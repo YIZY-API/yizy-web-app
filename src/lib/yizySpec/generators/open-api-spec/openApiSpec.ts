@@ -1,5 +1,5 @@
 import YAML from "yaml";
-import * as YIZY from "@yizy/specification";
+import * as YIZY from "@yizy/spec";
 
 export enum OpenAPISpecType {
   JSON,
@@ -14,7 +14,7 @@ export function serviceToOpenApiSpec(
     ? service.serviceName
     : (service.serviceName as YIZY.NameMap).default;
   const doc: OpenApiDoc = new OpenApiDoc(serviceName);
-  doc.addServers(service.baseUrls);
+  doc.addServers(service.environment.flatMap((env) => env.url));
 
   service.endpoints.forEach((e: YIZY.Endpoint) => {
     let req: string | null;

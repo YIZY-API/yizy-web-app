@@ -28,12 +28,12 @@
 		use:focusMe
 		onkeydown={onBackspacePress}
 		placeholder="Environment"
-		class="w-full bg-transparent font-semibold outline-none placeholder:text-muted"
+		class="w-full bg-transparent text-sm outline-none placeholder:text-muted"
 		bind:value={props.name} />
 
 	<input
 		onkeydown={onKeyPress}
 		placeholder="http://localhost:5050"
-		class="w-full bg-transparent outline-none placeholder:text-muted"
+		class="w-full bg-transparent text-sm outline-none placeholder:text-muted"
 		bind:value={props.baseUrl} />
 </div>

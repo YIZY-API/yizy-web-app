@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import SpecDisplay from '$lib/components/ui/SpecDisplay.svelte';
 	import ImportDialog from './ImportDialog.svelte';
+	import YizyEditor from '$lib/components/ui/editor/YizyEditor.svelte';
+	import { yizySpecToDoc } from '$lib/components/ui/editor/models/models';
+	import { secretService } from '$lib/yizySpec/examples/secretService';
 	let dialog: ImportDialog;
 </script>
 
@@ -12,24 +13,13 @@
 			<div class="flex w-full flex-row justify-between">
 				<div>
 					<Card.Title>YIZY API Spec</Card.Title>
-					<Card.Description>
-						Write API spec in Typescript with code completion then upload your json! Check the <a
-							href="/doc/getting-started"
-							class="text-primary underline">getting started</a> page on how to get started.
-					</Card.Description>
+					<Card.Description>Write API spec in the browser.</Card.Description>
 				</div>
-				<Button
-					class="ml-4"
-					onclick={() => {
-						if (dialog != null) {
-							dialog.show();
-						}
-					}}>Upload</Button>
 			</div>
 		</Card.Header>
 	</div>
-	<Card.Content class="space-y-2">
-		<SpecDisplay />
+	<Card.Content class="space-y-2 p-0">
+		<YizyEditor doc={yizySpecToDoc(secretService)} />
 	</Card.Content>
 </Card.Root>
 <ImportDialog bind:this={dialog} />

@@ -40,7 +40,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@yizy/specification": "npm:@jsr/yizy__specification@^1.0.0",
+    "@yizy/spec": "npm:@jsr/yizy__spec@^0.0.1",
     "clsx": "^2.1.1",
     "handlebars": "^4.7.8",
     "mode-watcher": "^0.4.1",

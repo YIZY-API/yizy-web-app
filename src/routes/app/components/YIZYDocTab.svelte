@@ -3,12 +3,12 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import { currentService } from '$lib/state';
-	import { findObjectTypeFromReferenceType } from '@yizy/specification';
+	import { findObjectTypeFromReferenceType } from '@yizy/spec';
 	import YizyEndpointModelsView from './YIZYEndpointModelsView.svelte';
 
 	let url: string = $state('');
 	const triggerContent = $derived(
-		$currentService.baseUrls.find((f) => f === url) ?? 'Select an environment'
+		$currentService.environment.find((f) => f.url === url) ?? 'Select an environment'
 	);
 </script>
 
@@ -30,8 +30,9 @@
 						<Select.Content>
 							<Select.Group>
 								<Select.GroupHeading>Environments</Select.GroupHeading>
-								{#each $currentService.baseUrls as url}
-									<Select.Item value={url} label={url}>{url}</Select.Item>
+								{#each $currentService.environment as env}
+									<Select.Item value={env.url} label={env.url}
+										>{env.name + ': ' + env.url}</Select.Item>
 								{/each}
 							</Select.Group>
 						</Select.Content>

@@ -3,17 +3,19 @@ import {
   nullableReferenceType,
   objectType,
   type Service,
-} from "@yizy/specification";
+} from "@yizy/spec";
 
 export const classifiiApi: Service = {
   serviceName: "ClassifiiApi",
-  baseUrls: [
-    "http://localhost:8000",
-    "https://api.classifii.com",
+  description: "",
+  environment: [
+    { name: "", url: "http://localhost:8000" },
+    { name: "", url: "https://api.classifii.com" },
   ],
   endpoints: [
     {
       url: "/createClaimTicket",
+      description: "",
       name: "createClaimTicket",
       requestModel: objectType(
         "CreateClaimTicketRequest",

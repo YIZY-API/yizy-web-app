@@ -5,16 +5,18 @@ import {
   objectType,
   referenceType,
   type Service,
-} from "@yizy/specification";
+} from "@yizy/spec";
 
 export const classifiiApi: Service = {
   serviceName: "ClassifiiApi",
-  baseUrls: [
-    "https://staging.classifii.com/20240906/wp/cl_app",
-    "https://classifii.com/20240906/wp/cl_app",
+  description: "",
+  environment: [
+    { name: "", url: "https://staging.classifii.com/20240906/wp/cl_app" },
+    { name: "", url: "https://classifii.com/20240906/wp/cl_app" },
   ],
   endpoints: [
     {
+      description: "",
       url: "/api/sendTransactionStatusUpdateNotification.php",
       name: "sendTransactionStatusUpdateNotification",
       requestModel: objectType(
@@ -33,6 +35,7 @@ export const classifiiApi: Service = {
     },
     {
       url: "/api/updateTransactionStatus.php",
+      description: "",
       name: "updateTransactionStatus",
       requestModel: objectType("UpdateTransactionStatusRequest", [
         field("transactionId", "string"),
@@ -44,6 +47,7 @@ export const classifiiApi: Service = {
     },
     {
       url: "/api/registerGuestWithPhoneNumber.php",
+      description: "",
       name: "registerGuestWithPhoneNumber",
       requestModel: objectType("RegisterGuestWithPhoneNumberRequest", [
         field("phone", "string"),
@@ -55,6 +59,7 @@ export const classifiiApi: Service = {
     },
     {
       url: "/api/getTransactionStatusMessages.php",
+      description: "",
       name: "getTransactionStatusMessage",
       requestModel: null,
       responseModel: objectType("GetTransactionStatusMessageResponse", [

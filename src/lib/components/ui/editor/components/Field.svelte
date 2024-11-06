@@ -64,13 +64,13 @@
 		bind:value={props.name}
 		placeholder="field"
 		onkeydown={onBackspacePress}
-		class="text-md flex-grow border-none border-transparent bg-transparent outline-none placeholder:text-muted active:border-none" />
+		class="flex-grow border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none" />
 	<Command.Root class="border-none bg-transparent">
 		<Command.Input
 			onfocusout={onFocusOut}
 			bind:value={props.type}
 			placeholder="type"
-			class="text-md border-none border-transparent bg-transparent py-0 font-semibold text-primary outline-none placeholder:text-muted active:border-none"
+			class="border-none border-transparent bg-transparent py-0 font-light text-accent outline-none placeholder:text-muted active:border-none"
 			onkeydown={onKeyPress} />
 
 		{#if promptOpen}
