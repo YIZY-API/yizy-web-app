@@ -9,7 +9,7 @@
 
 	let { doc }: { doc?: Document } = $props();
 
-	export function save(): Service {
+	export function toYizySpec(): Service {
 		if (document) {
 			return docToYizySpec(document);
 		}

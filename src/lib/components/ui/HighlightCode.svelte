@@ -3,7 +3,6 @@
 	import { type LanguageType } from 'svelte-highlight/languages';
 	import { cn } from '$lib/utils.js';
 
-
 	interface Props {
 		language: LanguageType<string>;
 		code: any;
@@ -11,7 +10,6 @@
 	}
 
 	let { language, code, class: className = '' }: Props = $props();
-	
 
 	let copyBtnText = $state('Copy');
 	function onCopyBtnClicked() {
@@ -26,8 +24,7 @@
 <div class={cn('not-prose whitespace-pre-wrap rounded-lg bg-[#0d121c] pb-2', className)}>
 	<button
 		class="sticky right-6 top-6 z-10 float-right border-none pr-2 pt-2 text-primary"
-		onclick={() => onCopyBtnClicked()}
-	>
+		onclick={() => onCopyBtnClicked()}>
 		<div class="flex flex-row">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -39,11 +36,15 @@
 				stroke-linejoin="round"
 				class="h-8 w-8 pr-2"
 				><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path
-					d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-				/></svg
-			>
+					d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
 			<span class="my-auto">{copyBtnText}</span>
 		</div>
 	</button>
 	<Highlight {language} {code} />
 </div>
+
+<style>
+	code {
+		width: 100%;
+	}
+</style>

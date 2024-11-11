@@ -76,6 +76,10 @@
 	}
 }
 
+pre code {
+	width: 100%;
+}
+
 pre code.hljs {
 	display: block;
 	overflow-x: auto;

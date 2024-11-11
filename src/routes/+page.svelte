@@ -1,13 +1,24 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
-	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
+	import {
+		Languages,
+		HardHat,
+		Link,
+		Zap,
+		CakeSlice,
+		File,
+		ChevronLeftIcon,
+		ChevronRightIcon
+	} from 'lucide-svelte';
 	import demoImg from '$lib/assets/yizy-demo.png';
 	import docDemoImg from '$lib/assets/doc-demo.png';
 	import codeDemoImg from '$lib/assets/code-demo.png';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import * as Accordion from '$lib/components/ui/accordion/index.js';
-	import yizyConventionImg from '$lib/assets/yizy-api-convention.png';
+	import { type EmblaCarouselType } from 'embla-carousel';
+
+	let carousel: EmblaCarouselType | undefined;
 </script>
 
 <svelte:head>
@@ -36,39 +47,97 @@
 </section>
 <Decoration />
 <section class="flex flex-col bg-primary p-8">
-	<div class="mx-auto w-full max-w-screen-xl">
-		<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">
-			Write Spec and Generate Code Instantly with Zero Configs
-		</h1>
-		<Carousel.Root class="mx-auto max-w-screen-lg">
+	<div class="mx-auto w-full max-w-screen-lg">
+		<div class="flex flex-row">
+			<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">
+				Write Spec and Generate Code Instantly with Zero Configs
+			</h1>
+		</div>
+		<Carousel.Root
+			class="mx-auto w-full"
+			setApi={(api: EmblaCarouselType | undefined) => {
+				carousel = api;
+			}}>
 			<Carousel.Content>
 				<Carousel.Item>
-					<h1 class="text-center text-2xl font-bold text-[#171f30]">
-						1. Write Spec in the Browser with Code Completion 🤯
-					</h1>
+					<div class="mx-auto flex flex-row justify-between">
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollPrev();
+								}
+							}}><ChevronLeftIcon /></button>
+
+						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
+							1. Write Spec in the Browser with Code Completion 🤯
+						</h1>
+
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollNext();
+								}
+							}}><ChevronRightIcon /></button>
+					</div>
 					<div class=" col-span-1 sm:col-span-2">
 						<img src={demoImg} alt="yizy editor" />
 					</div>
 				</Carousel.Item>
 				<Carousel.Item>
-					<h1 class="text-center text-2xl font-bold text-[#171f30]">
-						2. View Beautiful Documentation 😍
-					</h1>
+					<div class="mx-auto flex flex-row justify-between">
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollPrev();
+								}
+							}}><ChevronLeftIcon /></button>
+
+						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
+							2. View Beautiful Documentation 😍
+						</h1>
+
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollNext();
+								}
+							}}><ChevronRightIcon /></button>
+					</div>
 					<div class=" col-span-1 sm:col-span-2">
 						<img src={docDemoImg} alt="yizy doc viewer" />
 					</div>
 				</Carousel.Item>
 				<Carousel.Item>
-					<h1 class="text-center text-2xl font-bold text-[#171f30]">
-						3. Generate Code Instantly with Zero Configuration ⚡
-					</h1>
+					<div class="mx-auto flex flex-row justify-between">
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollPrev();
+								}
+							}}><ChevronLeftIcon /></button>
+
+						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
+							3. Generate Code Instantly with Zero Configuration ⚡
+						</h1>
+
+						<button
+							class="text-[#171F30]"
+							onclick={() => {
+								if (carousel) {
+									carousel.scrollNext();
+								}
+							}}><ChevronRightIcon /></button>
+					</div>
 					<div class=" col-span-1 sm:col-span-2">
 						<img src={codeDemoImg} alt="yizy generator" />
 					</div>
 				</Carousel.Item>
 			</Carousel.Content>
-			<Carousel.Previous />
-			<Carousel.Next />
 		</Carousel.Root>
 	</div>
 </section>
