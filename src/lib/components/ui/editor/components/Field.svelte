@@ -81,7 +81,7 @@
 			onkeydown={onKeyPress} />
 
 		{#if promptOpen}
-			<Command.List class="absolute z-10 my-10 rounded-b-lg bg-muted">
+			<Command.List class="absolute z-10 my-10 max-h-52 rounded-b-lg bg-muted">
 				<Command.Empty class="px-4">No results found.</Command.Empty>
 				<Command.Group heading="Primitive Types">
 					{#each primitiveTypes as type}

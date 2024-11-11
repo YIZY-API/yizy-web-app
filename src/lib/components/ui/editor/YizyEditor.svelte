@@ -125,11 +125,6 @@
 	</div>
 </div>
 
-<button
-	onclick={() => {
-		console.log(document);
-	}}>save</button>
-
 <style>
 	textarea {
 		field-sizing: content;

@@ -30,7 +30,10 @@
 					<Card.Description>Write API spec in the browser.</Card.Description>
 				</div>
 				<div>
-					<Button onclick={() => onResetClicked()}>Reset</Button>
+					<Button
+						onclick={() => onResetClicked()}
+						variant="outline"
+						class="border-destructive text-destructive hover:bg-destructive">Reset</Button>
 					<Button
 						onclick={() => {
 							onSaveClicked();

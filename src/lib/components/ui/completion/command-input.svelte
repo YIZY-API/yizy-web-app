@@ -13,7 +13,7 @@
 <div class="flex items-center px-2" data-command-input-wrapper="">
 	<CommandPrimitive.Input
 		class={cn(
-			'flex w-full  bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
+			'flex w-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
 			className
 		)}
 		bind:ref

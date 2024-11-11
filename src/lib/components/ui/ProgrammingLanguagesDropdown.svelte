@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
-	import { ProgrammingLanguage, ProgrammingLanguageList } from '$lib/models/constants';
+	import {
+		ProgrammingLanguage,
+		ProgrammingLanguageList,
+		convertStringToProgrammingLanguage
+	} from '$lib/models/constants';
 
 	interface Props {
 		lang?: ProgrammingLanguage;
@@ -9,14 +13,22 @@
 
 	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 
-	const triggerContent = $derived(
-		ProgrammingLanguageList.find((f) => f === lang) ?? 'Select a programming language'
-	);
+	const triggerContent = $derived.by(() => {
+		return ProgrammingLanguageList.find((f) => f === lang) ?? 'Select a programming language';
+	});
 </script>
 
-<div class="not-prose px-2">
+<div class="not-prose">
 	<Label class="text-sm font-bold">Programming Language</Label>
-	<Select.Root type="single" bind:value={lang as string}>
+	<Select.Root
+		type="single"
+		bind:value={lang as string}
+		onValueChange={(val: string) => {
+			if (val != '') {
+				lang = convertStringToProgrammingLanguage(val);
+			}
+		}}
+		controlledValue={true}>
 		<Select.Trigger class="mt-2 w-[300px]">{triggerContent}</Select.Trigger>
 		<Select.Content>
 			<Select.Group>

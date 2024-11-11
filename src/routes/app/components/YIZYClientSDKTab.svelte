@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Label } from '$lib/components/ui/label';
 	import * as Card from '$lib/components/ui/card';
 	import * as Select from '$lib/components/ui/select';
 	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
@@ -16,10 +17,14 @@
 
 	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 
-	let url: string = $state('');
-	const triggerContent = $derived(
-		$currentService.environment.find((f) => f.url === url) ?? 'Select an environment'
-	);
+	let url: string = $state($currentService.environment[0].url ?? '');
+	const triggerContent = $derived.by(() => {
+		return $currentService.environment.find((e) => e.url === url)
+			? $currentService.environment.find((e) => e.url === url)?.name +
+					': ' +
+					$currentService.environment.find((e) => e.url === url)?.url
+			: 'Select an environment';
+	});
 </script>
 
 <Card.Root>
@@ -30,9 +35,18 @@
 		</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">
-		<h4>Environment</h4>
+		<Label class="text-sm font-bold">Environment</Label>
 		<div class="my-2">
-			<Select.Root type="single" name="baseUrl" bind:value={url as string}>
+			<Select.Root
+				type="single"
+				name="baseUrl"
+				bind:value={url as string}
+				onValueChange={(val) => {
+					if (val != '') {
+						url = val;
+					}
+				}}
+				controlledValue={true}>
 				<Select.Trigger class="w-[300px]">
 					{triggerContent}
 				</Select.Trigger>

@@ -5,13 +5,6 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import DarkModeToggle from '$lib/components/ui/DarkModeToggle.svelte';
-	import * as Accordion from '$lib/components/ui/accordion/index';
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('svelte').Snippet} [children]
-	 */
-
-	/** @type {Props} */
 	let { children } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -37,30 +30,9 @@
 <Sheet.Root bind:open={isSidebarOpened}>
 	<Sheet.Content side="right" class="overflow-y-scroll">
 		<a href="/" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a
-		>
-		<a href="/doc/introduction" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">What is YIZY API?</h1></a
-		>
-		<a href="/doc/getting-started" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Getting Started</h1></a
-		>
+			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 		<a href="/app" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Try Beta Version</h1></a
-		>
-		<Accordion.Root class="w-full">
-			<Accordion.Item value="item-1">
-				<Accordion.Trigger class="font-bold hover:text-primary">Documentation</Accordion.Trigger>
-				<Accordion.Content>
-					<a href="/doc/introduction" onclick={() => closeSidebar()}
-						><h1 class="my-2 font-bold hover:text-primary">Introduction</h1></a
-					>
-					<a href="/doc/getting-started" onclick={() => closeSidebar()}
-						><h1 class="my-2 font-bold hover:text-primary">Getting Started</h1></a
-					>
-				</Accordion.Content>
-			</Accordion.Item>
-		</Accordion.Root>
+			><h1 class="my-2 font-bold hover:text-primary">Getting Started</h1></a>
 		<div class="my-4">
 			<DarkModeToggle />
 		</div>

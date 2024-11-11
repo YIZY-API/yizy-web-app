@@ -30,7 +30,9 @@
 	});
 </script>
 
-<ProgrammingLanguagesDropdown bind:lang={currentLanguage} />
+<div class="px-2">
+	<ProgrammingLanguagesDropdown bind:lang={currentLanguage} />
+</div>
 
 <div class="my-2">
 	<h4 class="pl-2 font-bold">Request Model</h4>

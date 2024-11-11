@@ -43,9 +43,9 @@
 
 	<Tabs.Root value="yizy-api-spec" class="px-4">
 		<Tabs.List class="grid w-full grid-cols-3">
-			<Tabs.Trigger value="yizy-api-spec">YIZY API Spec</Tabs.Trigger>
-			<Tabs.Trigger value="yizy-doc">YIZY Doc</Tabs.Trigger>
-			<Tabs.Trigger value="yizy-gen">YIZY Generator</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-api-spec">1. Edit Spec</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-doc">2. See Documentation</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-gen">3. Generate Code</Tabs.Trigger>
 		</Tabs.List>
 		<Tabs.Content value="yizy-api-spec">
 			<YizySpecTab />

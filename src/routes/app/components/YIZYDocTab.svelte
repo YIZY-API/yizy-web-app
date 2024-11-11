@@ -6,7 +6,7 @@
 	import { findObjectTypeFromReferenceType } from '@yizy/spec';
 	import YizyEndpointModelsView from './YIZYEndpointModelsView.svelte';
 
-	let url: string = $state('');
+	let url: string = $state($currentService.environment[0].url ?? '');
 	const triggerContent = $derived.by(() => {
 		return $currentService.environment.find((e) => e.url === url)
 			? $currentService.environment.find((e) => e.url === url)?.name +
@@ -23,11 +23,20 @@
 	</Card.Header>
 	<Card.Content class="space-y-2">
 		<div class="w-full rounded-lg border p-4">
-			<div class="prose prose-slate w-full max-w-none dark:prose-invert">
+			<div class="prose prose-slate dark:prose-invert w-full max-w-none">
 				<h2 class="my-2 font-bold">{$currentService.serviceName}</h2>
 				<h4>Environment</h4>
 				<div class="my-2">
-					<Select.Root type="single" name="baseUrl" bind:value={url as string}>
+					<Select.Root
+						type="single"
+						name="baseUrl"
+						bind:value={url as string}
+						onValueChange={(val) => {
+							if (val != '') {
+								url = val;
+							}
+						}}
+						controlledValue={true}>
 						<Select.Trigger class="w-[300px]">
 							{triggerContent}
 						</Select.Trigger>
@@ -35,7 +44,7 @@
 							<Select.Group>
 								<Select.GroupHeading>Environments</Select.GroupHeading>
 								{#each $currentService.environment as env}
-									<Select.Item value={env.url} label={env.url}
+									<Select.Item value={env.url} label={env.url} onUnhighlight={() => {}}
 										>{env.name + ': ' + env.url}</Select.Item>
 								{/each}
 							</Select.Group>
