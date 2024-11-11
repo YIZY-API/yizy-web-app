@@ -7,9 +7,13 @@
 	import YizyEndpointModelsView from './YIZYEndpointModelsView.svelte';
 
 	let url: string = $state('');
-	const triggerContent = $derived(
-		$currentService.environment.find((f) => f.url === url) ?? 'Select an environment'
-	);
+	const triggerContent = $derived.by(() => {
+		return $currentService.environment.find((e) => e.url === url)
+			? $currentService.environment.find((e) => e.url === url)?.name +
+					': ' +
+					$currentService.environment.find((e) => e.url === url)?.url
+			: 'Select an environment';
+	});
 </script>
 
 <Card.Root>
@@ -21,7 +25,7 @@
 		<div class="w-full rounded-lg border p-4">
 			<div class="prose prose-slate w-full max-w-none dark:prose-invert">
 				<h2 class="my-2 font-bold">{$currentService.serviceName}</h2>
-				<h4>Base Url</h4>
+				<h4>Environment</h4>
 				<div class="my-2">
 					<Select.Root type="single" name="baseUrl" bind:value={url as string}>
 						<Select.Trigger class="w-[300px]">

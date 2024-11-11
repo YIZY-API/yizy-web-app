@@ -5,6 +5,12 @@ export const lspTypes: Readable<string[]> = readonly(_lspTypes);
 
 export function updateLspTypes(types: string[]) {
   _lspTypes.update(() => {
-    return types;
+    const res: string[] = [];
+    types.forEach((t: string) => {
+      res.push(t);
+      res.push(t + "?");
+      res.push(t + "[]");
+    });
+    return res;
   });
 }

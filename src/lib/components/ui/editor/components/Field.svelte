@@ -40,18 +40,25 @@
 	const primitiveTypes = [
 		'boolean',
 		'boolean?',
+		'boolean[]',
 		'double',
 		'double?',
+		'double[]',
 		'float',
 		'float?',
+		'float[]',
 		'int',
 		'int?',
+		'int[]',
 		'int32',
+		'int32[]',
 		'int32?',
 		'int64',
 		'int64?',
+		'int64[]',
 		'string',
-		'string?'
+		'string?',
+		'string[]'
 	];
 	function focusMe(el: HTMLElement) {
 		el.focus();

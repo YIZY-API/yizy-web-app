@@ -2,20 +2,21 @@
 	import { onMount } from 'svelte';
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
-	import FieldList from './components/FieldList.svelte';
-	import { type Document } from './models/models';
+	import { docToYizySpec, type Document } from './models/models';
 	import { updateLspTypes } from './state';
-	import AdditionalModel from './components/AdditionalModel.svelte';
 	import AdditionalModelList from './components/AdditionalModelList.svelte';
+	import type { Service } from '@yizy/spec';
 
 	let { doc }: { doc?: Document } = $props();
-	onMount(() => {
-		if (doc) {
-			document = doc;
-		}
-	});
 
-	let document: Document = $state({
+	export function save(): Service {
+		if (document) {
+			return docToYizySpec(document);
+		}
+		throw new Error('doc is not defined!');
+	}
+
+	const defaultState = {
 		name: '',
 		description: '',
 		environment: [
@@ -60,7 +61,19 @@
 				]
 			}
 		]
+	};
+
+	export function reset(): void {
+		document = defaultState;
+	}
+
+	onMount(() => {
+		if (doc) {
+			document = doc;
+		}
 	});
+
+	let document: Document = $state(defaultState);
 
 	let types = $derived.by(() => {
 		return document.additionalModels.flatMap((model) => model.name);
