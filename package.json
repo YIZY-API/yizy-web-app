@@ -50,5 +50,8 @@
     "svelte-highlight": "^7.7.0",
     "swapy": "^0.4.2",
     "uuid": "^11.0.2"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-musl": "4.9.5"
   }
 }
