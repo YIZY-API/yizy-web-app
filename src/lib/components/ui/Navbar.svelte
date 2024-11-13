@@ -28,6 +28,12 @@
 			href="/app"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Getting Started</a>
+
+		<a
+			href="https://tally.so/r/me2BZQ"
+			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
+			>Join Waitlist</a>
+
 		<div class="hidden sm:ml-4 md:block">
 			<DarkModeToggle />
 		</div>

@@ -33,6 +33,13 @@
 			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 		<a href="/app" onclick={() => closeSidebar()}
 			><h1 class="my-2 font-bold hover:text-primary">Getting Started</h1></a>
+		<a
+			href="https://tally.so/r/me2BZQ"
+			onclick={() => {
+				closeSidebar();
+			}}>
+			<h1 class="my-2 font-bold hover:text-primary">Join Waitlist</h1>
+		</a>
 		<div class="my-4">
 			<DarkModeToggle />
 		</div>
