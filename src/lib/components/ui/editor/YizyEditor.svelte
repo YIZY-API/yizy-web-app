@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
 	import { docToYizySpec, type Document } from './models/models';
@@ -67,9 +67,12 @@
 		document = defaultState;
 	}
 
-	onMount(() => {
+	let firstEditableItem: HTMLElement;
+	onMount(async () => {
 		if (doc) {
 			document = doc;
+			await tick();
+			firstEditableItem.focus();
 		}
 	});
 
@@ -94,6 +97,7 @@
 					Service
 				</div>
 				<input
+					bind:this={firstEditableItem}
 					placeholder="ServiceName"
 					class="w-full border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
 					bind:value={document.name} />
