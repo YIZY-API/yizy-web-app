@@ -70,7 +70,7 @@
 							}}><ChevronLeftIcon /></button>
 
 						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							1. Write Spec in the Browser with Code Completion 🤯
+							1. Write Spec in the Browser with Code Completion
 						</h1>
 
 						<button
@@ -96,7 +96,7 @@
 							}}><ChevronLeftIcon /></button>
 
 						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							2. View Beautiful Documentation 😍
+							2. View Beautiful Documentation
 						</h1>
 
 						<button
@@ -122,7 +122,7 @@
 							}}><ChevronLeftIcon /></button>
 
 						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							3. Generate Code Instantly with Zero Configuration ⚡
+							3. Generate Code Instantly with Zero Configuration
 						</h1>
 
 						<button
