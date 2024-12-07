@@ -1,24 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
-	import {
-		Languages,
-		HardHat,
-		Link,
-		Zap,
-		CakeSlice,
-		File,
-		ChevronLeftIcon,
-		ChevronRightIcon
-	} from 'lucide-svelte';
+	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
 	import demoImg from '$lib/assets/yizy-demo.png';
 	import docDemoImg from '$lib/assets/doc-demo.png';
 	import codeDemoImg from '$lib/assets/code-demo.png';
-	import * as Carousel from '$lib/components/ui/carousel/index.js';
+	import openApiImg from '$lib/assets/openapi.png';
 	import * as Accordion from '$lib/components/ui/accordion/index.js';
-	import { type EmblaCarouselType } from 'embla-carousel';
-
-	let carousel: EmblaCarouselType | undefined;
 </script>
 
 <svelte:head>
@@ -33,14 +21,8 @@
 		</h1>
 		<div class="my-4 flex flex-col">
 			<div class="mx-auto flex gap-2">
-				<a href="/app"
-					><Button
-						class="rounded-full border-primary font-bold text-primary hover:bg-primary"
-						variant="outline">TRY BETA</Button
-					></a>
-
 				<a href="https://tally.so/r/me2BZQ">
-					<Button class="rounded-full font-bold">JOIN WAITLIST</Button></a>
+					<Button class="rounded-full font-bold">Get Early Access</Button></a>
 			</div>
 		</div>
 	</div>
@@ -49,96 +31,47 @@
 <section class="flex flex-col bg-primary p-8">
 	<div class="mx-auto w-full max-w-screen-lg">
 		<div class="flex flex-row">
-			<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">
-				Write Spec and Generate Code Instantly with Zero Configs
-			</h1>
+			<h1 class="mx-auto py-8 text-center text-4xl font-bold text-[#171F30]">How It Works</h1>
 		</div>
-		<Carousel.Root
-			class="mx-auto w-full"
-			setApi={(api: EmblaCarouselType | undefined) => {
-				carousel = api;
-			}}>
-			<Carousel.Content>
-				<Carousel.Item>
-					<div class="mx-auto flex flex-row justify-between">
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollPrev();
-								}
-							}}><ChevronLeftIcon /></button>
+		<div class="mx-auto flex flex-col">
+			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
+				1. Write API Spec in the Browser with Code Completion
+			</h1>
+			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
+				Export the specification in JSON format and version control the spec with Git. Import it
+				later to update the spec and re-run code generation.
+			</div>
+			<img src={demoImg} alt="yizy editor" />
+		</div>
+		<div class="mx-auto flex flex-col">
+			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
+				2. Generate and View Beautiful Documentation
+			</h1>
+			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
+				View API documentation and send request directly from the browser.
+			</div>
+			<img src={docDemoImg} alt="yizy doc viewer" />
+		</div>
+		<div class="mx-auto flex flex-col">
+			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
+				3. Generate Code Instantly with Zero Configuration
+			</h1>
+			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
+				Generate Server and Client code instantly in the browser instantly
+			</div>
+			<img src={codeDemoImg} alt="yizy generator" />
+		</div>
 
-						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							1. Write Spec in the Browser with Code Completion
-						</h1>
-
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollNext();
-								}
-							}}><ChevronRightIcon /></button>
-					</div>
-					<div class=" col-span-1 sm:col-span-2">
-						<img src={demoImg} alt="yizy editor" />
-					</div>
-				</Carousel.Item>
-				<Carousel.Item>
-					<div class="mx-auto flex flex-row justify-between">
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollPrev();
-								}
-							}}><ChevronLeftIcon /></button>
-
-						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							2. View Beautiful Documentation
-						</h1>
-
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollNext();
-								}
-							}}><ChevronRightIcon /></button>
-					</div>
-					<div class=" col-span-1 sm:col-span-2">
-						<img src={docDemoImg} alt="yizy doc viewer" />
-					</div>
-				</Carousel.Item>
-				<Carousel.Item>
-					<div class="mx-auto flex flex-row justify-between">
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollPrev();
-								}
-							}}><ChevronLeftIcon /></button>
-
-						<h1 class="text-center text-lg font-bold text-[#171f30] sm:text-2xl">
-							3. Generate Code Instantly with Zero Configuration
-						</h1>
-
-						<button
-							class="text-[#171F30]"
-							onclick={() => {
-								if (carousel) {
-									carousel.scrollNext();
-								}
-							}}><ChevronRightIcon /></button>
-					</div>
-					<div class=" col-span-1 sm:col-span-2">
-						<img src={codeDemoImg} alt="yizy generator" />
-					</div>
-				</Carousel.Item>
-			</Carousel.Content>
-		</Carousel.Root>
+		<div class="mx-auto flex flex-col">
+			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
+				4. Open API Support
+			</h1>
+			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
+				Convert YIZY Spec to Open API Spec and leverage open source tools in the Open API ecosystem.
+				Generate mock server, Postman collections, and more!
+			</div>
+			<img src={openApiImg} alt="yizy generator" />
+		</div>
 	</div>
 </section>
 <Decoration rotate={true} />
@@ -232,6 +165,10 @@
 						object.
 					</li>
 				</ul>
+				<div>
+					YIZY API is a Contract First RPC (Remote Procedure Call) based on POST requests. It's an
+					alternative to Restful API, GraphQL, tRPC, and gRPC.
+				</div>
 			</Accordion.Content>
 		</Accordion.Item>
 	</Accordion.Root>
