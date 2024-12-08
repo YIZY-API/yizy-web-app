@@ -22,38 +22,30 @@ export function serviceToOpenApiSpec(
     if (!e.requestModel) {
       req = null;
     } else {
-      if (YIZY.isObjectType(e.requestModel)) {
-        req = typeof (e.requestModel as YIZY.ObjectType).name === "string"
-          ? ((e.requestModel as YIZY.ObjectType).name as string)
-          : ((e.requestModel as YIZY.ObjectType).name as YIZY.NameMap).default;
-        const obj = e.requestModel as YIZY.ObjectType;
-        doc.addComponent({
-          name: typeof obj.name === "string"
-            ? (obj.name as string)
-            : (obj.name as YIZY.NameMap).default,
-          properties: obj.fields,
-        });
-      } else {
-        req = (e.requestModel as YIZY.ReferenceType).ref;
-      }
+      req = typeof (e.requestModel as YIZY.ObjectType).name === "string"
+        ? ((e.requestModel as YIZY.ObjectType).name as string)
+        : ((e.requestModel as YIZY.ObjectType).name as YIZY.NameMap).default;
+      const obj = e.requestModel as YIZY.ObjectType;
+      doc.addComponent({
+        name: typeof obj.name === "string"
+          ? (obj.name as string)
+          : (obj.name as YIZY.NameMap).default,
+        properties: obj.fields,
+      });
     }
     if (!e.responseModel) {
       res = null;
     } else {
-      if (YIZY.isObjectType(e.responseModel)) {
-        res = typeof (e.responseModel as YIZY.ObjectType).name === "string"
-          ? ((e.responseModel as YIZY.ObjectType).name as string)
-          : ((e.responseModel as YIZY.ObjectType).name as YIZY.NameMap).default;
-        const obj = e.responseModel as YIZY.ObjectType;
-        doc.addComponent({
-          name: typeof obj.name === "string"
-            ? (obj.name as string)
-            : (obj.name as YIZY.NameMap).default,
-          properties: obj.fields,
-        });
-      } else {
-        res = (e.responseModel as YIZY.ReferenceType).ref;
-      }
+      res = typeof (e.responseModel as YIZY.ObjectType).name === "string"
+        ? ((e.responseModel as YIZY.ObjectType).name as string)
+        : ((e.responseModel as YIZY.ObjectType).name as YIZY.NameMap).default;
+      const obj = e.responseModel as YIZY.ObjectType;
+      doc.addComponent({
+        name: typeof obj.name === "string"
+          ? (obj.name as string)
+          : (obj.name as YIZY.NameMap).default,
+        properties: obj.fields,
+      });
     }
 
     doc.addPath({
@@ -129,19 +121,19 @@ export class OpenApiDoc {
       this.doc["paths"][path.url]["post"]["requestBody"]["content"] = {};
       this
         .doc["paths"][path.url]["post"]["requestBody"]["content"][
-        "application/json"
-      ] = {};
+          "application/json"
+        ] = {};
       this
         .doc["paths"][path.url]["post"]["requestBody"]["content"][
-        "application/json"
-      ]["schema"] = {};
+          "application/json"
+        ]["schema"] = {};
 
       this
         .doc["paths"][path.url]["post"]["requestBody"]["content"][
-        "application/json"
-      ]["schema"][
-        "$ref"
-      ] = "#/components/schemas/" + path.requestRef;
+          "application/json"
+        ]["schema"][
+          "$ref"
+        ] = "#/components/schemas/" + path.requestRef;
     }
 
     if (path.responseRef != null) {
@@ -151,38 +143,38 @@ export class OpenApiDoc {
         {};
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["content"][
-        "application/json"
-      ] = {};
+          "application/json"
+        ] = {};
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["content"][
-        "application/json"
-      ][
-        "schema"
-      ] = {};
+          "application/json"
+        ][
+          "schema"
+        ] = {};
 
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["content"][
-        "application/json"
-      ][
-        "schema"
-      ]["$ref"] = "#/components/schemas/" + path.responseRef;
+          "application/json"
+        ][
+          "schema"
+        ]["$ref"] = "#/components/schemas/" + path.responseRef;
 
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["content"][
-        "application/json"
-      ][
-        "schema"
-      ]["$ref"] = "#/components/schemas/" + path.responseRef;
+          "application/json"
+        ][
+          "schema"
+        ]["$ref"] = "#/components/schemas/" + path.responseRef;
 
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["description"] =
-        "default response";
+          "default response";
     } else {
       this.doc["paths"][path.url]["post"]["responses"] = {};
       this.doc["paths"][path.url]["post"]["responses"]["default"] = {};
       this
         .doc["paths"][path.url]["post"]["responses"]["default"]["description"] =
-        "default response";
+          "default response";
     }
   }
 

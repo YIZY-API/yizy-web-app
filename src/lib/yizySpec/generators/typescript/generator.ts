@@ -1,4 +1,5 @@
 import { ProgrammingLanguage } from "$lib/models/constants";
+import { generatorWarning } from "../constants";
 import {
   type ArrayType,
   type DataType,
@@ -24,6 +25,9 @@ import {
   type ModelTemplateInput,
   POST_REQUEST_FUNCTION_TEMPLATE,
   type PostRequestFunctionTemplateInput,
+  type Route,
+  SERVICE_ROUTE_TEMPLATE,
+  type ServiceRouteTemplateInput,
 } from "./templates";
 import Handlebars from "handlebars";
 
@@ -175,18 +179,14 @@ function endpointToPostRequestFunctionTemplateInput(
   endpoint: Endpoint,
 ): PostRequestFunctionTemplateInput {
   let argType = "";
-  if (endpoint.requestModel?.type === TypeIdentifier.ReferenceType) {
-    argType = (endpoint.requestModel as ReferenceType).ref;
-  } else if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
+  if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
     argType = typeof (endpoint.requestModel as ObjectType).name === "string"
       ? ((endpoint.requestModel as ObjectType).name as string)
       : "TODO";
   }
 
   let returnType = "";
-  if (endpoint.responseModel?.type === TypeIdentifier.ReferenceType) {
-    returnType = (endpoint.responseModel as ReferenceType).ref;
-  } else if (endpoint.responseModel?.type === TypeIdentifier.ObjectType) {
+  if (endpoint.responseModel?.type === TypeIdentifier.ObjectType) {
     returnType = typeof (endpoint.responseModel as ObjectType).name === "string"
       ? ((endpoint.responseModel as ObjectType).name as string)
       : "TODO";
@@ -224,6 +224,31 @@ export function generatePostRequestFunction(
   return tmpl(input);
 }
 
+export function generateRoute(service: Service): string {
+  const routes: Route[] = service.endpoints.flatMap((e: Endpoint) => {
+    const route: Route = {
+      name: typeof e.name === "string" ? e.name : (e.name as NameMap).default,
+      url: e.url,
+    };
+    return route;
+  });
+  const tmplInput: ServiceRouteTemplateInput = {
+    serviceName: typeof service.serviceName === "string"
+      ? service.serviceName
+      : (service.serviceName as NameMap).default,
+    routes: routes,
+  };
+
+  const tmpl = Handlebars.compile(SERVICE_ROUTE_TEMPLATE);
+  return tmpl(tmplInput);
+}
+
+export function generateServerCode(service: Service): string {
+  const routes = generateRoute(service);
+  const result = generateModelFile(service);
+  return generatorWarning + routes + result;
+}
+
 export function generateSdkFile(baseUrl: string, service: Service): string {
   let result = generateModelFile(service);
   const templateInputs = serviceToClientSdkTemplateInput(baseUrl, service);
@@ -233,5 +258,5 @@ export function generateSdkFile(baseUrl: string, service: Service): string {
     result = result + tmpl(f);
   });
 
-  return result;
+  return generatorWarning + result;
 }

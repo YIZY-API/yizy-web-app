@@ -27,7 +27,7 @@
 			<HighlightCode language={php} code={generateModelFile($currentService)} />
 		{/if}
 		{#if lang === ProgrammingLanguage.Typescript}
-			<HighlightCode language={typescript} code={tsGen.generateModelFile($currentService)} />
+			<HighlightCode language={typescript} code={tsGen.generateServerCode($currentService)} />
 		{/if}
 	</Card.Content>
 </Card.Root>
