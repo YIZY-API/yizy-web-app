@@ -1,3 +1,21 @@
+export interface Route {
+  name: string;
+  url: string;
+}
+
+export interface ServiceRouteTemplateInput {
+  serviceName: string;
+  routes: Route[];
+}
+export const SERVICE_ROUTE_TEMPLATE = `
+export const {{serviceName}}Routes = {
+    {{#each this.routes}}
+    {{this.name}}: '{{this.url}}';
+    {{/each}}
+}
+
+`;
+
 export const POST_REQUEST_FUNCTION_TEMPLATE = `
 export async function {{functionName}}({{#if argType}}req: {{argType}}{{/if}}, headers?: Record<string, string> ): Promise<{{#if returnType}}{{returnType}}{{else}}void{{/if}}> {
   let defaultHeaders = {

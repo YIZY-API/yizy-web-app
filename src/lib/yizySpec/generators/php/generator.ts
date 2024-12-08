@@ -177,18 +177,14 @@ function endpointToPostRequestFunctionTemplateInput(
   endpoint: Endpoint,
 ): PostRequestFunctionTemplateInput {
   let argType = "";
-  if (endpoint.requestModel?.type === TypeIdentifier.ReferenceType) {
-    argType = (endpoint.requestModel as ReferenceType).ref;
-  } else if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
+  if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
     argType = typeof (endpoint.requestModel as ObjectType).name === "string"
       ? ((endpoint.requestModel as ObjectType).name as string)
       : "TODO";
   }
 
   let returnType = "";
-  if (endpoint.responseModel?.type === TypeIdentifier.ReferenceType) {
-    returnType = (endpoint.responseModel as ReferenceType).ref;
-  } else if (endpoint.responseModel?.type === TypeIdentifier.ObjectType) {
+  if (endpoint.responseModel?.type === TypeIdentifier.ObjectType) {
     returnType = typeof (endpoint.responseModel as ObjectType).name === "string"
       ? ((endpoint.responseModel as ObjectType).name as string)
       : "TODO";
