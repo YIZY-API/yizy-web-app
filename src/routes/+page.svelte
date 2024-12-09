@@ -7,6 +7,7 @@
 	import codeDemoImg from '$lib/assets/code-demo.png';
 	import openApiImg from '$lib/assets/openapi.png';
 	import * as Accordion from '$lib/components/ui/accordion/index.js';
+	import exampleSpecImg from '$lib/assets/exampleSpec.png';
 </script>
 
 <svelte:head>
@@ -143,32 +144,60 @@
 		type="single"
 		class="mx-auto w-full border-[#171f30] text-[#171f30] sm:max-w-[70%]">
 		<Accordion.Item value="item-1" class="border-[#171f30]">
-			<Accordion.Trigger>Is YIZY API Restful?</Accordion.Trigger>
+			<Accordion.Trigger>Why YIZY?</Accordion.Trigger>
 			<Accordion.Content>
 				<div>
-					No. YIZY API is an opinionated style of building Json API that deviates from Restful
-					practices. Here is the YIZY API Convention.
+					I am a big fan of schema-first / contract-first design where I’d write an Open API spec
+					and then use code generators to generate server and client code. It’s a pretty good
+					workflow when it works, but it requires a lot of fiddling and setup to get everything to
+					work nicely across the stack such as
+				</div>
+				<ul class="m-4 list-item list-disc">
+					<li>
+						writing the spec in json / yaml is tedious since there is limited code completion and a
+						ton of optional fields, I find myself having to read the documentation constantly while
+						writing the spec
+					</li>
+					<li>picking (installing, configuring, and testing) a generator that works</li>
+					<li>
+						finding the perfect combination between the spec style and the generated code (things
+						like whether to define models inline or in the #components section, or sometimes the
+						generator would outright ignore what I have in the spec
+					</li>
+					<li>always forgetting to update the version after changing the spec</li>
+				</ul>
+				<div class="font-bold">Simplify Open API Spec by Giving up Restful Conventions</div>
+				<div>
+					Here is a crazy thought. What if we give up Restful conventions and use Open API Spec for
+					a simple POST-request-based JSON RPC described below?
 				</div>
 				<ul class="m-5 list-item list-disc">
 					<li>
 						Use 'Action' instead of 'Resource' in url. Eg. /getUserById instead of /user/{'{id}'}
 					</li>
 					<li>Endpoints must only accept POST request with content type application/json.</li>
-					<li>Endpoints must reply with a status code of 200 unless there is a network error</li>
 					<li>
-						Inputs to the endpoint should be transferred in POST request body. Configuration values
-						such as API keys can be optionally supplied in request headers. Parameters in url are
-						not allowed.
+						endpoint must only allow POST requests with headers and a body. Query and path
+						Parameters are ignored
 					</li>
 					<li>
-						All response body should include a nullable error object as well as a nullable result
-						object.
+						endpoint must return a response body with consistent schema regardless of status code
 					</li>
 				</ul>
-				<div>
-					YIZY API is a Contract First RPC (Remote Procedure Call) based on POST requests. It's an
-					alternative to Restful API, GraphQL, tRPC, and gRPC.
-				</div>
+				<div class="font-bold">Further Simplifying Open API Spec by Distilling It</div>
+
+				<ul class="m-5 list-item list-disc">
+					<li>
+						remove security (this can be documented either in the service description or endpoint
+						description
+					</li>
+					<li>remove validation rules (this can be documented in the field description)</li>
+					<li>remove the ability to define inline model</li>
+				</ul>
+
+				<div class="font-bold">The Result</div>
+				We end up with a minimalistic spec that is both machine and human friendly.
+				<img src={exampleSpecImg} alt="yizy spec example" />
 			</Accordion.Content>
 		</Accordion.Item>
 	</Accordion.Root>

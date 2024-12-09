@@ -1,10 +1,12 @@
 <script>
+	import Github from 'lucide-svelte/icons/github';
 	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 	import Navbar from '$lib/components/ui/Navbar.svelte';
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import DarkModeToggle from '$lib/components/ui/DarkModeToggle.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
 	let { children } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -38,7 +40,14 @@
 			}}>
 			<h1 class="my-2 font-bold hover:text-primary">Get Early Access</h1>
 		</a>
-		<div class="my-4">
+		<div class="my-4 flex flex-row gap-2">
+			<a
+				href="https://github.com/YIZY-API/yizy-web-app"
+				class="text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg">
+				<Button variant="outline" size="icon" class="my-auto">
+					<Github />
+				</Button>
+			</a>
 			<DarkModeToggle />
 		</div>
 	</Sheet.Content>

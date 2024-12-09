@@ -2,7 +2,6 @@ import {
   field,
   nullableReferenceType,
   objectType,
-  referenceType,
   type Service,
 } from "@yizy/spec";
 
@@ -24,7 +23,7 @@ export const secretService: Service = {
       ]),
       responseModel: objectType("GetAgentByNameResponse", [
         field("error", nullableReferenceType("Error")),
-        field("agent", referenceType("Agent")),
+        field("agent", nullableReferenceType("Agent")),
       ]),
     },
   ],

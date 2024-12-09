@@ -1,4 +1,5 @@
 <script>
+	import Github from 'lucide-svelte/icons/github';
 	import DarkModeToggle from './DarkModeToggle.svelte';
 	import Menu from 'lucide-svelte/icons/menu';
 	import YizyLogo from './YIZYLogo.svelte';
@@ -29,7 +30,16 @@
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Get Early Access</a>
 
-		<div class="hidden sm:ml-4 md:block">
+		<div class="ml-4 flex h-full">
+			<a
+				href="https://github.com/YIZY-API/yizy-web-app"
+				class="hidden text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg md:flex">
+				<Button variant="outline" size="icon" class="my-auto">
+					<Github />
+				</Button>
+			</a>
+		</div>
+		<div class="my-auto ml-2 hidden md:block">
 			<DarkModeToggle />
 		</div>
 
