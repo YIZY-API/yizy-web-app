@@ -18,7 +18,7 @@
 		<div class="mx-2 h-12 w-12 text-xs">
 			<YizyLogo />
 		</div>
-		<h1 class="my-auto hidden text-lg font-black text-primary md:block">YIZY API</h1>
+		<h1 class="my-auto hidden text-lg font-black text-primary md:block">YIZY</h1>
 	</a>
 	<div class="my-auto flex flex-row sm:pr-4">
 		<a

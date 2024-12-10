@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>YIZY API</title>
+	<title>YIZY</title>
 </svelte:head>
 <section class="mx-auto w-full pb-20 pt-40">
 	<div class="my-28 flex flex-col">

@@ -45,7 +45,7 @@ export const secretService: Service = {
 };
 
 // Copy the output and paste it to the 
-// website at https://yizy.rootxsnowstudio.com/app
+// website at https://yizy.dev/app
 const output = JSON.stringify(secretService);
 `;
 </script>
@@ -55,7 +55,7 @@ const output = JSON.stringify(secretService);
 </svelte:head>
 
 <div
-	class="prose prose-slate mx-auto w-full max-w-4xl px-4 pb-20 dark:prose-invert prose-a:text-primary">
+	class="prose prose-slate dark:prose-invert prose-a:text-primary mx-auto w-full max-w-4xl px-4 pb-20">
 	<Alert.Root class="my-4 border-destructive text-destructive">
 		<TriangleAlert class="h-4 w-4 stroke-destructive" />
 		<Alert.Title>Heads up!</Alert.Title>
