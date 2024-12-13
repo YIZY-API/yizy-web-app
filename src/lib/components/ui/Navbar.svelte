@@ -26,9 +26,14 @@
 			class="mx-2 my-auto hidden text-sm font-bold hover:text-primary sm:mx-4 sm:text-lg md:block"
 			>Home</a>
 		<a
-			href="https://tally.so/r/me2BZQ"
+			href="/register"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
-			>Get Early Access</a>
+			>Login</a>
+
+		<a
+			href="/demo"
+			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
+			>Demo</a>
 
 		<div class="ml-4 flex h-full">
 			<a

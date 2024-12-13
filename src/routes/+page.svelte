@@ -22,8 +22,13 @@
 		</h1>
 		<div class="my-4 flex flex-col">
 			<div class="mx-auto flex gap-2">
-				<a href="https://tally.so/r/me2BZQ">
-					<Button class="rounded-full font-bold">Get Early Access</Button></a>
+				<a href="/demo">
+					<Button class="rounded-full font-bold" variant="outline">Demo</Button>
+				</a>
+
+				<a href="/register?mode=signup">
+					<Button class="rounded-full font-bold">Sign up</Button>
+				</a>
 			</div>
 		</div>
 	</div>

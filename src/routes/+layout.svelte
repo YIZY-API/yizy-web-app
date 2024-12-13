@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Github from 'lucide-svelte/icons/github';
 	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 	import Navbar from '$lib/components/ui/Navbar.svelte';
@@ -7,6 +7,10 @@
 	import * as Sheet from '$lib/components/ui/sheet';
 	import DarkModeToggle from '$lib/components/ui/DarkModeToggle.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { supabase } from '$lib/supabase/client';
+	import { type Subscription } from '@supabase/supabase-js';
+	import { onDestroy, onMount } from 'svelte';
+	import { onLogIn, onLogOut } from '$lib/state';
 	let { children } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -16,6 +20,25 @@
 	function closeSidebar() {
 		isSidebarOpened = false;
 	}
+
+	let supabaseSub: Subscription | null = $state(null);
+
+	onMount(() => {
+		const { data } = supabase.auth.onAuthStateChange((event, session) => {
+			supabaseSub = data.subscription;
+			if (event === 'SIGNED_IN') {
+				onLogIn();
+			} else if (event === 'SIGNED_OUT') {
+				onLogOut();
+			}
+		});
+	});
+
+	onDestroy(() => {
+		if (supabaseSub) {
+			supabaseSub.unsubscribe();
+		}
+	});
 </script>
 
 <GoogleAnalytics />
@@ -34,12 +57,15 @@
 		<a href="/" onclick={() => closeSidebar()}
 			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 		<a
-			href="https://tally.so/r/me2BZQ"
+			href="/register"
 			onclick={() => {
 				closeSidebar();
 			}}>
-			<h1 class="my-2 font-bold hover:text-primary">Get Early Access</h1>
+			<h1 class="my-2 font-bold hover:text-primary">Login</h1>
 		</a>
+
+		<a href="/demo" onclick={() => closeSidebar()}
+			><h1 class="my-2 font-bold hover:text-primary">Demo</h1></a>
 		<div class="my-4 flex flex-row gap-2">
 			<a
 				href="https://github.com/YIZY-API/yizy-web-app"
