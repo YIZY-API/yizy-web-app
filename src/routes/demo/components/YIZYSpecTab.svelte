@@ -10,10 +10,10 @@
 	import { importService } from '$lib/state';
 	import { EllipsisVertical } from 'lucide-svelte';
 
-	let importDialog: ImportDialog;
-	let exportDialog: ExportDialog;
+	let importDialog: ReturnType<typeof ImportDialog>;
+	let exportDialog: ReturnType<typeof ExportDialog>;
 
-	let editor: YizyEditor;
+	let editor: ReturnType<typeof YizyEditor>;
 
 	let saveBtnText = $state('Generate');
 
@@ -74,7 +74,9 @@
 		</Card.Header>
 	</div>
 	<Card.Content class="space-y-2 p-0">
-		<YizyEditor bind:this={editor} doc={yizySpecToDoc(secretService)} />
+		<div class="m-4 rounded border border-muted">
+			<YizyEditor bind:this={editor} doc={yizySpecToDoc(secretService)} />
+		</div>
 	</Card.Content>
 </Card.Root>
 <ImportDialog bind:this={importDialog} />
