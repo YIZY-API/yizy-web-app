@@ -7,10 +7,6 @@
 	import * as Sheet from '$lib/components/ui/sheet';
 	import DarkModeToggle from '$lib/components/ui/DarkModeToggle.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { supabase } from '$lib/supabase/client';
-	import { type Subscription } from '@supabase/supabase-js';
-	import { onDestroy, onMount } from 'svelte';
-	import { onLogIn, onLogOut } from '$lib/state';
 	let { children } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -20,25 +16,6 @@
 	function closeSidebar() {
 		isSidebarOpened = false;
 	}
-
-	let supabaseSub: Subscription | null = $state(null);
-
-	onMount(() => {
-		const { data } = supabase.auth.onAuthStateChange((event, session) => {
-			supabaseSub = data.subscription;
-			if (event === 'SIGNED_IN') {
-				onLogIn();
-			} else if (event === 'SIGNED_OUT') {
-				onLogOut();
-			}
-		});
-	});
-
-	onDestroy(() => {
-		if (supabaseSub) {
-			supabaseSub.unsubscribe();
-		}
-	});
 </script>
 
 <GoogleAnalytics />

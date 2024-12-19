@@ -5,9 +5,11 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import { supabase } from '$lib/supabase/client';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import * as yizyClient from '$lib/api-client/yizyClient';
+	import { v4 as uuidv4 } from 'uuid';
+	import { Cookie } from 'lucide-svelte';
 
 	let signUpEmail = $state('');
 	let signUpPassword = $state('');
@@ -32,29 +34,23 @@
 
 	async function onSignUpClicked() {
 		signUpInProgress = true;
-		const { data, error } = await supabase.auth.signUp({
-			email: signUpEmail,
-			password: signUpPassword
-		});
-		if (error != null) {
-			signUpError = 'something went wrong, try again later';
-		} else {
-			console.log('signup success', data);
-		}
+		console.log('todo');
 		signUpInProgress = false;
 	}
 
 	async function onLoginClicked() {
 		loginInProgress = true;
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: loginEmail,
-			password: loginPassword
-		});
-		if (error != null) {
-			loginError = 'something went wrong, try again later';
-		} else {
-			console.log('login success', data);
+		console.log('login clicked');
+		const res = await yizyClient.login({ email: uuidv4() + 'test@gmail.com' });
+		console.log(res);
+		if (res.error === null && res.result != null) {
+			localStorage.setItem('sessionToken', res.result.token);
 		}
+		//if (error != null) {
+		//	loginError = 'something went wrong, try again later';
+		//} else {
+		//	console.log('login success', data);
+		//}
 		loginInProgress = false;
 	}
 </script>

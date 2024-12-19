@@ -38,8 +38,8 @@
 					<Card.Title>YIZY API Spec</Card.Title>
 					<Card.Description
 						>Write API spec in the browser. Try editing the spec below and click the generate button
-						on the right. <span class="text-destructive">Validation Errors Coming Soon!</span
-						></Card.Description>
+						on the right.
+					</Card.Description>
 				</div>
 				<div class="my-auto flex h-full gap-2">
 					<Button

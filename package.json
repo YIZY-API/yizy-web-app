@@ -32,6 +32,7 @@
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.6",
     "prettier-plugin-tailwindcss": "^0.6.5",
+    "prisma": "^6.1.0",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "tailwind-merge": "^2.5.4",
@@ -44,13 +45,16 @@
   },
   "type": "module",
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.6",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
+    "@prisma/client": "^6.1.0",
     "@yizy/spec": "npm:@jsr/yizy__spec@^0.0.1",
     "handlebars": "^4.7.8",
     "mode-watcher": "^0.4.1",
     "svelte-highlight": "^7.7.0",
     "swapy": "^0.4.2",
-    "uuid": "^11.0.2"
+    "uuid": "^11.0.3",
+    "yup": "^1.6.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-musl": "4.9.5"
