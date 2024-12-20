@@ -16,6 +16,7 @@
 //  type Service,
 //  TypeIdentifier,
 //} from "@yizy/spec";
+import { ProgrammingLanguage } from "$lib/models/constants";
 import * as yizy from "@yizy/spec";
 
 export interface Document {
@@ -127,6 +128,83 @@ export function docToYizySpec(doc: Document): yizy.Service {
   return service;
 }
 
+function specTypeToNativeType(dataType: yizy.Datatype): string {
+  const typeMap = {
+    float: "float",
+    "float?": "float?",
+    double: "double",
+    "double?": "double?",
+    string: "string",
+    "string?": "string?",
+    boolean: "boolean",
+    "boolean?": "boolean?",
+    int: "int",
+    "int?": "int?",
+    int32: "int32",
+    "int32?": "int32?",
+    int64: "int64",
+    "int64?": "int64?",
+  };
+  if (typeof dataType === "string") {
+    if (dataType in typeMap) {
+      return typeMap[dataType];
+    } else {
+      return "";
+    }
+  } else {
+    switch (dataType.type) {
+      case yizy.TypeIdentifier.ObjectType:
+        return typeof (dataType as yizy.ObjectType).name === "string"
+          ? ((dataType as yizy.ObjectType).name as string)
+          : yizy.getLanguageSpecificName(
+            (dataType as yizy.ObjectType).name as yizy.NameMap,
+            ProgrammingLanguage.Typescript,
+          );
+
+      case yizy.TypeIdentifier.NullableObjectType:
+        return typeof (dataType as yizy.NullableObjectType).name === "string"
+          ? (((dataType as yizy.NullableObjectType).name + "?") as string)
+          : yizy.getLanguageSpecificName(
+            (dataType as yizy.NullableObjectType).name as NameMap,
+            ProgrammingLanguage.Typescript,
+          ) + "?";
+      case yizy.TypeIdentifier.ReferenceType:
+        return (dataType as yizy.ReferenceType).ref;
+      case yizy.TypeIdentifier.NullableReferenceType:
+        return (dataType as yizy.NullableReferenceType).ref + "?";
+      case yizy.TypeIdentifier.ArrayType:
+        if (yizy.isNullable((dataType as yizy.ArrayType).itemType)) {
+          return "(" +
+            specTypeToNativeType((dataType as yizy.ArrayType).itemType) +
+            ")" + "[]";
+        } else {
+          return specTypeToNativeType((dataType as yizy.ArrayType).itemType) +
+            "[]";
+        }
+      case yizy.TypeIdentifier.NullableArrayType:
+        if (yizy.isNullable((dataType as yizy.NullableArrayType).itemType)) {
+          return (
+            "(" +
+            specTypeToNativeType(
+              (dataType as yizy.NullableArrayType).itemType,
+            ) +
+            ")[]?"
+          );
+        } else {
+          return (
+            "(" +
+            specTypeToNativeType(
+              (dataType as yizy.NullableArrayType).itemType,
+            ) +
+            "[])?"
+          );
+        }
+      default:
+        return "UNKNOWN TYPE!";
+    }
+  }
+}
+
 export function yizySpecToDoc(service: yizy.Service): Document {
   const doc: Document = {
     name: typeof (service.serviceName) === "string"
@@ -149,28 +227,7 @@ export function yizySpecToDoc(service: yizy.Service): Document {
             ? e.requestModel.name
             : e.requestModel.name.default,
           fields: e.requestModel.fields.map((f) => {
-            let type = "";
-            if (typeof f.type === "string") {
-              type = f.type as yizy.PrimitiveTypes;
-            } else {
-              switch (f.type.type) {
-                case yizy.TypeIdentifier.ArrayType:
-                  type = (f.type as yizy.ArrayType).itemType + "[]";
-                  break;
-                case yizy.TypeIdentifier.NullableArrayType:
-                  type = (f.type as yizy.NullableArrayType).itemType + "[]?";
-                  break;
-                case yizy.TypeIdentifier.ReferenceType:
-                  type = (f.type as yizy.ReferenceType).ref;
-                  break;
-                case yizy.TypeIdentifier.NullableReferenceType:
-                  type = (f.type as yizy.NullableReferenceType).ref + "?";
-                  break;
-                default:
-                  type = "";
-                  break;
-              }
-            }
+            const type = specTypeToNativeType(f.type);
             return {
               name: typeof (f.name) === "string" ? f.name : f.name.default,
               type: type,
@@ -182,28 +239,7 @@ export function yizySpecToDoc(service: yizy.Service): Document {
             ? e.responseModel.name
             : e.responseModel.name.default,
           fields: e.responseModel.fields.map((f) => {
-            let type = "";
-            if (typeof f.type === "string") {
-              type = f.type as yizy.PrimitiveTypes;
-            } else {
-              switch (f.type.type) {
-                case yizy.TypeIdentifier.ArrayType:
-                  type = (f.type as yizy.ArrayType).itemType + "[]";
-                  break;
-                case yizy.TypeIdentifier.NullableArrayType:
-                  type = (f.type as yizy.NullableArrayType).itemType + "[]?";
-                  break;
-                case yizy.TypeIdentifier.ReferenceType:
-                  type = (f.type as yizy.ReferenceType).ref;
-                  break;
-                case yizy.TypeIdentifier.NullableReferenceType:
-                  type = (f.type as yizy.NullableReferenceType).ref + "?";
-                  break;
-                default:
-                  type = "";
-                  break;
-              }
-            }
+            const type = specTypeToNativeType(f.type);
             return {
               name: typeof (f.name) === "string" ? f.name : f.name.default,
               type: type,
@@ -216,30 +252,8 @@ export function yizySpecToDoc(service: yizy.Service): Document {
     additionalModels: service.referenceTypes.map((t) => {
       return {
         name: typeof (t.name) === "string" ? t.name : t.name.default,
-        fields: t.fields.map((f) => {
-          let type = "";
-
-          if (typeof f.type === "string") {
-            type = f.type as yizy.PrimitiveTypes;
-          } else {
-            switch (f.type.type) {
-              case yizy.TypeIdentifier.ArrayType:
-                type = (f.type as yizy.ArrayType).itemType + "[]";
-                break;
-              case yizy.TypeIdentifier.NullableArrayType:
-                type = (f.type as yizy.NullableArrayType).itemType + "[]?";
-                break;
-              case yizy.TypeIdentifier.ReferenceType:
-                type = (f.type as yizy.ReferenceType).ref;
-                break;
-              case yizy.TypeIdentifier.NullableReferenceType:
-                type = (f.type as yizy.NullableReferenceType).ref + "?";
-                break;
-              default:
-                type = "";
-                break;
-            }
-          }
+        fields: t.fields.map((f: yizy.Field) => {
+          const type = specTypeToNativeType(f.type);
           return {
             name: typeof (f.name) === "string" ? f.name : f.name.default,
             type: type,
