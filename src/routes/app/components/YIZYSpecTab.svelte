@@ -5,7 +5,7 @@
 	import ExportDialog from './ExportDialog.svelte';
 	import YizyEditor from '$lib/components/ui/editor/YizyEditor.svelte';
 	import { yizySpecToDoc } from '$lib/components/ui/editor/models/models';
-	import { secretService } from '$lib/yizySpec/examples/secretService';
+	import { currentService } from '$lib/state';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { importService } from '$lib/state';
 	import { EllipsisVertical } from 'lucide-svelte';
@@ -74,7 +74,9 @@
 		</Card.Header>
 	</div>
 	<Card.Content class="space-y-2 p-0">
-		<YizyEditor bind:this={editor} doc={yizySpecToDoc(secretService)} />
+		{#key $currentService}
+			<YizyEditor bind:this={editor} doc={yizySpecToDoc($currentService)} />
+		{/key}
 	</Card.Content>
 </Card.Root>
 <ImportDialog bind:this={importDialog} />

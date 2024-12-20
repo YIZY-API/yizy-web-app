@@ -7,7 +7,7 @@
 	import { importService } from '$lib/state';
 
 	let isDialogOpen = $state(false);
-	let importErrorDialog: ImportErrorDialog;
+	let importErrorDialog: ReturnType<typeof ImportErrorDialog>;
 
 	export function show() {
 		isDialogOpen = true;
@@ -19,7 +19,6 @@
 	let jsonInput = $state('');
 
 	function onUploadClicked() {
-		console.log('clicked');
 		try {
 			importService(jsonInput);
 			close();
