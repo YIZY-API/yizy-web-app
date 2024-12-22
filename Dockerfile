@@ -23,6 +23,7 @@ COPY --from=builder /app/package.json /app/package-lock.json /app/
 
 WORKDIR /app
 RUN npm install
+RUN npm install @prisma/client
 RUN npx prisma generate
 
 CMD ["node", "build/index.js"]
