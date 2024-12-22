@@ -7,7 +7,7 @@
 	import AdditionalModelList from './components/AdditionalModelList.svelte';
 	import type { Service } from '@yizy/spec';
 
-	let { doc }: { doc?: Document } = $props();
+	let { doc = $bindable() }: { doc?: Document } = $props();
 
 	export function toYizySpec(): Service {
 		if (document) {
@@ -16,7 +16,7 @@
 		throw new Error('doc is not defined!');
 	}
 
-	const defaultState = {
+	const defaultState: Document = {
 		name: '',
 		description: '',
 		environment: [
@@ -65,6 +65,10 @@
 
 	export function reset(): void {
 		document = defaultState;
+	}
+
+	export function updateDoc(doc: Document): void {
+		document = doc;
 	}
 
 	let firstEditableItem: HTMLElement;

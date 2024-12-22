@@ -9,6 +9,8 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { importService } from '$lib/state';
 	import { EllipsisVertical } from 'lucide-svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import type { Unsubscriber } from 'svelte/motion';
 
 	let importDialog: ReturnType<typeof ImportDialog>;
 	let exportDialog: ReturnType<typeof ExportDialog>;
@@ -16,6 +18,22 @@
 	let editor: ReturnType<typeof YizyEditor>;
 
 	let saveBtnText = $state('Generate');
+
+	let doc = $state(yizySpecToDoc($currentService));
+
+	let unsubscribe: Unsubscriber;
+	onMount(() => {
+		unsubscribe = currentService.subscribe((val) => {
+			doc = yizySpecToDoc(val);
+			editor.updateDoc(doc);
+		});
+	});
+
+	onDestroy(() => {
+		if (unsubscribe) {
+			unsubscribe();
+		}
+	});
 
 	function onResetClicked() {
 		editor.reset();
@@ -74,9 +92,7 @@
 		</Card.Header>
 	</div>
 	<Card.Content class="space-y-2 p-0">
-		{#key $currentService}
-			<YizyEditor bind:this={editor} doc={yizySpecToDoc($currentService)} />
-		{/key}
+		<YizyEditor bind:this={editor} bind:doc />
 	</Card.Content>
 </Card.Root>
 <ImportDialog bind:this={importDialog} />
