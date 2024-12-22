@@ -49,6 +49,7 @@
     "@oslojs/encoding": "^1.1.0",
     "@prisma/client": "^6.1.0",
     "@yizy/spec": "npm:@jsr/yizy__spec@^0.0.1",
+    "arctic": "^2.3.3",
     "handlebars": "^4.7.8",
     "mode-watcher": "^0.4.1",
     "svelte-highlight": "^7.7.0",

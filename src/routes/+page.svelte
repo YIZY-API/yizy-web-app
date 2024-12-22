@@ -15,19 +15,15 @@
 </svelte:head>
 <section class="mx-auto w-full pb-20 pt-40">
 	<div class="my-28 flex flex-col">
-		<h1 class="mx-auto px-4 text-center text-5xl font-bold">Build Json API The YIZY Way</h1>
-		<h1 class="text-md mx-auto max-w-[600px] px-4 py-2 text-center font-light">
-			Write API Spec in the Browser with Code Completion and Generate Type-safe Server and Client
-			Code Instantly with Zero Configs.
+		<h1 class="mx-auto px-4 text-center text-5xl font-bold">From Schema to Type-Safe Code</h1>
+		<h1 class="mx-auto px-4 text-center text-5xl font-bold">All in Your Browser</h1>
+		<h1 class="text-md mx-auto max-w-[600px] px-4 py-2 text-center font-bold">
+			Build Json API The YIZY Way
 		</h1>
-		<div class="my-4 flex flex-col">
+		<div class="my-2 flex flex-col">
 			<div class="mx-auto flex gap-2">
 				<a href="/demo">
-					<Button class="rounded-full font-bold" variant="outline">Demo</Button>
-				</a>
-
-				<a href="/register?mode=signup">
-					<Button class="rounded-full font-bold">Sign up</Button>
+					<Button class="rounded-full font-bold">Let's Go!</Button>
 				</a>
 			</div>
 		</div>

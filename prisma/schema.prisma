@@ -19,6 +19,7 @@ model User {
   email String @unique
   sessions Session[]
   username String
+  google_id String?
 }
 
 model Session {
