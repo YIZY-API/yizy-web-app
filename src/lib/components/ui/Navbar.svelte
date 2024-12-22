@@ -1,15 +1,21 @@
-<script>
-	import Github from 'lucide-svelte/icons/github';
+<script lang="ts">
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import Github from '$lib/components/ui/icons/Github.svelte';
 	import DarkModeToggle from './DarkModeToggle.svelte';
 	import Menu from 'lucide-svelte/icons/menu';
 	import YizyLogo from './YIZYLogo.svelte';
-	import { createEventDispatcher } from 'svelte';
 	import Button from './button/button.svelte';
+	import { User } from 'lucide-svelte';
 
-	const dispatch = createEventDispatcher();
+	let {
+		onOpenSidebarBtnClicked,
+		isUserLoggedIn
+	}: { onOpenSidebarBtnClicked?: () => void; isUserLoggedIn: boolean } = $props();
 
 	function openSidebar() {
-		dispatch('openSidebarEvent');
+		if (onOpenSidebarBtnClicked) {
+			onOpenSidebarBtnClicked();
+		}
 	}
 </script>
 
@@ -25,10 +31,17 @@
 			href="/"
 			class="mx-2 my-auto hidden text-sm font-bold hover:text-primary sm:mx-4 sm:text-lg md:block"
 			>Home</a>
+		{#if !isUserLoggedIn}
+			<a
+				href="/login"
+				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
+				>Login</a>
+		{/if}
+
 		<a
-			href="https://tally.so/r/me2BZQ"
+			href="/demo"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
-			>Get Early Access</a>
+			>Demo</a>
 
 		<div class="ml-4 flex h-full">
 			<a
@@ -42,6 +55,24 @@
 		<div class="my-auto ml-2 hidden md:block">
 			<DarkModeToggle />
 		</div>
+		{#if isUserLoggedIn}
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger>
+					<div class="my-auto ml-2 hidden md:block">
+						<Button variant="outline" size="icon" class="my-auto">
+							<User />
+						</Button>
+					</div>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content class="mr-4 bg-secondary">
+					<DropdownMenu.Group>
+						<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Item><a href="/api/auth/logout">Log out</a></DropdownMenu.Item>
+					</DropdownMenu.Group>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		{/if}
 
 		<Button onclick={() => openSidebar()} variant="ghost" size="icon" class="mx-2 md:hidden">
 			<Menu class="h-[1.2rem] w-[1.2rem]" />

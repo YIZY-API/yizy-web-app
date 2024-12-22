@@ -1,0 +1,73 @@
+{
+  "serviceName": "YizyService",
+  "description": "api spec for yizy",
+  "environment": [
+    {
+      "name": "local",
+      "url": "http://localhost:5173"
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "login",
+      "description": "login a user with email",
+      "url": "/api/auth/login",
+      "requestModel": {
+        "name": "LoginRequest",
+        "fields": [
+          {
+            "name": "email",
+            "type": "string"
+          }
+        ],
+        "type": "Object"
+      },
+      "responseModel": {
+        "name": "LoginResponse",
+        "fields": [
+          {
+            "name": "error",
+            "type": {
+              "ref": "YizyError",
+              "type": "NullableReference"
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "ref": "LoginResult",
+              "type": "NullableReference"
+            }
+          }
+        ],
+        "type": "Object"
+      }
+    }
+  ],
+  "referenceTypes": [
+    {
+      "name": "YizyError",
+      "fields": [
+        {
+          "name": "code",
+          "type": "int"
+        },
+        {
+          "name": "msg",
+          "type": "string"
+        }
+      ],
+      "type": "Object"
+    },
+    {
+      "name": "LoginResult",
+      "fields": [
+        {
+          "name": "token",
+          "type": "string"
+        }
+      ],
+      "type": "Object"
+    }
+  ]
+}

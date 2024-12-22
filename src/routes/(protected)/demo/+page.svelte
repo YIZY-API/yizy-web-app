@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>Web App</title>
+	<title>Demo</title>
 </svelte:head>
 
 <svelte:window onresize={onScreenResize} />

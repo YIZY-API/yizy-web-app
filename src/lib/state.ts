@@ -30,3 +30,15 @@ function updateService(newService: Service) {
     return newService;
   });
 }
+
+const _isUserLoggedIn = writable<boolean>(false);
+export const isUserLoggedIn = readonly(_isUserLoggedIn);
+
+export function onLogIn(){
+  _isUserLoggedIn.set(true);
+  window.location.href = "/specs";
+}
+
+export function onLogOut(){
+  _isUserLoggedIn.set(false);
+}

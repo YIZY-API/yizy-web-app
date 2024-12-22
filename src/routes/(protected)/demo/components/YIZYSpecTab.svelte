@@ -10,10 +10,10 @@
 	import { importService } from '$lib/state';
 	import { EllipsisVertical } from 'lucide-svelte';
 
-	let importDialog: ImportDialog;
-	let exportDialog: ExportDialog;
+	let importDialog: ReturnType<typeof ImportDialog>;
+	let exportDialog: ReturnType<typeof ExportDialog>;
 
-	let editor: YizyEditor;
+	let editor: ReturnType<typeof YizyEditor>;
 
 	let saveBtnText = $state('Generate');
 
@@ -38,8 +38,8 @@
 					<Card.Title>YIZY API Spec</Card.Title>
 					<Card.Description
 						>Write API spec in the browser. Try editing the spec below and click the generate button
-						on the right. <span class="text-destructive">Validation Errors Coming Soon!</span
-						></Card.Description>
+						on the right.
+					</Card.Description>
 				</div>
 				<div class="my-auto flex h-full gap-2">
 					<Button
