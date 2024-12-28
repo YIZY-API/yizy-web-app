@@ -14,18 +14,49 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  uuid String
-  email String @unique
-  sessions Session[]
-  username String
-  google_id String?
+  id                         Int                         @id @default(autoincrement())
+  uuid                       String
+  email                      String                      @unique
+  sessions                   Session[]
+  username                   String
+  google_id                  String?
+  bridgeUserAndSpecification BridgeUserAndSpecfication[]
+  SpecificationSnapshot      SpecificationSnapshot[]
 }
 
 model Session {
   id        String   @id
-  uuid String
+  uuid      String
   userId    Int
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model BridgeUserAndSpecfication {
+  id     Int           @id @default(autoincrement())
+  userId Int
+  user   User          @relation(references: [id], fields: [userId], onDelete: Cascade)
+  specId Int
+  spec   Specification @relation(references: [id], fields: [specId], onDelete: Cascade)
+}
+
+model Specification {
+  id                         Int                         @id @default(autoincrement())
+  uuid                       String
+  name                       String
+  specSnapshots              SpecificationSnapshot[]
+  bridgeUserAndSpecification BridgeUserAndSpecfication[]
+}
+
+model SpecificationSnapshot {
+  id             Int           @id @default(autoincrement())
+  uuid           String
+  specId         Int
+  spec           Specification @relation(references: [id], fields: [specId], onDelete: Cascade)
+  prevSnapshotId String        @unique
+  createdAt      DateTime      @default(now())
+  versionNum     Int
+  content        String
+  creatorId         Int
+  createdBy      User          @relation(references: [id], fields: [creatorId], onDelete: Cascade)
 }

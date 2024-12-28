@@ -9,21 +9,25 @@
   ],
   "endpoints": [
     {
-      "name": "login",
-      "description": "login a user with email",
-      "url": "/api/auth/login",
+      "name": "createSpec",
+      "description": "create a new spec",
+      "url": "/api/spec/createSpec",
       "requestModel": {
-        "name": "LoginRequest",
+        "name": "CreateSpecRequest",
         "fields": [
           {
-            "name": "email",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "creatorUserId",
             "type": "string"
           }
         ],
         "type": "Object"
       },
       "responseModel": {
-        "name": "LoginResponse",
+        "name": "CreateSpecResponse",
         "fields": [
           {
             "name": "error",
@@ -35,7 +39,124 @@
           {
             "name": "result",
             "type": {
-              "ref": "LoginResult",
+              "ref": "CreateSpecResult",
+              "type": "NullableReference"
+            }
+          }
+        ],
+        "type": "Object"
+      }
+    },
+    {
+      "name": "updateSpec",
+      "description": "updates an existing spec, content overwrites an existing spec",
+      "url": "/api/spec/updateSpec",
+      "requestModel": {
+        "name": "UpdateSpecRequest",
+        "fields": [
+          {
+            "name": "specId",
+            "type": "string"
+          },
+          {
+            "name": "prevSpecSnapshotId",
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "type": "string"
+          },
+          {
+            "name": "updatorUserId",
+            "type": "string"
+          }
+        ],
+        "type": "Object"
+      },
+      "responseModel": {
+        "name": "UpdateSpecResponse",
+        "fields": [
+          {
+            "name": "error",
+            "type": {
+              "ref": "YizyError",
+              "type": "NullableReference"
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "ref": "UpdateSpecResult",
+              "type": "NullableReference"
+            }
+          }
+        ],
+        "type": "Object"
+      }
+    },
+    {
+      "name": "getSpecs",
+      "description": "gets a list of spec that belongs to the user",
+      "url": "/api/specs/getSpecs",
+      "requestModel": {
+        "name": "GetSpecsRequest",
+        "fields": [
+          {
+            "name": "userId",
+            "type": "string"
+          }
+        ],
+        "type": "Object"
+      },
+      "responseModel": {
+        "name": "GetSpecsResponse",
+        "fields": [
+          {
+            "name": "error",
+            "type": {
+              "ref": "YizyError",
+              "type": "NullableReference"
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "ref": "GetSpecsResult",
+              "type": "Reference"
+            }
+          }
+        ],
+        "type": "Object"
+      }
+    },
+    {
+      "name": "getLatestSpecById",
+      "description": "gets the latest snapshot of a spec by id",
+      "url": "/api/specs/getLatestSpecById",
+      "requestModel": {
+        "name": "GetLatestSpecByIdRequest",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "type": "Object"
+      },
+      "responseModel": {
+        "name": "GetLatestSpecByIdResponse",
+        "fields": [
+          {
+            "name": "error",
+            "type": {
+              "ref": "YizyError",
+              "type": "NullableReference"
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "ref": "SpecificationSnapshot",
               "type": "NullableReference"
             }
           }
@@ -60,10 +181,84 @@
       "type": "Object"
     },
     {
-      "name": "LoginResult",
+      "name": "CreateSpecResult",
       "fields": [
         {
-          "name": "token",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "type": "string"
+        }
+      ],
+      "type": "Object"
+    },
+    {
+      "name": "UpdateSpecResult",
+      "fields": [
+        {
+          "name": "content",
+          "type": "string"
+        },
+        {
+          "name": "versionNumber",
+          "type": "int"
+        },
+        {
+          "name": "prevSnapshotId",
+          "type": "string"
+        }
+      ],
+      "type": "Object"
+    },
+    {
+      "name": "SpecIdAndName",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "type": "Object"
+    },
+    {
+      "name": "GetSpecsResult",
+      "fields": [
+        {
+          "name": "resultset",
+          "type": {
+            "itemType": {
+              "ref": "SpecIdAndName",
+              "type": "Reference"
+            },
+            "type": "Array"
+          }
+        }
+      ],
+      "type": "Object"
+    },
+    {
+      "name": "SpecificationSnapshot",
+      "fields": [
+        {
+          "name": "content",
+          "type": "string"
+        },
+        {
+          "name": "versionNumber",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "snapshotId",
           "type": "string"
         }
       ],

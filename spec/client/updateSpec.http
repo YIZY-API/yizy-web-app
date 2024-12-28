@@ -1,0 +1,10 @@
+POST localhost:5173/api/spec/updateSpec
+Cookie: sessionToken=wm6yy37jowyacj73eqvdelxliyrkxc3z;HttpOnly=true;SameSite=Lax;Expires=2025-01-21T18:28:11.755Z;Path=/;
+
+{
+  "specId": "97ce9b27-016f-4929-9cf9-aae2cded9d99",
+  "content": "hello world",
+  "prevSpecSnapshotId": "54fce999-8e6a-482f-b7d8-b4837b1fe66c",
+  "updatorUserId": "83edaa20-9f3c-49ae-b078-c10d496c27f3"
+}
+

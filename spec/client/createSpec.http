@@ -1,0 +1,8 @@
+POST localhost:5173/api/spec/createSpec
+Cookie: sessionToken=wm6yy37jowyacj73eqvdelxliyrkxc3z;HttpOnly=true;SameSite=Lax;Expires=2025-01-21T18:28:11.755Z;Path=/;
+
+{
+  "name": "firstSpec",
+  "creatorUserId": "83edaa20-9f3c-49ae-b078-c10d496c27f3"
+}
+

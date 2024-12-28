@@ -129,3 +129,159 @@ export async function getOrCreateUser(
     };
   }
 }
+
+export async function getSpecs(userId: string) {
+  const user = await prisma.user.findFirst({
+    where: {
+      uuid: userId,
+    },
+  });
+
+  if (!user) {
+    return [];
+  }
+
+  const bridge = await prisma.bridgeUserAndSpecfication.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+
+  const specs = await prisma.specification.findMany({
+    where: {
+      id: {
+        in: bridge.flatMap((b) => b.specId),
+      },
+    },
+  });
+  return specs;
+}
+
+export async function createSpec(
+  name: string,
+  userId: string,
+) {
+  const user = await prisma.user.findFirst({
+    where: {
+      uuid: userId,
+    },
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  const res = await prisma.$transaction(async (tx) => {
+    const spec = await tx.specification.create({
+      data: {
+        name: name,
+        uuid: crypto.randomUUID(),
+      },
+    });
+    const uuid = crypto.randomUUID();
+
+    await tx.specificationSnapshot.create({
+      data: {
+        specId: spec.id,
+        uuid: uuid,
+        versionNum: 0,
+        content: "",
+        creatorId: user.id,
+        prevSnapshotId: "genesis-" + uuid,
+      },
+    });
+
+    await tx.bridgeUserAndSpecfication.create({
+      data: {
+        specId: spec.id,
+        userId: user.id,
+      },
+    });
+
+    return {
+      name: name,
+      id: spec.uuid,
+      version: "v0",
+    };
+  });
+
+  return res;
+}
+
+export async function updateSpec(
+  specId: string,
+  prevSnapshotId: string,
+  content: string,
+  userId: string,
+) {
+  const user = await prisma.user.findFirst({ where: { uuid: userId } });
+  if (!user) return null;
+
+  const spec = await prisma.specification.findFirst({
+    where: { uuid: specId },
+  });
+  if (!spec) return null;
+
+  console.log("cp1");
+  const res = await prisma.$transaction(async (tx) => {
+    console.log("cp2");
+    const prevSnapshot = await tx.specificationSnapshot.findFirst({
+      where: {
+        uuid: prevSnapshotId,
+      },
+    });
+    if (!prevSnapshot) {
+      return null;
+    }
+
+    console.log("cp3");
+    const result = await tx.specificationSnapshot.create({
+      data: {
+        prevSnapshotId: prevSnapshotId,
+        versionNum: prevSnapshot?.versionNum + 1,
+        content: content,
+        creatorId: user.id,
+        specId: spec.id,
+        uuid: crypto.randomUUID(),
+      },
+    });
+
+    return {
+      content: content,
+      versionNum: result.versionNum,
+      prevSnapshotId: result.uuid,
+    };
+  });
+  return res;
+}
+
+export async function getLatestSpecSnapshotBySpecId(specId: string) {
+  const spec = await prisma.specification.findFirst({
+    where: {
+      uuid: specId,
+    },
+  });
+
+  if (!spec) {
+    return null;
+  }
+
+  const snapshot = await prisma.specificationSnapshot.findFirst({
+    where: {
+      specId: spec.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  if (!snapshot) {
+    return null;
+  }
+
+  return {
+    snapshotId: snapshot.uuid,
+    version: snapshot.versionNum,
+    name: spec.name,
+    content: snapshot.content,
+  };
+}

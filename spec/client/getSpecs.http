@@ -1,0 +1,6 @@
+POST localhost:5173/api/spec/getSpecs
+Cookie: sessionToken=wm6yy37jowyacj73eqvdelxliyrkxc3z;HttpOnly=true;SameSite=Lax;Expires=2025-01-21T18:28:11.755Z;Path=/;
+
+{
+  "userId": "83edaa20-9f3c-49ae-b078-c10d496c27f3"
+}
