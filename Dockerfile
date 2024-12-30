@@ -9,6 +9,10 @@ RUN mkdir /app
 COPY . /app
 
 WORKDIR /app
+# csrf check is disabled for local development
+RUN rm svelte.config.js
+# csrf check is enabled for prod 
+RUN mv svelte.config.prod.js svelte.config.js
 RUN npm install
 RUN npm run build
 

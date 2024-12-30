@@ -97,7 +97,7 @@
     {
       "name": "getSpecs",
       "description": "gets a list of spec that belongs to the user",
-      "url": "/api/specs/getSpecs",
+      "url": "/api/spec/getSpecs",
       "requestModel": {
         "name": "GetSpecsRequest",
         "fields": [
@@ -132,7 +132,7 @@
     {
       "name": "getLatestSpecById",
       "description": "gets the latest snapshot of a spec by id",
-      "url": "/api/specs/getLatestSpecById",
+      "url": "/api/spec/getLatestSpecById",
       "requestModel": {
         "name": "GetLatestSpecByIdRequest",
         "fields": [

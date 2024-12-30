@@ -1,54 +1,33 @@
 <script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Card from '$lib/components/ui/card';
-	import ImportDialog from './ImportDialog.svelte';
-	import ExportDialog from './ExportDialog.svelte';
+	import ImportSpecDialog from './ImportSpecDialog.svelte';
+	import ExportSpecDialog from './ExportSpecDialog.svelte';
 	import YizyEditor from '$lib/components/ui/editor/YizyEditor.svelte';
-	import { yizySpecToDoc } from '$lib/components/ui/editor/models/models';
-	import { currentService } from '$lib/state';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { importService } from '$lib/state';
-	import { EllipsisVertical } from 'lucide-svelte';
-	import { onDestroy, onMount } from 'svelte';
-	import type { Unsubscriber } from 'svelte/motion';
+	import { EllipsisVertical, LoaderCircle } from 'lucide-svelte';
+	import { type Document } from '$lib/components/ui/editor/models/models';
 
-	let importDialog: ReturnType<typeof ImportDialog>;
-	let exportDialog: ReturnType<typeof ExportDialog>;
+	let importDialog: ReturnType<typeof ImportSpecDialog>;
+	let exportDialog: ReturnType<typeof ExportSpecDialog>;
 
 	let editor: ReturnType<typeof YizyEditor>;
 
-	let saveBtnText = $state('Generate');
+	let isSaving = $state(false);
 
-	let doc = $state(yizySpecToDoc($currentService));
+	let {
+		doc = $bindable(),
+		onGenerateBtnClicked
+	}: { doc: Document; onGenerateBtnClicked: (content: string) => Promise<void> } = $props();
 
-	let unsubscribe: Unsubscriber;
-	onMount(() => {
-		unsubscribe = currentService.subscribe((val) => {
-			doc = yizySpecToDoc(val);
-			editor.updateDoc(doc);
-		});
-	});
-
-	onDestroy(() => {
-		if (unsubscribe) {
-			unsubscribe();
-		}
-	});
-
-	function onResetClicked() {
-		editor.reset();
-	}
-
-	function onSaveClicked() {
-		saveBtnText = 'Generated!';
-		importService(JSON.stringify(editor.toYizySpec()));
-		setTimeout(() => {
-			saveBtnText = 'Generate';
-		}, 1000);
+	async function onSaveAndGenerateClicked() {
+		isSaving = true;
+		await onGenerateBtnClicked(JSON.stringify(editor.toYizySpec()));
+		isSaving = false;
 	}
 </script>
 
-<Card.Root>
+<Card.Root class="border-none">
 	<div class="flex flex-row justify-between">
 		<Card.Header class="w-full">
 			<div class="flex w-full flex-row justify-between">
@@ -60,14 +39,17 @@
 					</Card.Description>
 				</div>
 				<div class="my-auto flex h-full gap-2">
-					<Button
-						onclick={() => onResetClicked()}
-						variant="outline"
-						class="border-destructive text-destructive hover:bg-destructive">Clear</Button>
-					<Button
-						onclick={() => {
-							onSaveClicked();
-						}}>{saveBtnText}</Button>
+					{#if isSaving}
+						<Button disabled>
+							<LoaderCircle class="animate-spin" />
+							Saving and Generating Code ...
+						</Button>
+					{:else}
+						<Button
+							onclick={() => {
+								onSaveAndGenerateClicked();
+							}}>Save & Generate</Button>
+					{/if}
 					<DropdownMenu.Root>
 						<DropdownMenu.Trigger class="h-full rounded-full text-muted hover:text-foreground">
 							<EllipsisVertical class="my-auto"></EllipsisVertical>
@@ -91,9 +73,9 @@
 			</div>
 		</Card.Header>
 	</div>
-	<Card.Content class="space-y-2">
+	<Card.Content class="space-y-2 p-0">
 		<YizyEditor bind:this={editor} bind:doc />
 	</Card.Content>
 </Card.Root>
-<ImportDialog bind:this={importDialog} />
-<ExportDialog bind:this={exportDialog}></ExportDialog>
+<ImportSpecDialog bind:this={importDialog} />
+<ExportSpecDialog bind:this={exportDialog} bind:doc />

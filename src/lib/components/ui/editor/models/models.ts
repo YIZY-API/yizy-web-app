@@ -1,21 +1,3 @@
-//import {
-//  type ArrayType,
-//  arrayType,
-//  type DataType,
-//  type Field as YizyField,
-//  type FieldDataType,
-//  isPrimitiveType,
-//  type NullableArrayType,
-//  nullableArrayType,
-//  type NullableReferenceType,
-//  nullableReferenceType,
-//  type ObjectType,
-//  objectType,
-//  type PrimitiveTypes,
-//  type ReferenceType,
-//  type Service,
-//  TypeIdentifier,
-//} from "@yizy/spec";
 import { ProgrammingLanguage } from "$lib/models/constants";
 import * as yizy from "@yizy/spec";
 
@@ -26,6 +8,53 @@ export interface Document {
   endpoints: Endpoint[];
   additionalModels: Model[];
 }
+
+export const DEFAULT_DOCUMENT: Document = {
+  name: "",
+  description: "",
+  environment: [
+    {
+      name: "",
+      baseUrl: "",
+    },
+  ],
+  endpoints: [
+    {
+      name: "",
+      url: "",
+      description: "",
+      req: {
+        name: "",
+        fields: [
+          {
+            name: "",
+            type: "",
+          },
+        ],
+      },
+      res: {
+        name: "",
+        fields: [
+          {
+            name: "",
+            type: "",
+          },
+        ],
+      },
+    },
+  ],
+  additionalModels: [
+    {
+      name: "",
+      fields: [
+        {
+          name: "",
+          type: "",
+        },
+      ],
+    },
+  ],
+};
 
 export interface Environment {
   name: string;
@@ -128,7 +157,7 @@ export function docToYizySpec(doc: Document): yizy.Service {
   return service;
 }
 
-function specTypeToNativeType(dataType: yizy.Datatype): string {
+function specTypeToNativeType(dataType: yizy.DataType): string {
   const typeMap = {
     float: "float",
     "float?": "float?",
@@ -165,7 +194,7 @@ function specTypeToNativeType(dataType: yizy.Datatype): string {
         return typeof (dataType as yizy.NullableObjectType).name === "string"
           ? (((dataType as yizy.NullableObjectType).name + "?") as string)
           : yizy.getLanguageSpecificName(
-            (dataType as yizy.NullableObjectType).name as NameMap,
+            (dataType as yizy.NullableObjectType).name as yizy.NameMap,
             ProgrammingLanguage.Typescript,
           ) + "?";
       case yizy.TypeIdentifier.ReferenceType:

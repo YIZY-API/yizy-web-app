@@ -42,7 +42,7 @@ export async function POST(
       error: { msg: "unable to update spec", code: 500 },
       result: null,
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   } else {
     const res: yizyService.UpdateSpecResponse = {
       error: null,
@@ -52,6 +52,6 @@ export async function POST(
         versionNumber: result.versionNum,
       },
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   }
 }

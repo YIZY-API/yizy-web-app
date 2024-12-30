@@ -35,7 +35,7 @@ export async function POST(
       error: { msg: "unable to create spec", code: 500 },
       result: null,
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   } else {
     const res: yizyService.CreateSpecResponse = {
       error: null,
@@ -44,6 +44,6 @@ export async function POST(
         id: result.id,
       },
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   }
 }

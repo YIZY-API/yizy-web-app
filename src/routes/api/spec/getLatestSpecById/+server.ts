@@ -34,7 +34,7 @@ export async function POST(
       error: null,
       result: null,
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   } else {
     const res: yizyService.GetLatestSpecByIdResponse = {
       error: null,
@@ -45,6 +45,6 @@ export async function POST(
         snapshotId: result.snapshotId,
       },
     };
-    return json({ res }, { status: 200 });
+    return json(res, { status: 200 });
   }
 }

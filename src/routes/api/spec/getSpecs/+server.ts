@@ -40,5 +40,5 @@ export async function POST(
       }),
     },
   };
-  return json({ res }, { status: 200 });
+  return json(res, { status: 200 });
 }

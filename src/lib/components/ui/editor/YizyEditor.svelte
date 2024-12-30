@@ -91,7 +91,7 @@
 	});
 </script>
 
-<div class="w-full p-6 pb-20">
+<div class="w-full pb-20">
 	<div class="mx-auto grid w-full grid-cols-1 rounded-lg lg:grid-cols-5 lg:gap-2">
 		<div class="col-span-1 rounded-lg px-6 pr-10 pt-4 lg:col-span-3 lg:pb-4">
 			<div class="mt-4 border-muted lg:mb-2">

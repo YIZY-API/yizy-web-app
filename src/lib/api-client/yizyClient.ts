@@ -128,7 +128,7 @@ export async function getSpecs(
     defaultHeaders = { ...defaultHeaders, ...headers };
   }
 
-  const response = await fetch("http://localhost:5173/api/specs/getSpecs", {
+  const response = await fetch("http://localhost:5173/api/spec/getSpecs", {
     method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify(req),
@@ -151,7 +151,7 @@ export async function getLatestSpecById(
   }
 
   const response = await fetch(
-    "http://localhost:5173/api/specs/getLatestSpecById",
+    "http://localhost:5173/api/spec/getLatestSpecById",
     {
       method: "POST",
       headers: defaultHeaders,

@@ -15,9 +15,6 @@ const config = {
     alias: {
       "@/*": "./path/to/lib/*",
     },
-    csrf: {
-      checkOrigin: false,
-    },
   },
 };
 
