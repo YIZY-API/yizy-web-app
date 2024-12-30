@@ -84,7 +84,7 @@ export async function createSpec(
     defaultHeaders = { ...defaultHeaders, ...headers };
   }
 
-  const response = await fetch("http://localhost:5173/api/spec/createSpec", {
+  const response = await fetch("https://yizy.dev/api/spec/createSpec", {
     method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify(req),
@@ -106,7 +106,7 @@ export async function updateSpec(
     defaultHeaders = { ...defaultHeaders, ...headers };
   }
 
-  const response = await fetch("http://localhost:5173/api/spec/updateSpec", {
+  const response = await fetch("https://yizy.dev/api/spec/updateSpec", {
     method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify(req),
@@ -128,7 +128,7 @@ export async function getSpecs(
     defaultHeaders = { ...defaultHeaders, ...headers };
   }
 
-  const response = await fetch("http://localhost:5173/api/spec/getSpecs", {
+  const response = await fetch("https://yizy.dev/api/spec/getSpecs", {
     method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify(req),
@@ -151,7 +151,7 @@ export async function getLatestSpecById(
   }
 
   const response = await fetch(
-    "http://localhost:5173/api/spec/getLatestSpecById",
+    "https://yizy.dev/api/spec/getLatestSpecById",
     {
       method: "POST",
       headers: defaultHeaders,
