@@ -72,23 +72,59 @@ export interface GetLatestSpecByIdResponse {
   result: SpecificationSnapshot | null;
 }
 
+export interface YizyServiceApiClientConfigs {
+  baseUrl: string;
+  requestConfigs: RequestInit;
+}
+
+export interface Hooks {
+  overrideRequestConfigs?: (
+    defaultConfigs: RequestInit,
+  ) => RequestInit;
+  onResponse?: (res: Response) => void;
+}
+
+export const localConfigs: YizyServiceApiClientConfigs = {
+  baseUrl: "http://localhost:5173",
+  requestConfigs: {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
+};
+
+export const prodConfigs: YizyServiceApiClientConfigs = {
+  baseUrl: "https://yizy.dev",
+  requestConfigs: {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
+};
+
 export async function createSpec(
   req: CreateSpecRequest,
-  headers?: Record<string, string>,
+  configs: YizyServiceApiClientConfigs,
+  hooks?: Hooks,
 ): Promise<CreateSpecResponse> {
-  let defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  let opts = configs.requestConfigs;
 
-  if (headers) {
-    defaultHeaders = { ...defaultHeaders, ...headers };
+  opts.body = JSON.stringify(req);
+
+  if (hooks?.overrideRequestConfigs) {
+    opts = hooks.overrideRequestConfigs(opts);
   }
 
-  const response = await fetch("https://yizy.dev/api/spec/createSpec", {
-    method: "POST",
-    headers: defaultHeaders,
-    body: JSON.stringify(req),
-  });
+  const response: Response = await fetch(
+    configs.baseUrl + "/api/spec/createSpec",
+    opts,
+  );
+
+  if (hooks?.onResponse) {
+    hooks.onResponse(response);
+  }
 
   const result: CreateSpecResponse = await response.json();
   return result;
@@ -96,21 +132,25 @@ export async function createSpec(
 
 export async function updateSpec(
   req: UpdateSpecRequest,
-  headers?: Record<string, string>,
+  configs: YizyServiceApiClientConfigs,
+  hooks?: Hooks,
 ): Promise<UpdateSpecResponse> {
-  let defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  let opts = configs.requestConfigs;
 
-  if (headers) {
-    defaultHeaders = { ...defaultHeaders, ...headers };
+  opts.body = JSON.stringify(req);
+
+  if (hooks?.overrideRequestConfigs) {
+    opts = hooks.overrideRequestConfigs(opts);
   }
 
-  const response = await fetch("https://yizy.dev/api/spec/updateSpec", {
-    method: "POST",
-    headers: defaultHeaders,
-    body: JSON.stringify(req),
-  });
+  const response: Response = await fetch(
+    configs.baseUrl + "/api/spec/updateSpec",
+    opts,
+  );
+
+  if (hooks?.onResponse) {
+    hooks.onResponse(response);
+  }
 
   const result: UpdateSpecResponse = await response.json();
   return result;
@@ -118,21 +158,25 @@ export async function updateSpec(
 
 export async function getSpecs(
   req: GetSpecsRequest,
-  headers?: Record<string, string>,
+  configs: YizyServiceApiClientConfigs,
+  hooks?: Hooks,
 ): Promise<GetSpecsResponse> {
-  let defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  let opts = configs.requestConfigs;
 
-  if (headers) {
-    defaultHeaders = { ...defaultHeaders, ...headers };
+  opts.body = JSON.stringify(req);
+
+  if (hooks?.overrideRequestConfigs) {
+    opts = hooks.overrideRequestConfigs(opts);
   }
 
-  const response = await fetch("https://yizy.dev/api/spec/getSpecs", {
-    method: "POST",
-    headers: defaultHeaders,
-    body: JSON.stringify(req),
-  });
+  const response: Response = await fetch(
+    configs.baseUrl + "/api/spec/getSpecs",
+    opts,
+  );
+
+  if (hooks?.onResponse) {
+    hooks.onResponse(response);
+  }
 
   const result: GetSpecsResponse = await response.json();
   return result;
@@ -140,24 +184,25 @@ export async function getSpecs(
 
 export async function getLatestSpecById(
   req: GetLatestSpecByIdRequest,
-  headers?: Record<string, string>,
+  configs: YizyServiceApiClientConfigs,
+  hooks?: Hooks,
 ): Promise<GetLatestSpecByIdResponse> {
-  let defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  let opts = configs.requestConfigs;
 
-  if (headers) {
-    defaultHeaders = { ...defaultHeaders, ...headers };
+  opts.body = JSON.stringify(req);
+
+  if (hooks?.overrideRequestConfigs) {
+    opts = hooks.overrideRequestConfigs(opts);
   }
 
-  const response = await fetch(
-    "https://yizy.dev/api/spec/getLatestSpecById",
-    {
-      method: "POST",
-      headers: defaultHeaders,
-      body: JSON.stringify(req),
-    },
+  const response: Response = await fetch(
+    configs.baseUrl + "/api/spec/getLatestSpecById",
+    opts,
   );
+
+  if (hooks?.onResponse) {
+    hooks.onResponse(response);
+  }
 
   const result: GetLatestSpecByIdResponse = await response.json();
   return result;

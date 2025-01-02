@@ -7,7 +7,7 @@
 	import * as oapi from '$lib/yizySpec/generators/open-api-spec/openApiSpec';
 	import { type Document, docToYizySpec } from '$lib/components/ui/editor/models/models';
 
-	let { doc = $bindable() }: { doc: Document } = $props();
+	let { doc = $bindable(), version }: { doc: Document; version?: string } = $props();
 </script>
 
 <Card.Root class="border-none">
@@ -25,10 +25,10 @@
 			</Tabs.List>
 
 			<Tabs.Content value="yizy-models">
-				<ModelsSdkTab bind:doc />
+				<ModelsSdkTab bind:doc {version} />
 			</Tabs.Content>
 			<Tabs.Content value="yizy-sdk">
-				<ClientSdkTab bind:doc />
+				<ClientSdkTab bind:doc {version} />
 			</Tabs.Content>
 			<Tabs.Content value="open-api-spec">
 				<div class="my-4">

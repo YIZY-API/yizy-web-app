@@ -14,6 +14,7 @@
 	import CodeTab from './components/CodeTab.svelte';
 	import SpecTab from './components/SpecTab.svelte';
 	import { DEFAULT_DOCUMENT } from '$lib/components/ui/editor/models/models';
+	import { dev } from '$app/environment';
 
 	let { data } = $props();
 
@@ -25,6 +26,7 @@
 	interface SpecDetailDto {
 		id: string;
 		snapshotId: string;
+		version: string;
 	}
 
 	let doc = $state(yizySpecToDoc($currentService));
@@ -45,14 +47,23 @@
 		return spec.id == selectedSpec.id;
 	}
 
+	function getApiClientConfigs() {
+		if (dev) {
+			return yizy.localConfigs;
+		} else {
+			return yizy.prodConfigs;
+		}
+	}
+
 	async function selectSpecClicked(spec: SpecDto) {
 		selectedSpec = spec;
 		isContentLoading = true;
-		const res = await yizy.getLatestSpecById({ id: spec.id });
+		const res = await yizy.getLatestSpecById({ id: spec.id }, getApiClientConfigs());
 		if (res.error === null && res.result !== null) {
 			selectedSpecDetails = {
 				id: spec.id,
-				snapshotId: res.result.snapshotId
+				snapshotId: res.result.snapshotId,
+				version: res.result.versionNumber
 			};
 			specContent = res.result?.content;
 			try {
@@ -68,10 +79,13 @@
 
 	async function createSpecDialogSaveBtnClicked() {
 		if (data.authState) {
-			const res = await yizy.createSpec({
-				name: createSpecDialogSpecName,
-				creatorUserId: data.authState?.user.uuid
-			});
+			const res = await yizy.createSpec(
+				{
+					name: createSpecDialogSpecName,
+					creatorUserId: data.authState?.user.uuid
+				},
+				getApiClientConfigs()
+			);
 			if (res.error === null && res.result != null) {
 				specs = specs.concat(res.result);
 				closeCreateSpecDialog();
@@ -83,16 +97,20 @@
 
 	async function updateSpecBtnClicked(specContent: string) {
 		if (data.authState && selectedSpecDetails) {
-			const res = await yizy.updateSpec({
-				specId: selectedSpecDetails.id,
-				content: specContent,
-				updatorUserId: data.authState.user.uuid,
-				prevSpecSnapshotId: selectedSpecDetails.snapshotId
-			});
+			const res = await yizy.updateSpec(
+				{
+					specId: selectedSpecDetails.id,
+					content: specContent,
+					updatorUserId: data.authState.user.uuid,
+					prevSpecSnapshotId: selectedSpecDetails.snapshotId
+				},
+				getApiClientConfigs()
+			);
 			if (res.error == null && res.result != null) {
 				selectedSpecDetails = {
 					snapshotId: res.result?.prevSnapshotId,
-					id: selectedSpecDetails.id
+					id: selectedSpecDetails.id,
+					version: res.result?.versionNumber.toString()
 				};
 			}
 			return;
@@ -103,9 +121,12 @@
 
 	onMount(async () => {
 		if (data.authState) {
-			const res = await yizy.getSpecs({
-				userId: data.authState?.user.uuid
-			});
+			const res = await yizy.getSpecs(
+				{
+					userId: data.authState?.user.uuid
+				},
+				getApiClientConfigs()
+			);
 			if (res.error == null) {
 				specs = res.result.resultset;
 			}
@@ -187,7 +208,7 @@
 					<SpecTab bind:doc onGenerateBtnClicked={updateSpecBtnClicked}></SpecTab>
 				</Tabs.Content>
 				<Tabs.Content value="code-gen">
-					<CodeTab bind:doc />
+					<CodeTab bind:doc version={selectedSpecDetails?.version ?? undefined} />
 				</Tabs.Content>
 			</Tabs.Root>
 		{/if}

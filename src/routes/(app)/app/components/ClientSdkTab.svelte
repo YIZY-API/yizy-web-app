@@ -2,28 +2,28 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Card from '$lib/components/ui/card';
 	import * as Select from '$lib/components/ui/select';
-	import ProgrammingLanguagesDropdown from '$lib/components/ui/ProgrammingLanguagesDropdown.svelte';
-	import { ProgrammingLanguage } from '$lib/models/constants';
-	import { generateSdkFile } from '$lib/yizySpec/generators/php/generator';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
-	import php from 'svelte-highlight/languages/php';
+	//import { generateSdkFile } from '$lib/yizySpec/generators/php/generator';
+	//import * as tsGen from '$lib/yizySpec/generators/browser-functional-typescript/generator';
+	import * as tsFunctionalGen from '$lib/yizySpec/generators/browser-functional-typescript/generator';
+	import * as tsOopGen from '$lib/yizySpec/generators/browser-object-oriented-typescript/generator';
+	//import php from 'svelte-highlight/languages/php';
 	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import { typescript } from 'svelte-highlight/languages';
 	import { type Document, docToYizySpec } from '$lib/components/ui/editor/models/models';
 
-	let {
-		doc = $bindable(),
-		lang = $bindable(ProgrammingLanguage.Typescript)
-	}: { doc: Document; lang?: ProgrammingLanguage } = $props();
+	let { doc = $bindable(), version }: { doc: Document; version?: string } = $props();
 
-	let url: string = $state(docToYizySpec(doc).environment[0].url ?? '');
-	const triggerContent = $derived.by(() => {
-		return docToYizySpec(doc).environment.find((e) => e.url === url)
-			? docToYizySpec(doc).environment.find((e) => e.url === url)?.name +
-					': ' +
-					docToYizySpec(doc).environment.find((e) => e.url === url)?.url
-			: 'Select an environment';
-	});
+	type GeneratorType = 'browser-oop-typescript' | 'browser-functional-typescript';
+	let generator: GeneratorType = $state('browser-oop-typescript');
+
+	//let url: string = $state(docToYizySpec(doc).environment[0].url ?? '');
+	//const triggerContent = $derived.by(() => {
+	//	return docToYizySpec(doc).environment.find((e) => e.url === url)
+	//		? docToYizySpec(doc).environment.find((e) => e.url === url)?.name +
+	//				': ' +
+	//				docToYizySpec(doc).environment.find((e) => e.url === url)?.url
+	//		: 'Select an environment';
+	//});
 </script>
 
 <Card.Root>
@@ -34,37 +34,41 @@
 		</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">
-		<Label class="text-sm font-bold">Environment</Label>
-		<div class="my-2">
-			<Select.Root
-				type="single"
-				name="baseUrl"
-				bind:value={url as string}
-				onValueChange={(val) => {
-					if (val != '') {
-						url = val;
-					}
-				}}
-				controlledValue={true}>
-				<Select.Trigger class="w-[300px]">
-					{triggerContent}
-				</Select.Trigger>
-				<Select.Content>
-					<Select.Group>
-						<Select.GroupHeading>Environments</Select.GroupHeading>
-						{#each docToYizySpec(doc).environment as env}
-							<Select.Item value={env.url} label={env.url}>{env.name + ': ' + env.url}</Select.Item>
-						{/each}
-					</Select.Group>
-				</Select.Content>
-			</Select.Root>
-		</div>
-		<ProgrammingLanguagesDropdown bind:lang />
+		<Label class="text-sm font-bold">Programming Language</Label>
+		<Select.Root
+			type="single"
+			bind:value={generator}
+			onValueChange={(val: string) => {
+				generator = val as GeneratorType;
+			}}
+			controlledValue={true}>
+			<Select.Trigger class="mt-2 w-[300px]">{generator}</Select.Trigger>
+			<Select.Content>
+				<Select.Group>
+					<Select.SelectGroupHeading>Programming Language</Select.SelectGroupHeading>
+					<Select.Item value={'browser-oop-typescript'} label={'browser-oop-typescript'}
+						>{'browser-oop-typescript'}</Select.Item>
+					<Select.Item
+						value={'browser-functional-typescript'}
+						label={'browser-functional-typescript'}>{'browser-functional-typescript'}</Select.Item>
+				</Select.Group>
+			</Select.Content>
+		</Select.Root>
+		<!--
 		{#if lang === ProgrammingLanguage.Php}
 			<HighlightCode language={php} code={generateSdkFile(url, docToYizySpec(doc))} />
 		{/if}
-		{#if lang === ProgrammingLanguage.Typescript}
-			<HighlightCode language={typescript} code={tsGen.generateSdkFile(url, docToYizySpec(doc))} />
+        -->
+		{#if generator === 'browser-oop-typescript'}
+			<HighlightCode
+				language={typescript}
+				code={tsOopGen.generateSdkFile(docToYizySpec(doc), version)} />
+		{/if}
+
+		{#if generator === 'browser-functional-typescript'}
+			<HighlightCode
+				language={typescript}
+				code={tsFunctionalGen.generateSdkFile(docToYizySpec(doc), version)} />
 		{/if}
 	</Card.Content>
 </Card.Root>

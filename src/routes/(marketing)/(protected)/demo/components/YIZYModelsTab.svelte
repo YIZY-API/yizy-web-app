@@ -8,7 +8,7 @@
 	import { ProgrammingLanguage } from '$lib/models/constants';
 
 	import { typescript } from 'svelte-highlight/languages';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
+	import * as tsGen from '$lib/yizySpec/generators/browser-functional-typescript/generator';
 
 	interface Props {
 		lang?: ProgrammingLanguage;
@@ -24,9 +24,11 @@
 	</Card.Header>
 	<Card.Content class="space-y-2">
 		<ProgrammingLanguagesDropdown bind:lang />
+		<!--
 		{#if lang === ProgrammingLanguage.Php}
 			<HighlightCode language={php} code={generateModelFile($currentService)} />
 		{/if}
+        -->
 		{#if lang === ProgrammingLanguage.Typescript}
 			<HighlightCode language={typescript} code={tsGen.generateServerCode($currentService)} />
 		{/if}

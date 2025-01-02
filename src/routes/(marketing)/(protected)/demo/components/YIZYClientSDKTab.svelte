@@ -6,7 +6,7 @@
 	import { ProgrammingLanguage } from '$lib/models/constants';
 	import { currentService } from '$lib/state';
 	import { generateSdkFile } from '$lib/yizySpec/generators/php/generator';
-	import * as tsGen from '$lib/yizySpec/generators/typescript/generator';
+	import * as tsGen from '$lib/yizySpec/generators/browser-functional-typescript/generator';
 	import php from 'svelte-highlight/languages/php';
 	import HighlightCode from '$lib/components/ui/HighlightCode.svelte';
 	import { typescript } from 'svelte-highlight/languages';
@@ -17,14 +17,14 @@
 
 	let { lang = $bindable(ProgrammingLanguage.Typescript) }: Props = $props();
 
-	let url: string = $state($currentService.environment[0].url ?? '');
-	const triggerContent = $derived.by(() => {
-		return $currentService.environment.find((e) => e.url === url)
-			? $currentService.environment.find((e) => e.url === url)?.name +
-					': ' +
-					$currentService.environment.find((e) => e.url === url)?.url
-			: 'Select an environment';
-	});
+	//let url: string = $state($currentService.environment[0].url ?? '');
+	//const triggerContent = $derived.by(() => {
+	//	return $currentService.environment.find((e) => e.url === url)
+	//		? $currentService.environment.find((e) => e.url === url)?.name +
+	//				': ' +
+	//				$currentService.environment.find((e) => e.url === url)?.url
+	//		: 'Select an environment';
+	//});
 </script>
 
 <Card.Root>
@@ -35,6 +35,7 @@
 		</Card.Description>
 	</Card.Header>
 	<Card.Content class="space-y-2">
+		<!--
 		<Label class="text-sm font-bold">Environment</Label>
 		<div class="my-2">
 			<Select.Root
@@ -60,12 +61,15 @@
 				</Select.Content>
 			</Select.Root>
 		</div>
+        -->
 		<ProgrammingLanguagesDropdown bind:lang />
+		<!--
 		{#if lang === ProgrammingLanguage.Php}
-			<HighlightCode language={php} code={generateSdkFile(url, $currentService)} />
+			<HighlightCode language={php} code={generateSdkFile($currentService)} />
 		{/if}
+        -->
 		{#if lang === ProgrammingLanguage.Typescript}
-			<HighlightCode language={typescript} code={tsGen.generateSdkFile(url, $currentService)} />
+			<HighlightCode language={typescript} code={tsGen.generateSdkFile($currentService)} />
 		{/if}
 	</Card.Content>
 </Card.Root>

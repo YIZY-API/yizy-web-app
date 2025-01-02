@@ -1,5 +1,5 @@
 import { ProgrammingLanguage } from "$lib/models/constants";
-import { generatorWarning } from "../constants";
+import { generatorWarning, getGeneratorComments } from "../constants";
 import {
   type ArrayType,
   type DataType,
@@ -17,14 +17,17 @@ import {
   TypeIdentifier,
 } from "@yizy/spec";
 import {
-  type ClientSdkFileTemplateInput,
+  CLASS_TEMPLATE,
+  type ClassTemplateInput,
   type FieldTemplateInput,
+  HOOKS_AND_CONFIGS_TEMPLATE,
+  type HooksAndConfigsTemplateInput,
+  METHOD_TEMPLATE,
+  type MethodTemplateInput,
   MODEL_FILE_TEMPLATE,
   MODEL_TEMPLATE,
   type ModelFileTemplateInput,
   type ModelTemplateInput,
-  POST_REQUEST_FUNCTION_TEMPLATE,
-  type PostRequestFunctionTemplateInput,
   type Route,
   SERVICE_ROUTE_TEMPLATE,
   type ServiceRouteTemplateInput,
@@ -175,9 +178,9 @@ export function generateModelClass(object: ObjectType) {
 }
 
 function endpointToPostRequestFunctionTemplateInput(
-  baseUrl: string,
+  serviceName: string,
   endpoint: Endpoint,
-): PostRequestFunctionTemplateInput {
+): MethodTemplateInput {
   let argType = "";
   if (endpoint.requestModel?.type === TypeIdentifier.ObjectType) {
     argType = typeof (endpoint.requestModel as ObjectType).name === "string"
@@ -194,33 +197,44 @@ function endpointToPostRequestFunctionTemplateInput(
 
   return {
     functionName: typeof endpoint.name === "string" ? endpoint.name : "TODO",
-    postUrl: baseUrl + endpoint.url,
+    postUrl: endpoint.url,
     argType: argType,
     returnType: returnType,
+    serviceName: serviceName,
   };
 }
 
-function serviceToClientSdkTemplateInput(
-  baseUrl: string,
+function serviceToClassTemplateInput(
   service: Service,
-): ClientSdkFileTemplateInput {
-  const input: ClientSdkFileTemplateInput = {
-    functions: [],
+): ClassTemplateInput {
+  const input: ClassTemplateInput = {
+    serviceName: typeof service.serviceName === "string"
+      ? service.serviceName as string
+      : (service.serviceName as NameMap).default,
+    methods: [],
   };
   service.endpoints.forEach((e: Endpoint) => {
-    input.functions.push(
-      endpointToPostRequestFunctionTemplateInput(baseUrl, e),
+    input.methods.push(
+      endpointToPostRequestFunctionTemplateInput(
+        typeof service.serviceName == "string"
+          ? service.serviceName as string
+          : (service.serviceName as NameMap).default,
+        e,
+      ),
     );
   });
   return input;
 }
 
-export function generatePostRequestFunction(
-  baseUrl: string,
+export function generateMethod(
+  serviceName: string,
   endpoint: Endpoint,
 ): string {
-  const input = endpointToPostRequestFunctionTemplateInput(baseUrl, endpoint);
-  const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
+  const input = endpointToPostRequestFunctionTemplateInput(
+    serviceName,
+    endpoint,
+  );
+  const tmpl = Handlebars.compile(METHOD_TEMPLATE);
   return tmpl(input);
 }
 
@@ -243,20 +257,51 @@ export function generateRoute(service: Service): string {
   return tmpl(tmplInput);
 }
 
-export function generateServerCode(service: Service): string {
-  const routes = generateRoute(service);
-  const result = generateModelFile(service);
-  return generatorWarning + routes + result;
+function generateConfigsAndHooks(service: Service): string {
+  const tmplInput: HooksAndConfigsTemplateInput = {
+    serviceName: typeof (service.serviceName) === "string"
+      ? service.serviceName as string
+      : (service.serviceName as NameMap).default,
+    environments: service.environment.map((e) => {
+      return {
+        baseUrl: e.url,
+        name: e.name,
+      };
+    }),
+  };
+
+  const tmpl = Handlebars.compile(HOOKS_AND_CONFIGS_TEMPLATE);
+  const result = tmpl(tmplInput);
+  return result;
 }
 
-export function generateSdkFile(baseUrl: string, service: Service): string {
+export function generateServerCode(service: Service, version?: string): string {
+  const routes = generateRoute(service);
+  const result = generateModelFile(service);
+  if (version) {
+    const servicename = typeof service.serviceName === "string"
+      ? service.serviceName
+      : (service.serviceName as NameMap).default;
+    return getGeneratorComments(version, servicename) + routes + result;
+  } else {
+    return generatorWarning + routes + result;
+  }
+}
+
+export function generateSdkFile(service: Service, version?: string): string {
   let result = generateModelFile(service);
-  const templateInputs = serviceToClientSdkTemplateInput(baseUrl, service);
+  result = result + generateConfigsAndHooks(service);
 
-  templateInputs.functions.forEach((f) => {
-    const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
-    result = result + tmpl(f);
-  });
+  const templateInputs = serviceToClassTemplateInput(service);
+  const tmpl = Handlebars.compile(CLASS_TEMPLATE);
+  result = result + tmpl(templateInputs);
 
-  return generatorWarning + result;
+  if (version) {
+    const servicename = typeof service.serviceName === "string"
+      ? service.serviceName
+      : (service.serviceName as NameMap).default;
+    return getGeneratorComments(version, servicename) + result;
+  } else {
+    return generatorWarning + result;
+  }
 }

@@ -1,5 +1,6 @@
 import type { Session, User } from "@prisma/client";
 import { prisma } from "./prismaClient";
+import * as yizy from "@yizy/spec";
 import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
@@ -157,6 +158,73 @@ export async function getSpecs(userId: string) {
   return specs;
 }
 
+const defaultService: yizy.Service = {
+  serviceName: "ExampleService",
+  description: "This is an example service",
+  environment: [{ name: "local", url: "http://localhost:5173" }],
+  endpoints: [
+    {
+      name: "getExampleById",
+      description: "This is an example endpoint",
+      url: "/getExampleById",
+      requestModel: {
+        name: "GetExampleByIdRequest",
+        type: yizy.TypeIdentifier.ObjectType,
+        fields: [
+          {
+            name: "id",
+            type: "string",
+          },
+        ],
+      },
+      responseModel: {
+        name: "GetExampleByIdResponse",
+        type: yizy.TypeIdentifier.ObjectType,
+        fields: [
+          {
+            name: "result",
+            type: yizy.nullableReferenceType("ExampleResult"),
+          },
+          {
+            name: "error",
+            type: yizy.nullableReferenceType("ExampleServiceError"),
+          },
+        ],
+      },
+    },
+  ],
+  referenceTypes: [
+    {
+      name: "ExampleServiceError",
+      type: yizy.TypeIdentifier.ObjectType,
+      fields: [
+        {
+          name: "code",
+          type: "int",
+        },
+        {
+          name: "message",
+          type: "string",
+        },
+      ],
+    },
+    {
+      name: "ExampleResult",
+      type: yizy.TypeIdentifier.ObjectType,
+      fields: [
+        {
+          name: "id",
+          type: "string",
+        },
+        {
+          name: "description",
+          type: "string",
+        },
+      ],
+    },
+  ],
+};
+
 export async function createSpec(
   name: string,
   userId: string,
@@ -185,7 +253,7 @@ export async function createSpec(
         specId: spec.id,
         uuid: uuid,
         versionNum: 0,
-        content: "",
+        content: JSON.stringify(defaultService),
         creatorId: user.id,
         prevSnapshotId: "genesis-" + uuid,
       },
@@ -222,9 +290,7 @@ export async function updateSpec(
   });
   if (!spec) return null;
 
-  console.log("cp1");
   const res = await prisma.$transaction(async (tx) => {
-    console.log("cp2");
     const prevSnapshot = await tx.specificationSnapshot.findFirst({
       where: {
         uuid: prevSnapshotId,
@@ -234,7 +300,6 @@ export async function updateSpec(
       return null;
     }
 
-    console.log("cp3");
     const result = await tx.specificationSnapshot.create({
       data: {
         prevSnapshotId: prevSnapshotId,

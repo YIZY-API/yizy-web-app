@@ -134,14 +134,18 @@ export function docToYizySpec(doc: Document): yizy.Service {
         name: e.name,
         description: e.description,
         url: e.url,
-        requestModel: e.req === null ? null : yizy.objectType(
-          e.req.name,
-          e.req.fields.map((f) => docFieldToServiceField(f)),
-        ),
-        responseModel: e.res === null ? null : yizy.objectType(
-          e.res.name,
-          e.res.fields.map((f) => docFieldToServiceField(f)),
-        ),
+        requestModel: e.req === null || e.req.name === ""
+          ? null
+          : yizy.objectType(
+            e.req.name,
+            e.req.fields.map((f) => docFieldToServiceField(f)),
+          ),
+        responseModel: e.res === null || e.res.name === ""
+          ? null
+          : yizy.objectType(
+            e.res.name,
+            e.res.fields.map((f) => docFieldToServiceField(f)),
+          ),
       };
       return endpoint;
     }),
@@ -251,30 +255,34 @@ export function yizySpecToDoc(service: yizy.Service): Document {
         name: typeof (e.name) === "string" ? e.name : e.name.default,
         url: e.url,
         description: e.description,
-        req: e.requestModel === null ? null : {
-          name: typeof (e.requestModel.name) === "string"
-            ? e.requestModel.name
-            : e.requestModel.name.default,
-          fields: e.requestModel.fields.map((f) => {
-            const type = specTypeToNativeType(f.type);
-            return {
-              name: typeof (f.name) === "string" ? f.name : f.name.default,
-              type: type,
-            };
-          }),
-        },
-        res: e.responseModel === null ? null : {
-          name: typeof (e.responseModel.name) === "string"
-            ? e.responseModel.name
-            : e.responseModel.name.default,
-          fields: e.responseModel.fields.map((f) => {
-            const type = specTypeToNativeType(f.type);
-            return {
-              name: typeof (f.name) === "string" ? f.name : f.name.default,
-              type: type,
-            };
-          }),
-        },
+        req: e.requestModel === null
+          ? { name: "", fields: [{ name: "", type: "" }] }
+          : {
+            name: typeof (e.requestModel.name) === "string"
+              ? e.requestModel.name
+              : e.requestModel.name.default,
+            fields: e.requestModel.fields.map((f) => {
+              const type = specTypeToNativeType(f.type);
+              return {
+                name: typeof (f.name) === "string" ? f.name : f.name.default,
+                type: type,
+              };
+            }),
+          },
+        res: e.responseModel === null
+          ? { name: "", fields: [{ name: "", type: "" }] }
+          : {
+            name: typeof (e.responseModel.name) === "string"
+              ? e.responseModel.name
+              : e.responseModel.name.default,
+            fields: e.responseModel.fields.map((f) => {
+              const type = specTypeToNativeType(f.type);
+              return {
+                name: typeof (f.name) === "string" ? f.name : f.name.default,
+                type: type,
+              };
+            }),
+          },
       };
       return endpoint;
     }),

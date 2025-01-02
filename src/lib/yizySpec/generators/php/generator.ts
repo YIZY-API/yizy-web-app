@@ -173,7 +173,6 @@ export function generateModelClass(object: ObjectType) {
 }
 
 function endpointToPostRequestFunctionTemplateInput(
-  baseUrl: string,
   endpoint: Endpoint,
 ): PostRequestFunctionTemplateInput {
   let argType = "";
@@ -192,14 +191,13 @@ function endpointToPostRequestFunctionTemplateInput(
 
   return {
     functionName: typeof endpoint.name === "string" ? endpoint.name : "TODO",
-    postUrl: baseUrl + endpoint.url,
+    postUrl: endpoint.url,
     argType: argType,
     returnType: returnType,
   };
 }
 
 function serviceToClientSdkFileTemplateInput(
-  baseUrl: string,
   service: Service,
 ): ClientSdkFileTemplateInput {
   const input: ClientSdkFileTemplateInput = {
@@ -207,21 +205,21 @@ function serviceToClientSdkFileTemplateInput(
   };
   service.endpoints.forEach((e: Endpoint) => {
     input.functions.push(
-      endpointToPostRequestFunctionTemplateInput(baseUrl, e),
+      endpointToPostRequestFunctionTemplateInput(e),
     );
   });
   return input;
 }
 
-export function generateFunction(baseUrl: string, endpoint: Endpoint): string {
-  const input = endpointToPostRequestFunctionTemplateInput(baseUrl, endpoint);
+export function generateFunction(endpoint: Endpoint): string {
+  const input = endpointToPostRequestFunctionTemplateInput(endpoint);
   const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
   return tmpl(input);
 }
 
-export function generateSdkFile(baseUrl: string, service: Service): string {
+export function generateSdkFile(service: Service): string {
   let result = generateModelFile(service);
-  const templateInputs = serviceToClientSdkFileTemplateInput(baseUrl, service);
+  const templateInputs = serviceToClientSdkFileTemplateInput(service);
 
   templateInputs.functions.forEach((f) => {
     const tmpl = Handlebars.compile(POST_REQUEST_FUNCTION_TEMPLATE);
