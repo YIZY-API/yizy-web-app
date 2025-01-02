@@ -41,7 +41,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
   const username: string = claims.name ?? "";
   const email: string | null = claims.email ?? null;
 
-  console.log(claims);
   if (!googleUserId || !email) {
     return new Response(null, {
       status: 400,

@@ -77,6 +77,10 @@
 		isContentLoading = false;
 	}
 
+	async function onImportSpec(service: yizySpec.Service) {
+		doc = yizySpecToDoc(service as yizySpec.Service);
+	}
+
 	async function createSpecDialogSaveBtnClicked() {
 		if (data.authState) {
 			const res = await yizy.createSpec(
@@ -205,7 +209,7 @@
 					<Tabs.Trigger value="code-gen">Generate Code</Tabs.Trigger>
 				</Tabs.List>
 				<Tabs.Content value="api-spec">
-					<SpecTab bind:doc onGenerateBtnClicked={updateSpecBtnClicked}></SpecTab>
+					<SpecTab bind:doc onGenerateBtnClicked={updateSpecBtnClicked} {onImportSpec}></SpecTab>
 				</Tabs.Content>
 				<Tabs.Content value="code-gen">
 					<CodeTab bind:doc version={selectedSpecDetails?.version ?? undefined} />

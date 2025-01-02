@@ -4,6 +4,9 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Label } from '$lib/components/ui/label';
 	import { importService } from '$lib/state';
+	import * as yizy from '@yizy/spec';
+
+	let { onImport }: { onImport: (service: yizy.Service) => void } = $props();
 
 	let isDialogOpen = $state(false);
 
@@ -19,7 +22,8 @@
 
 	function onUploadClicked() {
 		try {
-			importService(jsonInput);
+			const service: yizy.Service = JSON.parse(jsonInput);
+			onImport(service);
 			importError = '';
 			close();
 		} catch (error) {

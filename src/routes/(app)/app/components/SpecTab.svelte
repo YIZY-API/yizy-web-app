@@ -6,7 +6,8 @@
 	import YizyEditor from '$lib/components/ui/editor/YizyEditor.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { EllipsisVertical, LoaderCircle } from 'lucide-svelte';
-	import { type Document } from '$lib/components/ui/editor/models/models';
+	import { yizySpecToDoc, type Document } from '$lib/components/ui/editor/models/models';
+	import * as yizy from '@yizy/spec';
 
 	let importDialog: ReturnType<typeof ImportSpecDialog>;
 	let exportDialog: ReturnType<typeof ExportSpecDialog>;
@@ -17,13 +18,23 @@
 
 	let {
 		doc = $bindable(),
-		onGenerateBtnClicked
-	}: { doc: Document; onGenerateBtnClicked: (content: string) => Promise<void> } = $props();
+		onGenerateBtnClicked,
+		onImportSpec
+	}: {
+		doc: Document;
+		onGenerateBtnClicked: (content: string) => Promise<void>;
+		onImportSpec: (service: yizy.Service) => void;
+	} = $props();
 
 	async function onSaveAndGenerateClicked() {
 		isSaving = true;
 		await onGenerateBtnClicked(JSON.stringify(editor.toYizySpec()));
 		isSaving = false;
+	}
+
+	function onImportSpecBtnClicked(service: yizy.Service) {
+		onImportSpec(service);
+		editor.updateDoc(yizySpecToDoc(service));
 	}
 </script>
 
@@ -77,5 +88,5 @@
 		<YizyEditor bind:this={editor} bind:doc />
 	</Card.Content>
 </Card.Root>
-<ImportSpecDialog bind:this={importDialog} />
+<ImportSpecDialog bind:this={importDialog} onImport={onImportSpecBtnClicked} />
 <ExportSpecDialog bind:this={exportDialog} bind:doc />
