@@ -22,6 +22,27 @@ model User {
   google_id                  String?
   bridgeUserAndSpecification BridgeUserAndSpecfication[]
   SpecificationSnapshot      SpecificationSnapshot[]
+  Workspaces                 BridgeWorkspaceAndUser[]
+  Workspace                  Workspace[]
+  Specification              Specification[]
+}
+
+model Workspace {
+  id             Int                      @id @default(autoincrement())
+  uuid           String
+  name           String
+  ownerId        Int
+  owner          User                     @relation(references: [id], fields: [ownerId], onDelete: Cascade)
+  members        BridgeWorkspaceAndUser[]
+  specifications Specification[]
+}
+
+model BridgeWorkspaceAndUser {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(references: [id], fields: [userId], onDelete: Cascade)
+  workspaceId Int
+  workspace   Workspace @relation(references: [id], fields: [workspaceId], onDelete: Cascade)
 }
 
 model Session {
@@ -45,7 +66,11 @@ model Specification {
   uuid                       String
   name                       String
   specSnapshots              SpecificationSnapshot[]
+  ownerId                    Int
+  owner                      User                        @relation(references: [id], fields: [ownerId], onDelete: Cascade)
   bridgeUserAndSpecification BridgeUserAndSpecfication[]
+  workspaceId                Int?
+  workspace                  Workspace?                  @relation(references: [id], fields: [workspaceId], onDelete: Cascade)
 }
 
 model SpecificationSnapshot {
@@ -57,6 +82,6 @@ model SpecificationSnapshot {
   createdAt      DateTime      @default(now())
   versionNum     Int
   content        String
-  creatorId         Int
+  creatorId      Int
   createdBy      User          @relation(references: [id], fields: [creatorId], onDelete: Cascade)
 }

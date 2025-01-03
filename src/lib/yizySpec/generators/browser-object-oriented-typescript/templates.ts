@@ -92,9 +92,17 @@ export interface ClassTemplateInput {
 }
 
 export const CLASS_TEMPLATE = `export class {{serviceName}} {
-    configs: {{serviceName}}ApiClientConfigs;
+    private configs: {{serviceName}}ApiClientConfigs;
 
     constructor(configs: {{serviceName}}ApiClientConfigs) {
+        this.configs = configs;
+    }
+
+    getApiClientConfigs(): {{serviceName}}ApiClientConfigs {
+        return this.configs;
+    }
+
+    updateApiClientConfigs(configs: {{serviceName}}ApiClientConfigs) {
         this.configs = configs;
     }
 

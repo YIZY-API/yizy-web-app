@@ -244,6 +244,7 @@ export async function createSpec(
       data: {
         name: name,
         uuid: crypto.randomUUID(),
+        ownerId: user.id,
       },
     });
     const uuid = crypto.randomUUID();

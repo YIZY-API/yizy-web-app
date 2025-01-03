@@ -42,9 +42,3 @@
 	</button>
 	<Highlight {language} {code} />
 </div>
-
-<style>
-	code {
-		width: 100%;
-	}
-</style>
