@@ -30,8 +30,10 @@
 			}
 		])
 	}: { props?: EndpointProps[] } = $props();
+	let lastCreatedIndex: number | null = $state(null);
 
 	function addNewItem(fromIndex: number) {
+		lastCreatedIndex = fromIndex;
 		const newItem: EndpointProps = {
 			name: '',
 			description: '',
@@ -71,23 +73,25 @@
 </script>
 
 <div class="my-2 w-full">
-	{#each props as _, index}
-		<div role="none" class="group my-auto flex w-full flex-col">
-			<div class="flex w-full flex-row">
-				<button class="mt-2 flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
-					<PlusIcon
-						class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
-				</button>
+	{#key props}
+		{#each props as _, index}
+			<div role="none" class="group my-auto flex w-full flex-col">
+				<div class="flex w-full flex-row">
+					<button class="mt-2 flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
+						<PlusIcon
+							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+					</button>
 
-				<button class="mt-2 flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
-					<TrashIcon
-						class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
-				</button>
+					<button class="mt-2 flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
+						<TrashIcon
+							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+					</button>
 
-				<div class="ml-2 flex-grow">
-					<Endpoint bind:props={props[index]} />
+					<div class="ml-2 flex-grow">
+						<Endpoint bind:props={props[index]} shouldFocus={index === lastCreatedIndex} />
+					</div>
 				</div>
 			</div>
-		</div>
-	{/each}
+		{/each}
+	{/key}
 </div>

@@ -26,15 +26,26 @@
 					}
 				]
 			}
-		})
-	}: { props: EndpointProps } = $props();
+		}),
+		shouldFocus = false
+	}: {
+		props: EndpointProps;
+		shouldFocus?: boolean;
+	} = $props();
+
+	function init(el: HTMLElement) {
+		if (shouldFocus) {
+			el.focus();
+		}
+	}
 </script>
 
 <div class="w-full pb-4">
 	<input
 		placeholder="endpointName"
 		class="w-full border-none border-transparent bg-transparent text-xl font-bold outline-none placeholder:text-muted active:border-none"
-		bind:value={props.name} />
+		bind:value={props.name}
+		use:init />
 
 	<input
 		placeholder="/route/endpointName"

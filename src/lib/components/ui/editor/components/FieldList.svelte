@@ -21,7 +21,10 @@
 		}
 	}
 
+	let lastCreatedIndex: number | null = $state(null);
+
 	function addNewItem(fromIndex: number) {
+		lastCreatedIndex = fromIndex;
 		const newItem = { name: '', type: '' };
 		const updatedItems = [...props];
 		updatedItems.splice(fromIndex, 0, newItem);
@@ -55,14 +58,17 @@
 					</button>
 
 					<div class="ml-2 flex-grow">
-						<Field
-							bind:props={props[index]}
-							onAddNewItem={() => {
-								addNewItem(index + 1);
-							}}
-							onRemove={() => {
-								removeItem(index);
-							}}></Field>
+						{#key props}
+							<Field
+								bind:props={props[index]}
+								shouldFocus={index === lastCreatedIndex}
+								onAddNewItem={() => {
+									addNewItem(index + 1);
+								}}
+								onRemove={() => {
+									removeItem(index);
+								}}></Field>
+						{/key}
 					</div>
 				</div>
 			</div>

@@ -5,9 +5,15 @@
 
 	let {
 		props = $bindable({ name: '', type: '' }),
+		shouldFocus = false,
 		onAddNewItem,
 		onRemove
-	}: { props: FieldProps; onAddNewItem?: () => void; onRemove?: () => void } = $props();
+	}: {
+		props: FieldProps;
+		shouldFocus: boolean;
+		onAddNewItem?: () => void;
+		onRemove?: () => void;
+	} = $props();
 	let promptOpen: boolean = $state(false);
 
 	function onFocusOut() {
@@ -60,18 +66,22 @@
 		'string?',
 		'string[]'
 	];
-	function focusMe(el: HTMLElement) {
-		el.focus();
+
+	function init(el: HTMLElement) {
+		if (shouldFocus) {
+			el.focus();
+		}
 	}
 </script>
 
 <div class="flex w-full flex-row">
 	<input
-		use:focusMe
 		bind:value={props.name}
 		placeholder="field"
 		onkeydown={onBackspacePress}
+		use:init
 		class="flex-grow border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none" />
+
 	<Command.Root class="border-none bg-transparent">
 		<Command.Input
 			onfocusout={onFocusOut}

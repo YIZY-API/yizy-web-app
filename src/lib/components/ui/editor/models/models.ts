@@ -65,8 +65,8 @@ export interface Endpoint {
   name: string;
   url: string;
   description: string;
-  req: Model | null;
-  res: Model | null;
+  req: Model;
+  res: Model;
 }
 
 export interface Model {

@@ -2,9 +2,15 @@
 	import { type Environment as EnvironmentProps } from '../models/models';
 	let {
 		props = $bindable({ name: '', baseUrl: '' }),
+		shouldFocus = false,
 		onAddNewItem,
 		onRemove
-	}: { props?: EnvironmentProps; onAddNewItem?: () => void; onRemove?: () => void } = $props();
+	}: {
+		props?: EnvironmentProps;
+		onAddNewItem?: () => void;
+		onRemove?: () => void;
+		shouldFocus?: boolean;
+	} = $props();
 
 	function onBackspacePress(event: KeyboardEvent) {
 		if (props.name === '' && event.key === 'Backspace' && onRemove) {
@@ -19,7 +25,9 @@
 	}
 
 	function focusMe(el: HTMLElement) {
-		el.focus();
+		if (shouldFocus) {
+			el.focus();
+		}
 	}
 </script>
 

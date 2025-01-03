@@ -6,14 +6,22 @@
 		props = $bindable({
 			name: '',
 			fields: []
-		})
-	}: { props: Model } = $props();
+		}),
+		shouldFocus = false
+	}: { props: Model; shouldFocus?: boolean } = $props();
+
+	function init(el: HTMLElement) {
+		if (shouldFocus) {
+			el.focus();
+		}
+	}
 </script>
 
 <input
 	placeholder="ModelName"
 	class="w-full border-none border-transparent bg-transparent font-light text-accent outline-none placeholder:text-muted active:border-none"
-	bind:value={props.name} />
+	bind:value={props.name}
+	use:init />
 
 <div class="flex w-full flex-row">
 	<FieldList bind:props={props.fields} />
