@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { Files, User, Plus, LoaderCircle } from 'lucide-svelte';
+	import { Files, Plus, LoaderCircle } from 'lucide-svelte';
 	import YizyLogo from '$lib/components/ui/YIZYLogo.svelte';
 	import * as yizy from '$lib/api-client/yizyClient';
 	import { onMount } from 'svelte';
