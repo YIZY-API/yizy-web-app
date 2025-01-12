@@ -6,11 +6,17 @@
 	import YizyLogo from './YIZYLogo.svelte';
 	import Button from './button/button.svelte';
 	import { User } from 'lucide-svelte';
+	import * as localStorageService from '$lib/localStorageService';
+	import { onMount } from 'svelte';
 
-	let {
-		onOpenSidebarBtnClicked,
-		isUserLoggedIn
-	}: { onOpenSidebarBtnClicked?: () => void; isUserLoggedIn: boolean } = $props();
+	let { onOpenSidebarBtnClicked }: { onOpenSidebarBtnClicked?: () => void } = $props();
+
+	let isLoggedIn = $state(false);
+	let isMounted = $state(false);
+	onMount(() => {
+		isLoggedIn = localStorageService.getIsLoggedIn();
+		isMounted = true;
+	});
 
 	function openSidebar() {
 		if (onOpenSidebarBtnClicked) {
@@ -42,7 +48,7 @@
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Documentation</a>
 
-		{#if !isUserLoggedIn}
+		{#if !isLoggedIn && isMounted}
 			<a
 				href="/login"
 				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
@@ -60,7 +66,7 @@
 		<div class="my-auto ml-2 hidden md:block">
 			<DarkModeToggle />
 		</div>
-		{#if isUserLoggedIn}
+		{#if isLoggedIn && isMounted}
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
 					<div class="my-auto ml-2 hidden md:block">
@@ -73,7 +79,16 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item><a href="/api/auth/logout">Log out</a></DropdownMenu.Item>
+						<DropdownMenu.Item>
+							<button
+								class="bg-transparent"
+								onclick={() => {
+									localStorageService.setClientSideLogoutState();
+									window.location.href = '/api/auth/logout';
+								}}>
+								Log out
+							</button>
+						</DropdownMenu.Item>
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>

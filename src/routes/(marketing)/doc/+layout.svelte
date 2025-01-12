@@ -1,16 +1,16 @@
 <script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import type { LayoutData } from './$types';
+	import Sidebar from './components/Sidebar.svelte';
 	import Navbar from '$lib/components/ui/Navbar.svelte';
-	import '../../marketing.css';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import DarkModeToggle from '$lib/components/ui/DarkModeToggle.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import type { Snippet } from 'svelte';
+	import type { LayoutData } from './$types';
+	import '../../../marketing.css';
+	import Button from '$lib/components/ui/button/button.svelte';
 	import Github from '$lib/components/ui/icons/Github.svelte';
 	import { User } from 'lucide-svelte';
 	import * as localStorageService from '$lib/localStorageService';
-
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -31,9 +31,22 @@
 		<Navbar onOpenSidebarBtnClicked={openSidebar} />
 	</div>
 	<div class="h-screen w-full">
-		{@render children?.()}
+		<div class="hidden h-screen w-[300px] bg-secondary lg:fixed lg:block">
+			<Sidebar />
+		</div>
+		<div class="h-screen w-full">
+			<div class="h-full px-2 pt-20 lg:ml-[300px]">
+				<div class="h-full w-full overflow-auto">
+					<div
+						class="prose prose-slate mx-auto flex w-full !max-w-screen-lg flex-col px-4 pb-20 pt-10 dark:prose-invert md:prose-lg prose-h1:my-6 prose-h2:my-4 prose-p:my-2 prose-a:text-primary">
+						{@render children?.()}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
 <Sheet.Root bind:open={isSidebarOpened}>
 	<Sheet.Content side="right" class="overflow-y-scroll">
 		<a href="/" onclick={() => closeSidebar()}
@@ -78,14 +91,13 @@
 							<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Item>
-								<button
-									class="bg-transparent"
+								<Button
 									onclick={() => {
 										localStorageService.setClientSideLogoutState();
 										window.location.href = '/api/auth/logout';
 									}}>
 									Log out
-								</button>
+								</Button>
 							</DropdownMenu.Item>
 						</DropdownMenu.Group>
 					</DropdownMenu.Content>

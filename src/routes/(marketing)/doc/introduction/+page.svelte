@@ -93,6 +93,7 @@
 
 <h2>Status Code and Response</h2>
 <p>Use consistent response model regardless of status code for a single endpoint.</p>
+
 <HighlightCode
 	language={typescript}
 	code={`interface Response {

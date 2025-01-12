@@ -4,7 +4,9 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
+		localStorageService.setClientSideLoginState();
 		const path = localStorageService.getPostLoginPath();
+		console.log(path);
 		localStorageService.setPostLoginPath('');
 		window.location.href = path;
 	});
