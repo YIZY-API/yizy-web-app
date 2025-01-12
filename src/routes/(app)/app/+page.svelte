@@ -143,7 +143,7 @@
 		<div class="flex h-full w-full flex-row">
 			<div class="flex h-full w-12 flex-col gap-3 bg-secondary px-2 py-4">
 				<button class="w-full"><Files class="h-8 w-8" /></button>
-				<button class="w-full"><User class="h-8 w-8 text-muted" /></button>
+				<!--<button class="w-full"><User class="h-8 w-8 text-muted" /></button>-->
 			</div>
 			<div class="flex flex-grow flex-col">
 				<div class="mx-auto my-4 h-12 w-12 text-xs">

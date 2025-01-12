@@ -56,7 +56,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
   const res = new Response(null, {
     status: 302,
     headers: {
-      Location: "/demo",
+      Location: "/post-login",
     },
   });
 

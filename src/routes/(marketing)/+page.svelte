@@ -1,31 +1,102 @@
 <script lang="ts">
+	import { Check } from 'lucide-svelte';
+	import * as Card from '$lib/components/ui/card';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
 	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
 	import demoImg from '$lib/assets/yizy-demo.png';
-	import docDemoImg from '$lib/assets/doc-demo.png';
 	import codeDemoImg from '$lib/assets/code-demo.png';
 	import openApiImg from '$lib/assets/openapi.png';
-	import * as Accordion from '$lib/components/ui/accordion/index.js';
-	import exampleSpecImg from '$lib/assets/exampleSpec.png';
+	import * as localStorageService from '$lib/localStorageService';
+
+	const plans = [
+		{
+			name: 'Community',
+			price: 'Free Forever',
+			description: 'Free Forever!',
+			features: [
+				'Edit API Spec with in Browser Editor',
+				'Unlimited Spec Import and Export in JSON',
+				'Unlimited Model Generation',
+				'Unlimited Client Code Generation',
+				'Community support'
+			],
+			ctaText: 'Get Started',
+			popular: false
+		},
+		{
+			name: 'Indie Hacker',
+			price: '$5',
+			description: 'Monthly',
+			features: [
+				'Edit API Spec with in Browser Editor',
+				'Unlimited Spec Import and Export in JSON',
+				'Unlimited Model Generation',
+				'Unlimited Client Code Generation',
+				'Community support',
+				'Auto API Spec Versioning',
+				'Spec Storage and Management'
+			],
+			ctaText: 'Start Free Trial',
+			popular: false
+		},
+		{
+			name: 'Team',
+			price: '$5',
+			description: 'Monthly per member with a minimum of 3 users',
+			features: [
+				'Edit API Spec with in Browser Editor',
+				'Unlimited Spec Import and Export in JSON',
+				'Unlimited Model Generation',
+				'Unlimited Client Code Generation',
+				'Community support',
+				'Auto API Spec Versioning',
+				'Spec Storage and Management',
+				'Team Collaboration (Coming Soon!)',
+				'Github Actions (Coming Soon!)',
+				'CLI Tool (Coming Soon!)',
+
+				'Self-Hosting'
+			],
+			ctaText: 'Contact Us',
+			popular: false
+		}
+	];
+
+	function onCTAClicked(name: string) {
+		if (name === plans[0].name) {
+			window.location.href = '/demo';
+		}
+		if (name === plans[1].name) {
+			localStorageService.setPostLoginPath('/upgrade');
+			window.location.href = '/login';
+		}
+		if (name === plans[2].name) {
+			window.location.href = '/contact';
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>YIZY</title>
 </svelte:head>
+
 <section class="mx-auto w-full pb-20 pt-40">
 	<div class="my-28 flex flex-col">
-		<h1 class="mx-auto px-4 text-center text-5xl font-bold">From Schema to Type-Safe Code</h1>
-		<h1 class="mx-auto px-4 text-center text-5xl font-bold">All in Your Browser</h1>
-		<h1 class="text-md mx-auto max-w-[600px] px-4 py-2 text-center font-bold">
-			Build Json API The YIZY Way
+		<h1 class="mx-auto px-4 text-center text-3xl font-bold md:text-5xl">
+			Schema-First API Development
 		</h1>
-		<div class="my-2 flex flex-col">
-			<div class="mx-auto flex gap-2">
-				<a href="/demo">
-					<Button class="rounded-full font-bold">Let's Go!</Button>
-				</a>
-			</div>
+		<h1 class="mx-auto px-4 text-center text-3xl font-bold md:text-5xl">Made YIZY</h1>
+		<h1 class="text-md mx-auto px-4 py-2 text-center md:text-xl">
+			Build Typesafe HTTP JSON APIs with Instant Code Generation. All in the Browser.
+		</h1>
+		<div class="mx-auto my-2 flex flex-col gap-2 sm:flex-row">
+			<a href="/demo" class="mx-auto my-2">
+				<Button class="mx-auto rounded-full font-bold">Try Online Editor</Button>
+			</a>
+			<a href="/doc/introduction" class="mx-auto my-2">
+				<Button class="mx-auto rounded-full font-bold" variant="outline">View Documentation</Button>
+			</a>
 		</div>
 	</div>
 </section>
@@ -47,30 +118,20 @@
 		</div>
 		<div class="mx-auto flex flex-col">
 			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
-				2. Generate and View Beautiful Documentation
+				2. Generate Model Definition and Client SDK Instantly
 			</h1>
 			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
-				View API documentation and send request directly from the browser.
-			</div>
-			<img src={docDemoImg} alt="yizy doc viewer" />
-		</div>
-		<div class="mx-auto flex flex-col">
-			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
-				3. Generate Code Instantly with Zero Configuration
-			</h1>
-			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
-				Generate Server and Client code instantly in the browser instantly
+				Generate Model Definition and Client code instantly in the browser instantly
 			</div>
 			<img src={codeDemoImg} alt="yizy generator" />
 		</div>
 
 		<div class="mx-auto flex flex-col">
 			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
-				4. Open API Support
+				3. Import / Export / Share API Specification in JSON
 			</h1>
 			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
-				Convert YIZY Spec to Open API Spec and leverage open source tools in the Open API ecosystem.
-				Generate mock server, Postman collections, and more!
+				Export the specification in JSON format for version control with Git or collaboration.
 			</div>
 			<img src={openApiImg} alt="yizy generator" />
 		</div>
@@ -139,69 +200,50 @@
 
 <section class="flex flex-col bg-primary p-8">
 	<div class="mx-auto w-full max-w-screen-lg">
-		<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">FAQ</h1>
+		<h1 class="py-8 text-center text-4xl font-bold text-[#171F30] sm:col-span-3">Pricing</h1>
 	</div>
-	<Accordion.Root
-		type="single"
-		class="mx-auto w-full border-[#171f30] text-[#171f30] sm:max-w-[70%]">
-		<Accordion.Item value="item-1" class="border-[#171f30]">
-			<Accordion.Trigger>Why YIZY?</Accordion.Trigger>
-			<Accordion.Content>
-				<div>
-					I am a big fan of schema-first / contract-first design where I’d write an Open API spec
-					and then use code generators to generate server and client code. It’s a pretty good
-					workflow when it works, but it requires a lot of fiddling and setup to get everything to
-					work nicely across the stack such as
-				</div>
-				<ul class="m-4 list-item list-disc">
-					<li>
-						writing the spec in json / yaml is tedious since there is limited code completion and a
-						ton of optional fields, I find myself having to read the documentation constantly while
-						writing the spec
-					</li>
-					<li>picking (installing, configuring, and testing) a generator that works</li>
-					<li>
-						finding the perfect combination between the spec style and the generated code (things
-						like whether to define models inline or in the #components section, or sometimes the
-						generator would outright ignore what I have in the spec
-					</li>
-					<li>always forgetting to update the version after changing the spec</li>
-				</ul>
-				<div class="font-bold">Simplify Open API Spec by Giving up Restful Conventions</div>
-				<div>
-					Here is a crazy thought. What if we give up Restful conventions and use Open API Spec for
-					a simple POST-request-based JSON RPC described below?
-				</div>
-				<ul class="m-5 list-item list-disc">
-					<li>
-						Use 'Action' instead of 'Resource' in url. Eg. /getUserById instead of /user/{'{id}'}
-					</li>
-					<li>Endpoints must only accept POST request with content type application/json.</li>
-					<li>
-						endpoint must only allow POST requests with headers and a body. Query and path
-						Parameters are ignored
-					</li>
-					<li>
-						endpoint must return a response body with consistent schema regardless of status code
-					</li>
-				</ul>
-				<div class="font-bold">Further Simplifying Open API Spec by Distilling It</div>
 
-				<ul class="m-5 list-item list-disc">
-					<li>
-						remove security (this can be documented either in the service description or endpoint
-						description
-					</li>
-					<li>remove validation rules (this can be documented in the field description)</li>
-					<li>remove the ability to define inline model</li>
-				</ul>
+	<div class="mx-auto w-full max-w-6xl py-8">
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+			{#each plans as plan}
+				<Card.Root
+					class={`flex flex-col ${plan.popular ? 'border-primary shadow-lg' : 'border-border'}`}>
+					<Card.Header>
+						{#if plan.popular}
+							<div class="mb-2 text-sm font-medium text-primary">Most Popular</div>
+						{/if}
+						<Card.Title class="text-xl font-bold text-primary">{plan.name}</Card.Title>
+						<div class="mt-2">
+							<span class="text-3xl font-bold">{plan.price}</span>
+						</div>
+						<Card.Description class="mt-2">
+							{plan.description}
+						</Card.Description>
+					</Card.Header>
 
-				<div class="font-bold">The Result</div>
-				We end up with a minimalistic spec that is both machine and human friendly.
-				<img src={exampleSpecImg} alt="yizy spec example" />
-			</Accordion.Content>
-		</Accordion.Item>
-	</Accordion.Root>
+					<Card.Content class="flex-grow">
+						<ul class="space-y-3">
+							{#each plan.features as feature}
+								<li class="flex items-center gap-2">
+									<Check class="h-4 w-4 text-primary" />
+									<span>{feature}</span>
+								</li>
+							{/each}
+						</ul>
+					</Card.Content>
+
+					<Card.Footer class="pt-6">
+						<Button
+							class="w-full hover:bg-primary"
+							variant={'outline'}
+							onclick={() => onCTAClicked(plan.name)}>
+							{plan.ctaText}
+						</Button>
+					</Card.Footer>
+				</Card.Root>
+			{/each}
+		</div>
+	</div>
 </section>
 
 <Decoration rotate={true} />

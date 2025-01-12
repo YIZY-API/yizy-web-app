@@ -31,18 +31,23 @@
 			href="/"
 			class="mx-2 my-auto hidden text-sm font-bold hover:text-primary sm:mx-4 sm:text-lg md:block"
 			>Home</a>
-		{#if !isUserLoggedIn}
-			<a
-				href="/login"
-				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
-				>Login</a>
-		{/if}
 
 		<a
 			href="/demo"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Demo</a>
 
+		<a
+			href="/doc/introduction"
+			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
+			>Documentation</a>
+
+		{#if !isUserLoggedIn}
+			<a
+				href="/login"
+				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
+				>Login</a>
+		{/if}
 		<div class="ml-4 flex h-full">
 			<a
 				href="https://github.com/YIZY-API/yizy-web-app"

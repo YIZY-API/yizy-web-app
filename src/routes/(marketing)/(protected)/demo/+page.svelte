@@ -4,7 +4,6 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import YizySpecTab from './components/YIZYSpecTab.svelte';
 	import * as Alert from '$lib/components/ui/alert/index.js';
-	import YizyDocTab from './components/YIZYDocTab.svelte';
 	import YizyGeneratorTab from './components/YIZYGeneratorTab.svelte';
 
 	function onScreenResize() {
@@ -44,14 +43,10 @@
 	<Tabs.Root value="yizy-api-spec" class="px-4">
 		<Tabs.List class="grid w-full grid-cols-3">
 			<Tabs.Trigger value="yizy-api-spec">1. Edit Spec</Tabs.Trigger>
-			<Tabs.Trigger value="yizy-doc">2. See Documentation</Tabs.Trigger>
-			<Tabs.Trigger value="yizy-gen">3. Generate Code</Tabs.Trigger>
+			<Tabs.Trigger value="yizy-gen">2. Generate Code</Tabs.Trigger>
 		</Tabs.List>
 		<Tabs.Content value="yizy-api-spec">
 			<YizySpecTab />
-		</Tabs.Content>
-		<Tabs.Content value="yizy-doc">
-			<YizyDocTab />
 		</Tabs.Content>
 		<Tabs.Content value="yizy-gen">
 			<YizyGeneratorTab />

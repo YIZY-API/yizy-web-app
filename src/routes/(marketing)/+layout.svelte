@@ -40,6 +40,13 @@
 	<Sheet.Content side="right" class="overflow-y-scroll">
 		<a href="/" onclick={() => closeSidebar()}
 			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
+
+		<a href="/demo" onclick={() => closeSidebar()}
+			><h1 class="my-2 font-bold hover:text-primary">Demo</h1></a>
+
+		<a href="/doc/introduction" onclick={() => closeSidebar()}
+			><h1 class="my-2 font-bold hover:text-primary">Documentation</h1></a>
+
 		{#if !isUserLoggedIn()}
 			<a
 				href="/login"
@@ -50,8 +57,6 @@
 			</a>
 		{/if}
 
-		<a href="/demo" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Demo</h1></a>
 		<div class="my-4 flex flex-row gap-2">
 			<a
 				href="https://github.com/YIZY-API/yizy-web-app"

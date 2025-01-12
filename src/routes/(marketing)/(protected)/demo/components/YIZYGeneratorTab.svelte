@@ -1,11 +1,8 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { currentService } from '$lib/state';
 	import YizyModelsTab from '../components/YIZYModelsTab.svelte';
 	import YizyClientSdkTab from '../components/YIZYClientSDKTab.svelte';
-	import JsonYamlDisplay from '$lib/components/ui/JsonYamlDisplay.svelte';
-	import * as oapi from '$lib/yizySpec/generators/open-api-spec/openApiSpec';
 </script>
 
 <Card.Root>
@@ -19,7 +16,7 @@
 			<Tabs.List class="grid w-full grid-cols-3">
 				<Tabs.Trigger value="yizy-models">Server Snippet</Tabs.Trigger>
 				<Tabs.Trigger value="yizy-sdk">Client SDK</Tabs.Trigger>
-				<Tabs.Trigger value="open-api-spec">Open API Spec</Tabs.Trigger>
+				<!--<Tabs.Trigger value="open-api-spec">Open API Spec</Tabs.Trigger>-->
 			</Tabs.List>
 
 			<Tabs.Content value="yizy-models">
@@ -28,6 +25,7 @@
 			<Tabs.Content value="yizy-sdk">
 				<YizyClientSdkTab />
 			</Tabs.Content>
+			<!--
 			<Tabs.Content value="open-api-spec">
 				<div class="my-4">
 					<JsonYamlDisplay
@@ -35,6 +33,7 @@
 						yamlText={oapi.serviceToOpenApiSpec($currentService, oapi.OpenAPISpecType.YAML)} />
 				</div>
 			</Tabs.Content>
+            -->
 		</Tabs.Root>
 	</Card.Content>
 </Card.Root>
