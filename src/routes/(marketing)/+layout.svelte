@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import type { LayoutData } from './$types';
 	import Navbar from '$lib/components/ui/Navbar.svelte';
@@ -26,6 +27,7 @@
 	}
 </script>
 
+<GoogleAnalytics />
 <div>
 	<div class="fixed top-0 z-20 w-full border-b border-b-muted bg-background">
 		<Navbar onOpenSidebarBtnClicked={openSidebar} />

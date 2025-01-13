@@ -138,6 +138,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>App</title>
+</svelte:head>
+
 <div class="flex h-screen flex-row">
 	<div class="flex h-screen w-1/5 flex-col border-r">
 		<div class="flex h-full w-full flex-row">

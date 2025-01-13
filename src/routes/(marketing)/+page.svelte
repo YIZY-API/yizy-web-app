@@ -78,7 +78,7 @@
 </script>
 
 <svelte:head>
-	<title>YIZY</title>
+	<title>Home</title>
 </svelte:head>
 
 <section class="mx-auto w-full pb-20 pt-40">

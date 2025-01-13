@@ -4,6 +4,10 @@
 	import { Mail } from 'lucide-svelte';
 </script>
 
+<svelte:head>
+	<title>Contact</title>
+</svelte:head>
+
 <div class="mx-auto h-full max-w-[400px] pb-8 pt-32">
 	<div class="mt-20 flex h-full flex-col text-primary">
 		<a

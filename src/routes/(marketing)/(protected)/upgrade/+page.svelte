@@ -4,6 +4,10 @@
 	import { Rocket } from 'lucide-svelte';
 </script>
 
+<svelte:head>
+	<title>Upgrade</title>
+</svelte:head>
+
 <div class="mx-auto h-full max-w-[400px] pb-8 pt-32">
 	<Card.Root class="w-[380px]">
 		<Card.Header>

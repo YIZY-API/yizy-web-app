@@ -5,7 +5,6 @@
 
 <svelte:head>
 	<title>Login Or Register</title>
-	<script src="https://accounts.google.com/gsi/client" async></script>
 </svelte:head>
 
 <div class="mx-auto h-full max-w-[400px] pb-8 pt-32">
