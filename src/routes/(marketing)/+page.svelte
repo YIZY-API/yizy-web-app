@@ -4,9 +4,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
 	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
-	import demoImg from '$lib/assets/yizy-demo.png';
-	import codeDemoImg from '$lib/assets/code-demo.png';
-	import openApiImg from '$lib/assets/openapi.png';
+	import demoImg from '$lib/assets/1.png';
+	import codeDemoImg from '$lib/assets/2.png';
+	import exportImg from '$lib/assets/3.png';
 	import * as localStorageService from '$lib/localStorageService';
 
 	const plans = [
@@ -133,7 +133,7 @@
 			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
 				Export the specification in JSON format for version control with Git or collaboration.
 			</div>
-			<img src={openApiImg} alt="yizy generator" />
+			<img src={exportImg} alt="yizy generator" />
 		</div>
 	</div>
 </section>
