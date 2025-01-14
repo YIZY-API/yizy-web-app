@@ -92,8 +92,8 @@
 </script>
 
 <div class="w-full pb-20">
-	<div class="mx-auto grid w-full grid-cols-1 rounded-lg lg:grid-cols-5 lg:gap-2">
-		<div class="col-span-1 rounded-lg px-6 pr-10 pt-4 lg:col-span-3 lg:pb-4">
+	<div class="mx-auto grid w-full grid-cols-1 rounded-lg lg:grid-cols-12 lg:gap-2">
+		<div class="col-span-1 rounded-lg px-6 pr-10 pt-4 lg:col-span-6 lg:pb-4">
 			<div class="mt-4 border-muted lg:mb-2">
 				<div
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
@@ -119,7 +119,7 @@
 				<EndpointList bind:props={document.endpoints} />
 			</div>
 		</div>
-		<div class="col-span-1 rounded-lg px-6 lg:col-span-2 lg:py-6">
+		<div class="col-span-1 rounded-lg px-6 lg:col-span-6 lg:py-6">
 			<div class="my-0 rounded-lg md:my-2">
 				<div
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
