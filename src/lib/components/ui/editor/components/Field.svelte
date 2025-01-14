@@ -83,41 +83,46 @@
 		class="w-full resize-none break-words border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none"
 	></textarea>
 
-	<Command.Root class="border-none bg-transparent">
-		<Command.Input
-			onfocusout={onFocusOut}
-			bind:value={props.type}
-			placeholder="type"
-			class="border-none border-transparent bg-transparent py-0 font-light text-accent outline-none placeholder:text-muted active:border-none"
-			onkeydown={onKeyPress} />
+	<div class="relative h-full w-full">
+		<Command.Root
+			class="w-full border-none bg-transparent {promptOpen ? 'absolute z-50 h-72' : ''}">
+			<Command.Input
+				onfocusout={onFocusOut}
+				bind:value={props.type}
+				placeholder="type"
+				class="w-full border-none border-transparent bg-transparent py-0 font-light text-accent outline-none placeholder:text-muted active:border-none"
+				onkeydown={onKeyPress}></Command.Input>
 
-		{#if promptOpen}
-			<Command.List class="absolute z-10 my-10 max-h-52 max-w-56 rounded-b-lg bg-muted">
-				<Command.Empty class="px-4">No results found.</Command.Empty>
-				<Command.Group heading="Primitive Types">
-					{#each primitiveTypes as type}
-						<Command.Item
-							onSelect={() => {
-								props.type = type;
-								promptOpen = false;
-							}}>
-							{type}
-						</Command.Item>
-					{/each}
-				</Command.Group>
-				<Command.Separator />
-				<Command.Group heading="Additional Types">
-					{#each $lspTypes as type}
-						<Command.Item
-							onSelect={() => {
-								props.type = type;
-								promptOpen = false;
-							}}>{type}</Command.Item>
-					{/each}
-				</Command.Group>
-			</Command.List>
-		{/if}
-	</Command.Root>
+			{#if promptOpen}
+				<Command.List
+					class="mt-2 max-h-52 min-h-20 w-full max-w-56 rounded-b-lg bg-muted
+					">
+					<Command.Empty class="px-4">No results found.</Command.Empty>
+					<Command.Group heading="Primitive Types">
+						{#each primitiveTypes as type}
+							<Command.Item
+								onSelect={() => {
+									props.type = type;
+									promptOpen = false;
+								}}>
+								{type}
+							</Command.Item>
+						{/each}
+					</Command.Group>
+					<Command.Separator />
+					<Command.Group heading="Additional Types">
+						{#each $lspTypes as type}
+							<Command.Item
+								onSelect={() => {
+									props.type = type;
+									promptOpen = false;
+								}}>{type}</Command.Item>
+						{/each}
+					</Command.Group>
+				</Command.List>
+			{/if}
+		</Command.Root>
+	</div>
 </div>
 
 <style>
