@@ -75,12 +75,13 @@
 </script>
 
 <div class="flex w-full flex-row">
-	<input
+	<textarea
 		bind:value={props.name}
 		placeholder="field"
 		onkeydown={onBackspacePress}
 		use:init
-		class="flex-grow border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none" />
+		class="w-full resize-none break-words border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none"
+	></textarea>
 
 	<Command.Root class="border-none bg-transparent">
 		<Command.Input
@@ -91,7 +92,7 @@
 			onkeydown={onKeyPress} />
 
 		{#if promptOpen}
-			<Command.List class="absolute z-10 my-10 max-h-52 rounded-b-lg bg-muted">
+			<Command.List class="absolute z-10 my-10 max-h-52 max-w-56 rounded-b-lg bg-muted">
 				<Command.Empty class="px-4">No results found.</Command.Empty>
 				<Command.Group heading="Primitive Types">
 					{#each primitiveTypes as type}
@@ -118,3 +119,11 @@
 		{/if}
 	</Command.Root>
 </div>
+
+<style>
+	textarea {
+		field-sizing: content;
+		resize: none;
+		word-break: break-all;
+	}
+</style>
