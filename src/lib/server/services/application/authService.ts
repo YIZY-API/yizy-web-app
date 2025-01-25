@@ -4,7 +4,7 @@ import {
   getOrCreateUser,
   type NewUserDto,
   removeSessionWithToken,
-} from "../data/dbService";
+} from "../data/db/dbService";
 import { Google } from "arctic";
 import {
   GOOGLE_OAUTH_CALLBACK_URL,
@@ -29,13 +29,14 @@ export async function loginWithGoogle(
   googleId: string,
   email: string,
   username: string,
-): Promise<{ token: string; expiresAt: Date }> {
+): Promise<{ token: string; expiresAt: Date; userId: string }> {
   const user: NewUserDto = await getOrCreateUser(username, email, googleId);
   const token = generateSessionToken();
   const ses = await createSession(token, user.id);
   return {
     token: token,
     expiresAt: ses.expiresAt,
+    userId: user.uuid,
   };
 }
 

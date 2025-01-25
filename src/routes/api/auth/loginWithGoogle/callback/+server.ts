@@ -1,5 +1,6 @@
 import { decodeIdToken } from "arctic";
 import * as authService from "$lib/server/services/application/authService";
+import * as subscriptionService from "$lib/server/services/application/subscriptionService";
 import { dev } from "$app/environment";
 
 import type { RequestEvent } from "@sveltejs/kit";
@@ -10,6 +11,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
   const state = event.url.searchParams.get("state");
   const storedState = event.cookies.get("google_oauth_state") ?? null;
   const codeVerifier = event.cookies.get("google_code_verifier") ?? null;
+  let postLoginPath = event.cookies.get("postLoginPath");
+
   if (
     code === null || state === null || storedState === null ||
     codeVerifier === null
@@ -53,10 +56,21 @@ export async function GET(event: RequestEvent): Promise<Response> {
     username,
   );
 
+  if (!postLoginPath) {
+    const sub = await subscriptionService.getSubscriptionWithUserId(
+      session.userId,
+    );
+    if (sub != null) {
+      postLoginPath = encodeURI("/app");
+    } else {
+      postLoginPath = encodeURI("/");
+    }
+  }
+
   const res = new Response(null, {
     status: 302,
     headers: {
-      Location: "/post-login",
+      Location: postLoginPath,
     },
   });
 

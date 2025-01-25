@@ -12,6 +12,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import type { Unsubscriber } from 'svelte/motion';
 
+	const { onSave }: { onSave?: () => void } = $props();
+
 	let importDialog: ReturnType<typeof ImportDialog>;
 	let exportDialog: ReturnType<typeof ExportDialog>;
 
@@ -22,6 +24,7 @@
 	let doc = $state(yizySpecToDoc($currentService));
 
 	let unsubscribe: Unsubscriber;
+
 	onMount(() => {
 		unsubscribe = currentService.subscribe((val) => {
 			doc = yizySpecToDoc(val);
@@ -40,6 +43,9 @@
 	}
 
 	function onSaveClicked() {
+		if (onSave) {
+			onSave();
+		}
 		saveBtnText = 'Generated!';
 		importService(JSON.stringify(editor.toYizySpec()));
 		setTimeout(() => {

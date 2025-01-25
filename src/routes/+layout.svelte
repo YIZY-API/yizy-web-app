@@ -1,15 +1,21 @@
 <script lang="ts">
 	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import { ModeWatcher } from 'mode-watcher';
 
 	let { children }: { children: Snippet } = $props();
+	let isMounted = $state(false);
+	onMount(() => {
+		isMounted = true;
+	});
 </script>
 
-<ModeWatcher />
 <GoogleAnalytics />
-<div>
-	<div class="h-screen w-full">
-		{@render children?.()}
+{#if isMounted}
+	<ModeWatcher />
+	<div>
+		<div class="h-screen w-full">
+			{@render children?.()}
+		</div>
 	</div>
-</div>
+{/if}

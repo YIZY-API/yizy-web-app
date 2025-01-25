@@ -102,7 +102,7 @@
 				<input
 					bind:this={firstEditableItem}
 					placeholder="ServiceName"
-					class="w-full border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
+					class="w-full break-words border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
 					bind:value={document.name} />
 
 				<textarea

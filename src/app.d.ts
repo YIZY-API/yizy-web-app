@@ -1,5 +1,5 @@
 // See https://kit.svelte.dev/docs/types#app
-import type { SessionValidationResult } from "$lib/server/services/data/dbService";
+import type { SessionValidationResult } from "$lib/server/services/data/db/dbService";
 
 // for information about these interfaces
 declare global {

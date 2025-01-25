@@ -10,7 +10,6 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Github from '$lib/components/ui/icons/Github.svelte';
 	import { User } from 'lucide-svelte';
-	import * as localStorageService from '$lib/localStorageService';
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
 	let isSidebarOpened = $state(false);
@@ -24,11 +23,18 @@
 	function isUserLoggedIn(): boolean {
 		return data.authState !== null;
 	}
+
+	function userHasActiveSubscription() {
+		return data.authState?.user.isSubscribed ?? false;
+	}
 </script>
 
 <div>
 	<div class="fixed top-0 z-20 w-full border-b border-b-muted bg-background">
-		<Navbar onOpenSidebarBtnClicked={openSidebar} />
+		<Navbar
+			userHasActiveSubscription={userHasActiveSubscription()}
+			isUserLoggedIn={isUserLoggedIn()}
+			onOpenSidebarBtnClicked={openSidebar} />
 	</div>
 	<div class="h-screen w-full">
 		<div class="hidden h-screen w-[300px] bg-secondary lg:fixed lg:block">
@@ -67,7 +73,6 @@
 				<h1 class="my-2 font-bold hover:text-primary">Login</h1>
 			</a>
 		{/if}
-
 		<div class="my-4 flex flex-row gap-2">
 			<a
 				href="https://github.com/YIZY-API/yizy-web-app"
@@ -93,12 +98,19 @@
 							<DropdownMenu.Item>
 								<Button
 									onclick={() => {
-										localStorageService.setClientSideLogoutState();
 										window.location.href = '/api/auth/logout';
 									}}>
 									Log out
 								</Button>
 							</DropdownMenu.Item>
+
+							{#if userHasActiveSubscription()}
+								<DropdownMenu.Item>
+									<form action="/api/stripe/createPortalSession" method="POST">
+										<button class="bg-transparent" type="submit"> Billing </button>
+									</form>
+								</DropdownMenu.Item>
+							{/if}
 						</DropdownMenu.Group>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
