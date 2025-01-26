@@ -15,6 +15,7 @@
 	import SpecTab from './components/SpecTab.svelte';
 	import { DEFAULT_DOCUMENT } from '$lib/components/ui/editor/models/models';
 	import { dev } from '$app/environment';
+	import { twMerge } from 'tailwind-merge';
 
 	let { data } = $props();
 
@@ -136,6 +137,7 @@
 			}
 		}
 	});
+	let sidepanelOpen = $state(true);
 </script>
 
 <svelte:head>
@@ -143,62 +145,71 @@
 </svelte:head>
 
 <div class="flex h-screen flex-row">
-	<div class="flex h-screen w-1/5 flex-col border-r">
+	<div class="flex h-screen flex-col border-r">
 		<div class="flex h-full w-full flex-row">
 			<div class="flex h-full w-12 flex-col gap-3 bg-secondary px-2 py-4">
-				<button class="w-full"><Files class="h-8 w-8" /></button>
+				<button
+					class={twMerge('w-full', sidepanelOpen ? '' : 'text-muted')}
+					onclick={() => {
+						sidepanelOpen = !sidepanelOpen;
+					}}><Files class="h-8 w-8" /></button>
 			</div>
-			<div class="flex flex-grow flex-col">
-				<div class="mx-auto my-4 h-12 w-12 text-xs">
-					<YizyLogo />
-				</div>
-				<div class="flex flex-row justify-between bg-border px-2 py-1">
-					<div class="my-auto text-sm font-bold">My Specs</div>
-					<Dialog.Root bind:open={isCreateSpecDialogOpen}>
-						<Dialog.Trigger class="my-auto flex">
-							<Plus class="h-5" />
-						</Dialog.Trigger>
-						<Dialog.Content class="sm:max-w-[425px]">
-							<Dialog.Header>
-								<Dialog.Title>Create New API Spec</Dialog.Title>
-								<Dialog.Description>Create a new API spec</Dialog.Description>
-							</Dialog.Header>
-							<div class="grid gap-4 py-4">
-								<div class="grid grid-cols-4 items-center gap-4">
-									<Label for="name" class="text-right">Name</Label>
-									<Input
-										id="name"
-										placeholder="My API Service"
-										class="col-span-3"
-										bind:value={createSpecDialogSpecName} />
+			{#if sidepanelOpen}
+				<div class="flex min-w-64 max-w-72 flex-col overflow-x-hidden">
+					<a href="/">
+						<div class="mx-auto my-4 h-12 w-12 text-xs">
+							<YizyLogo />
+						</div>
+					</a>
+					<div class="flex flex-row justify-between bg-border px-2 py-1">
+						<div class="my-auto text-sm font-bold">My Specs</div>
+						<Dialog.Root bind:open={isCreateSpecDialogOpen}>
+							<Dialog.Trigger class="my-auto flex">
+								<Plus class="h-5" />
+							</Dialog.Trigger>
+							<Dialog.Content class="sm:max-w-[425px]">
+								<Dialog.Header>
+									<Dialog.Title>Create New API Spec</Dialog.Title>
+									<Dialog.Description>Create a new API spec</Dialog.Description>
+								</Dialog.Header>
+								<div class="grid gap-4 py-4">
+									<div class="grid grid-cols-4 items-center gap-4">
+										<Label for="name" class="text-right">Name</Label>
+										<Input
+											id="name"
+											placeholder="My API Service"
+											class="col-span-3"
+											bind:value={createSpecDialogSpecName} />
+									</div>
 								</div>
-							</div>
-							<Dialog.Footer>
-								<Button
-									onclick={async () => {
-										await createSpecDialogSaveBtnClicked();
-									}}>Create</Button>
-							</Dialog.Footer>
-						</Dialog.Content>
-					</Dialog.Root>
+								<Dialog.Footer>
+									<Button
+										onclick={async () => {
+											await createSpecDialogSaveBtnClicked();
+										}}>Create</Button>
+								</Dialog.Footer>
+							</Dialog.Content>
+						</Dialog.Root>
+					</div>
+					{#each specs as s}
+						{#if isSelectedSpec(s)}
+							<button
+								class="break-words bg-primary px-2 py-1 text-left text-sm text-primary-foreground"
+								>{s.name}</button>
+						{:else}
+							<button
+								class="break-words px-2 py-1 text-left text-sm hover:bg-primary hover:text-primary-foreground"
+								onclick={async () => {
+									selectSpecClicked(s);
+								}}>{s.name}</button>
+						{/if}
+					{/each}
 				</div>
-				{#each specs as s}
-					{#if isSelectedSpec(s)}
-						<button class="bg-primary px-2 py-1 text-left text-sm text-primary-foreground"
-							>{s.name}</button>
-					{:else}
-						<button
-							class="px-2 py-1 text-left text-sm hover:bg-primary hover:text-primary-foreground"
-							onclick={async () => {
-								selectSpecClicked(s);
-							}}>{s.name}</button>
-					{/if}
-				{/each}
-			</div>
+			{/if}
 		</div>
 	</div>
 
-	<div class="flex h-full w-4/5 flex-col overflow-y-scroll">
+	<div class="flex h-full flex-grow flex-col overflow-y-scroll">
 		{#if isContentLoading}
 			<div class="m-auto">
 				<LoaderCircle class="animate-spin text-primary" />

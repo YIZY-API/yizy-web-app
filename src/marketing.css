@@ -554,6 +554,7 @@ code.hljs {
 
 div::-webkit-scrollbar {
 	width: 6px;
+	height: 6px;
 }
 
 div::-webkit-scrollbar-track {
@@ -570,6 +571,7 @@ div::-webkit-scrollbar-corner {
 
 textarea::-webkit-scrollbar {
 	width: 6px;
+	height: 6px;
 }
 
 textarea::-webkit-scrollbar-track {

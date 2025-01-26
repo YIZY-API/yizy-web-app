@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindcssTypography from "@tailwindcss/typography";
+import tailwindcssContainerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
   darkMode: ["class"],
@@ -15,6 +16,13 @@ const config: Config = {
       },
     },
     extend: {
+      containers: {
+        "sm": "40rem",
+        "md": "48rem",
+        "lg": "60rem",
+        "xl": "80rem",
+        "2xl": "96rem",
+      },
       colors: {
         border: "hsl(var(--border) / <alpha-value>)",
         input: "hsl(var(--input) / <alpha-value>)",
@@ -90,7 +98,11 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate, tailwindcssTypography],
+  plugins: [
+    tailwindcssAnimate,
+    tailwindcssTypography,
+    tailwindcssContainerQueries,
+  ],
 };
 
 export default config;
