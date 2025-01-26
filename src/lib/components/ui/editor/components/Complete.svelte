@@ -71,9 +71,7 @@
 					}
 				} else {
 					if (onNewline) {
-						console.log('onnew line!');
 						readyToLoseFocusBecauseNewLineIsCalled = true;
-						console.log(searchValue);
 						onNewline();
 					}
 				}

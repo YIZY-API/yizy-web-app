@@ -7,7 +7,6 @@
 	let { data } = $props();
 
 	onMount(() => {
-		console.log(data);
 		if (data.authState != null) {
 			window.location.href = '/';
 		}

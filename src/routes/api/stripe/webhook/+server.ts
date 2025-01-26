@@ -7,10 +7,8 @@ import * as subService from "$lib/server/services/application/subscriptionServic
 export async function POST(
   { request }: RequestEvent,
 ): Promise<Response> {
-  const body = await request.json();
-
-  let event = body;
   const endpointSecret = STRIPE_WEBHOOK_SECRET;
+  let event: Stripe.Event | null = null;
   const signature = request.headers.get("stripe-signature");
   if (!signature) {
     return new Response(JSON.stringify({ error: "bad request" }), {
@@ -19,10 +17,15 @@ export async function POST(
   }
   try {
     event = stripeClient.webhooks.constructEvent(
-      body,
+      await request.text(),
       signature,
       endpointSecret,
     );
+    if (event === null) {
+      return new Response(JSON.stringify({ error: "bad request" }), {
+        status: 400,
+      });
+    }
   } catch (_err) {
     return new Response(JSON.stringify({ error: "bad request" }), {
       status: 400,
@@ -34,6 +37,7 @@ export async function POST(
   let customerId = "";
   let subscriptionId = "";
   let yizyUserId = "";
+
   switch (event.type) {
     case "checkout.session.completed":
       checkoutSession = event.data.object;

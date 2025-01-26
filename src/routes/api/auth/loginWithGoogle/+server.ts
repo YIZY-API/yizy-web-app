@@ -3,7 +3,6 @@ import { google } from "$lib/server/services/application/authService";
 import type { RequestEvent } from "@sveltejs/kit";
 
 export async function GET(event: RequestEvent): Promise<Response> {
-  console.log(event.url.searchParams);
   const postLoginPath = event.url.searchParams.get("postLoginPath") ?? "";
 
   const state = generateState();

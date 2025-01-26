@@ -7,6 +7,9 @@
 	import demoImg from '$lib/assets/1.png';
 	import codeDemoImg from '$lib/assets/2.png';
 	import exportImg from '$lib/assets/3.png';
+	import { onMount } from 'svelte';
+
+	onMount(() => {});
 
 	const plans = [
 		{
