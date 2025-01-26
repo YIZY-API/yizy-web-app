@@ -7,7 +7,7 @@
 
 <GoogleAnalytics />
 <div>
-	<div class="h-screen w-full">
+	<div class="h-screen w-full overflow-y-auto">
 		{@render children?.()}
 	</div>
 </div>

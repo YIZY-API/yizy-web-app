@@ -158,11 +158,11 @@
 			</div>
 			{#if sidepanelOpen}
 				<div class="flex min-w-64 max-w-72 flex-col overflow-x-hidden">
-					<a href="/">
-						<div class="mx-auto my-4 h-12 w-12 text-xs">
+					<div class="mx-auto my-4 h-12 w-12 text-xs">
+						<a href="/">
 							<YizyLogo />
-						</div>
-					</a>
+						</a>
+					</div>
 					<div class="flex flex-row justify-between bg-border px-2 py-1">
 						<div class="my-auto text-sm font-bold">My Specs</div>
 						<Dialog.Root bind:open={isCreateSpecDialogOpen}>
