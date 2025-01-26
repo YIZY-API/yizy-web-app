@@ -90,22 +90,20 @@
 							<DropdownMenu.Group>
 								<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
 								<DropdownMenu.Separator />
-								<DropdownMenu.Item>
-									<button
-										class="bg-transparent outline-none"
-										onclick={() => {
-											window.location.href = '/api/auth/logout';
-										}}>
-										Log out
-									</button>
+								<DropdownMenu.Item
+									class="flex"
+									onSelect={() => {
+										window.location.href = '/api/auth/logout';
+									}}>
+									Log out
 								</DropdownMenu.Item>
 
 								{#if userHasActiveSubscription()}
-									<DropdownMenu.Item>
-										<form action="/api/stripe/createPortalSession" method="POST">
-											<button class="bg-transparent" type="submit"> Billing </button>
-										</form>
-									</DropdownMenu.Item>
+									<form action="/api/stripe/createPortalSession" method="POST">
+										<button type="submit" class="w-full outline-none">
+											<DropdownMenu.Item>Billing</DropdownMenu.Item>
+										</button>
+									</form>
 								{/if}
 							</DropdownMenu.Group>
 						</DropdownMenu.Content>
