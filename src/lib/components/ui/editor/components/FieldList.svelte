@@ -57,7 +57,7 @@
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
 
-					<div class="ml-2 flex-grow">
+					<div class="ml-2">
 						{#key props}
 							<Field
 								bind:props={props[index]}

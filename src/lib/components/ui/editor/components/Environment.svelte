@@ -32,16 +32,24 @@
 </script>
 
 <div class="ml-2 flex flex-row">
-	<input
+	<textarea
 		use:focusMe
 		onkeydown={onBackspacePress}
 		placeholder="Environment"
-		class="w-full bg-transparent text-sm outline-none placeholder:text-muted"
-		bind:value={props.name} />
+		class="min-w-40 bg-transparent text-sm outline-none placeholder:text-muted"
+		bind:value={props.name}></textarea>
 
-	<input
+	<textarea
 		onkeydown={onKeyPress}
 		placeholder="http://localhost:5050"
-		class="w-full bg-transparent text-sm outline-none placeholder:text-muted"
-		bind:value={props.baseUrl} />
+		class="min-w-40 bg-transparent text-sm outline-none placeholder:text-muted"
+		bind:value={props.baseUrl}></textarea>
 </div>
+
+<style>
+	textarea {
+		field-sizing: content;
+		resize: none;
+		word-break: break-all;
+	}
+</style>
