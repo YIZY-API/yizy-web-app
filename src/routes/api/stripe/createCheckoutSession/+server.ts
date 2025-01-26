@@ -1,6 +1,6 @@
 import { redirect, type RequestEvent } from "@sveltejs/kit";
 import { stripeClient } from "$lib/server/services/data/stripeClient";
-import { DOMAIN } from "$env/static/private";
+import { DOMAIN, STRIPE_INDIE_HACKER_PLAN_PRICE_ID } from "$env/static/private";
 
 export async function POST(
   { locals }: RequestEvent,
@@ -13,7 +13,7 @@ export async function POST(
     billing_address_collection: "auto",
     line_items: [
       {
-        price: "price_1QhucLEAz7NBJIGc3cEywC7q",
+        price: STRIPE_INDIE_HACKER_PLAN_PRICE_ID,
         quantity: 1,
       },
     ],

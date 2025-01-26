@@ -11,24 +11,22 @@ export async function POST(
 
   let event = body;
   const endpointSecret = STRIPE_WEBHOOK_SECRET;
-  if (endpointSecret) {
-    const signature = request.headers.get("stripe-signature");
-    if (!signature) {
-      return new Response(JSON.stringify({ error: "bad request" }), {
-        status: 400,
-      });
-    }
-    try {
-      event = stripeClient.webhooks.constructEvent(
-        body,
-        signature,
-        endpointSecret,
-      );
-    } catch (_err) {
-      return new Response(JSON.stringify({ error: "bad request" }), {
-        status: 400,
-      });
-    }
+  const signature = request.headers.get("stripe-signature");
+  if (!signature) {
+    return new Response(JSON.stringify({ error: "bad request" }), {
+      status: 400,
+    });
+  }
+  try {
+    event = stripeClient.webhooks.constructEvent(
+      body,
+      signature,
+      endpointSecret,
+    );
+  } catch (_err) {
+    return new Response(JSON.stringify({ error: "bad request" }), {
+      status: 400,
+    });
   }
 
   let subscription: Stripe.Subscription;
@@ -43,7 +41,7 @@ export async function POST(
       subscriptionId = checkoutSession.subscription as string;
       yizyUserId = checkoutSession.metadata?.userId ?? "";
       if (yizyUserId === "") {
-        //todo log error
+        break;
       } else {
         await subService.createActiveSubscription({
           stripeSubscriptionId: subscriptionId,
@@ -56,11 +54,6 @@ export async function POST(
       subscription = event.data.object;
       await subService.revokeSubscription(subscription.id);
       break;
-    //case "customer.subscription.updated":
-    //  subscription = event.data.object;
-    //  status = subscription.status;
-    //  console.log(`Subscription status is ${status}.`);
-    //  break;
     default:
       break;
   }
