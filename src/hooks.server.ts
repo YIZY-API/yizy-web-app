@@ -1,5 +1,5 @@
 import { dev } from "$app/environment";
-import { validateSessionToken } from "$lib/server/services/data/dbService";
+import { validateSessionToken } from "$lib/server/services/data/db/dbService";
 import { type Handle, json, type RequestEvent } from "@sveltejs/kit";
 
 export function setSessionTokenCookie(
@@ -46,7 +46,16 @@ function isApiRoute(url: string) {
   return url.toString().includes("/api") &&
     !url.toString().includes("/api/auth");
 }
+
+function isStripeWebhook(url: string) {
+  return url.toString().includes("/api/stripe/webhook");
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
+  if (isStripeWebhook(event.url.toString())) {
+    return resolve(event);
+  }
+
   const url = event.url.toString();
   const token = event.cookies.get("sessionToken") ?? null;
   if (token === null) {

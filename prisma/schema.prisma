@@ -25,6 +25,7 @@ model User {
   Workspaces                 BridgeWorkspaceAndUser[]
   Workspace                  Workspace[]
   Specification              Specification[]
+  Subscription StripeSubscription[]
 }
 
 model Workspace {
@@ -84,4 +85,14 @@ model SpecificationSnapshot {
   content        String
   creatorId      Int
   createdBy      User          @relation(references: [id], fields: [creatorId], onDelete: Cascade)
+}
+
+model StripeSubscription {
+  id Int @id @default(autoincrement())
+  uuid String
+  userId Int
+  user User @relation(references: [id], fields: [userId])
+  active Boolean
+  stripeId String
+  stripeSubscriptionId String
 }

@@ -1,4 +1,4 @@
-import * as db from "../data/dbService";
+import * as db from "../data/db/dbService";
 
 export async function createSpec(name: string, userId: string) {
   return await db.createSpec(name, userId);

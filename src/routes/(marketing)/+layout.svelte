@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import type { LayoutData } from './$types';
 	import Navbar from '$lib/components/ui/Navbar.svelte';
@@ -10,7 +9,6 @@
 	import type { Snippet } from 'svelte';
 	import Github from '$lib/components/ui/icons/Github.svelte';
 	import { User } from 'lucide-svelte';
-	import * as localStorageService from '$lib/localStorageService';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
@@ -25,74 +23,95 @@
 	function isUserLoggedIn(): boolean {
 		return data.authState !== null;
 	}
+
+	function userHasActiveSubscription(): boolean {
+		return data.authState?.user.isSubscribed || false;
+	}
 </script>
 
-<GoogleAnalytics />
 <div>
 	<div class="fixed top-0 z-20 w-full border-b border-b-muted bg-background">
-		<Navbar onOpenSidebarBtnClicked={openSidebar} />
+		<Navbar
+			userHasActiveSubscription={userHasActiveSubscription()}
+			isUserLoggedIn={isUserLoggedIn()}
+			onOpenSidebarBtnClicked={openSidebar} />
 	</div>
 	<div class="h-screen w-full">
 		{@render children?.()}
 	</div>
-</div>
-<Sheet.Root bind:open={isSidebarOpened}>
-	<Sheet.Content side="right" class="overflow-y-scroll">
-		<a href="/" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 
-		<a href="/demo" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Demo</h1></a>
+	<Sheet.Root bind:open={isSidebarOpened}>
+		<Sheet.Content side="right" class="overflow-y-scroll">
+			<a href="/" onclick={() => closeSidebar()}
+				><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 
-		<a href="/doc/introduction" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Documentation</h1></a>
+			<a href="/doc/introduction" onclick={() => closeSidebar()}
+				><h1 class="my-2 font-bold hover:text-primary">Documentation</h1></a>
 
-		{#if !isUserLoggedIn()}
-			<a
-				href="/login"
-				onclick={() => {
-					closeSidebar();
-				}}>
-				<h1 class="my-2 font-bold hover:text-primary">Login</h1>
-			</a>
-		{/if}
-
-		<div class="my-4 flex flex-row gap-2">
-			<a
-				href="https://github.com/YIZY-API/yizy-web-app"
-				class="text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg">
-				<Button variant="outline" size="icon" class="my-auto">
-					<Github></Github>
-				</Button>
-			</a>
-			<DarkModeToggle />
-			{#if isUserLoggedIn()}
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>
-						<div class="text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg">
-							<Button variant="outline" size="icon" class="my-auto">
-								<User />
-							</Button>
-						</div>
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="mr-4 bg-secondary">
-						<DropdownMenu.Group>
-							<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
-							<DropdownMenu.Separator />
-							<DropdownMenu.Item>
-								<button
-									class="bg-transparent"
-									onclick={() => {
-										localStorageService.setClientSideLogoutState();
-										window.location.href = '/api/auth/logout';
-									}}>
-									Log out
-								</button>
-							</DropdownMenu.Item>
-						</DropdownMenu.Group>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+			{#if !isUserLoggedIn()}
+				<a
+					href="/login"
+					onclick={() => {
+						closeSidebar();
+					}}>
+					<h1 class="my-2 font-bold hover:text-primary">Login</h1>
+				</a>
 			{/if}
-		</div>
-	</Sheet.Content>
-</Sheet.Root>
+
+			{#if userHasActiveSubscription()}
+				<a
+					href="/app"
+					onclick={() => {
+						closeSidebar();
+					}}>
+					<h1 class="my-2 font-bold hover:text-primary">App</h1>
+				</a>
+			{/if}
+
+			<div class="my-4 flex flex-row gap-2">
+				<a
+					href="https://github.com/YIZY-API/yizy-web-app"
+					class="text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg">
+					<Button variant="outline" size="icon" class="my-auto">
+						<Github></Github>
+					</Button>
+				</a>
+				<DarkModeToggle />
+				{#if isUserLoggedIn()}
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							<div class="text-center text-sm font-bold hover:text-primary sm:text-left sm:text-lg">
+								<Button variant="outline" size="icon" class="my-auto">
+									<User />
+								</Button>
+							</div>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content class="mr-4 bg-secondary">
+							<DropdownMenu.Group>
+								<DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
+								<DropdownMenu.Separator />
+								<DropdownMenu.Item>
+									<button
+										class="bg-transparent outline-none"
+										onclick={() => {
+											window.location.href = '/api/auth/logout';
+										}}>
+										Log out
+									</button>
+								</DropdownMenu.Item>
+
+								{#if userHasActiveSubscription()}
+									<DropdownMenu.Item>
+										<form action="/api/stripe/createPortalSession" method="POST">
+											<button class="bg-transparent" type="submit"> Billing </button>
+										</form>
+									</DropdownMenu.Item>
+								{/if}
+							</DropdownMenu.Group>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				{/if}
+			</div>
+		</Sheet.Content>
+	</Sheet.Root>
+</div>

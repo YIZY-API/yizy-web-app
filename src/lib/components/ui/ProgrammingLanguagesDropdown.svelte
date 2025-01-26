@@ -27,8 +27,7 @@
 			if (val != '') {
 				lang = convertStringToProgrammingLanguage(val);
 			}
-		}}
-		controlledValue={true}>
+		}}>
 		<Select.Trigger class="mt-2 w-[300px]">{triggerContent}</Select.Trigger>
 		<Select.Content>
 			<Select.Group>

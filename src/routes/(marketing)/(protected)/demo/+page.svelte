@@ -21,6 +21,8 @@
 			isScreenTooSmall = true;
 		}
 	});
+
+	let currentTab = $state('yizy-api-spec');
 </script>
 
 <svelte:head>
@@ -40,13 +42,16 @@
 		</Alert.Root>
 	{/if}
 
-	<Tabs.Root value="yizy-api-spec" class="px-4">
+	<Tabs.Root bind:value={currentTab} class="px-4">
 		<Tabs.List class="grid w-full grid-cols-3">
 			<Tabs.Trigger value="yizy-api-spec">1. Edit Spec</Tabs.Trigger>
 			<Tabs.Trigger value="yizy-gen">2. Generate Code</Tabs.Trigger>
 		</Tabs.List>
 		<Tabs.Content value="yizy-api-spec">
-			<YizySpecTab />
+			<YizySpecTab
+				onSave={() => {
+					currentTab = 'yizy-gen';
+				}} />
 		</Tabs.Content>
 		<Tabs.Content value="yizy-gen">
 			<YizyGeneratorTab />

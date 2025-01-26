@@ -6,15 +6,20 @@
 	import YizyLogo from './YIZYLogo.svelte';
 	import Button from './button/button.svelte';
 	import { User } from 'lucide-svelte';
-	import * as localStorageService from '$lib/localStorageService';
 	import { onMount } from 'svelte';
 
-	let { onOpenSidebarBtnClicked }: { onOpenSidebarBtnClicked?: () => void } = $props();
+	let {
+		isUserLoggedIn,
+		userHasActiveSubscription,
+		onOpenSidebarBtnClicked
+	}: {
+		isUserLoggedIn: boolean;
+		userHasActiveSubscription: boolean;
+		onOpenSidebarBtnClicked?: () => void;
+	} = $props();
 
-	let isLoggedIn = $state(false);
 	let isMounted = $state(false);
 	onMount(() => {
-		isLoggedIn = localStorageService.getIsLoggedIn();
 		isMounted = true;
 	});
 
@@ -39,20 +44,23 @@
 			>Home</a>
 
 		<a
-			href="/demo"
-			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
-			>Demo</a>
-
-		<a
 			href="/doc/introduction"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Documentation</a>
 
-		{#if !isLoggedIn && isMounted}
+		{#if !isUserLoggedIn && isMounted}
 			<a
 				href="/login"
 				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 				>Login</a>
+		{/if}
+
+		{#if userHasActiveSubscription}
+			<a
+				href="/app"
+				class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block">
+				App
+			</a>
 		{/if}
 		<div class="ml-4 flex h-full">
 			<a
@@ -66,7 +74,7 @@
 		<div class="my-auto ml-2 hidden md:block">
 			<DarkModeToggle />
 		</div>
-		{#if isLoggedIn && isMounted}
+		{#if isUserLoggedIn && isMounted}
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
 					<div class="my-auto ml-2 hidden md:block">
@@ -81,14 +89,21 @@
 						<DropdownMenu.Separator />
 						<DropdownMenu.Item>
 							<button
-								class="bg-transparent"
+								class="bg-transparent outline-none"
 								onclick={() => {
-									localStorageService.setClientSideLogoutState();
 									window.location.href = '/api/auth/logout';
 								}}>
 								Log out
 							</button>
 						</DropdownMenu.Item>
+
+						{#if userHasActiveSubscription}
+							<DropdownMenu.Item>
+								<form action="/api/stripe/createPortalSession" method="POST">
+									<button class="bg-transparent" type="submit"> Billing </button>
+								</form>
+							</DropdownMenu.Item>
+						{/if}
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>

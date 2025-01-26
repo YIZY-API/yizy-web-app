@@ -7,7 +7,9 @@
 	import demoImg from '$lib/assets/1.png';
 	import codeDemoImg from '$lib/assets/2.png';
 	import exportImg from '$lib/assets/3.png';
-	import * as localStorageService from '$lib/localStorageService';
+	import { onMount } from 'svelte';
+
+	onMount(() => {});
 
 	const plans = [
 		{
@@ -37,7 +39,7 @@
 				'Auto API Spec Versioning',
 				'Spec Storage and Management'
 			],
-			ctaText: 'Start Free Trial',
+			ctaText: 'Get Started',
 			popular: false
 		},
 		{
@@ -64,14 +66,18 @@
 	];
 
 	function onCTAClicked(name: string) {
-		if (name === plans[0].name) {
+		const Community = 0;
+		const IndieHacker = 1;
+		const Team = 2;
+		if (name === plans[Community].name) {
 			window.location.href = '/demo';
 		}
-		if (name === plans[1].name) {
-			localStorageService.setPostLoginPath('/upgrade');
-			window.location.href = '/login';
+
+		if (name === plans[IndieHacker].name) {
+			window.location.href = '/upgrade';
 		}
-		if (name === plans[2].name) {
+
+		if (name === plans[Team].name) {
 			window.location.href = '/contact';
 		}
 	}
@@ -91,9 +97,11 @@
 			Build Typesafe HTTP JSON APIs with Instant Code Generation. All in the Browser.
 		</h1>
 		<div class="mx-auto my-2 flex flex-col gap-2 sm:flex-row">
-			<a href="/demo" class="mx-auto my-2">
-				<Button class="mx-auto rounded-full font-bold">Try Online Editor</Button>
-			</a>
+			<Button
+				class="mx-auto my-2 rounded-full font-bold"
+				onclick={() => {
+					window.location.href = '/demo';
+				}}>Try Online Editor</Button>
 			<a href="/doc/introduction" class="mx-auto my-2">
 				<Button class="mx-auto rounded-full font-bold" variant="outline">View Documentation</Button>
 			</a>

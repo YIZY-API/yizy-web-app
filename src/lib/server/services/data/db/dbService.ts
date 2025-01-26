@@ -36,8 +36,28 @@ export async function createSession(
 
 export type SessionValidationResult = {
   session: { uuid: string; expiresAt: Date };
-  user: { username: string; email: string; uuid: string };
+  user: {
+    username: string;
+    email: string;
+    uuid: string;
+    isSubscribed: boolean;
+  };
 };
+
+export async function userHasActiveSubscription(
+  userId: number,
+): Promise<boolean> {
+  const sub = await prisma.stripeSubscription.findFirst({
+    where: {
+      userId: userId,
+      active: true,
+    },
+  });
+  if (sub !== null) {
+    return true;
+  }
+  return false;
+}
 
 export async function validateSessionToken(
   token: string,
@@ -71,6 +91,8 @@ export async function validateSessionToken(
     });
   }
 
+  const userHasSubscription = await userHasActiveSubscription(user.id);
+
   const sessionValidationResult: SessionValidationResult = {
     session: {
       uuid: session.uuid,
@@ -80,6 +102,7 @@ export async function validateSessionToken(
       uuid: user.uuid,
       email: user.email,
       username: user.username,
+      isSubscribed: userHasSubscription,
     },
   };
 

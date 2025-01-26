@@ -1,0 +1,197 @@
+<script lang="ts">
+	import { tick } from 'svelte';
+	import { v4 as uuid } from 'uuid';
+
+	let {
+		searchValue = $bindable(''),
+		additionalTypes = [],
+		onNewline
+	}: { searchValue?: string; additionalTypes?: string[]; onNewline?: () => void } = $props();
+
+	let items: string[] = [
+		'boolean',
+		'boolean?',
+		'boolean[]',
+		'double',
+		'double?',
+		'double[]',
+		'float',
+		'float?',
+		'float[]',
+		'int',
+		'int?',
+		'int[]',
+		'int32',
+		'int32[]',
+		'int32?',
+		'int64',
+		'int64?',
+		'int64[]',
+		'string',
+		'string?',
+		'string[]',
+		...additionalTypes
+	];
+
+	let open = $state(false);
+	let filteredItems = $derived.by(() => {
+		return items.filter((item) => item.toLowerCase().includes(searchValue.toLowerCase()));
+	});
+	let readyToLoseFocusBecauseNewLineIsCalled = $state(false);
+
+	let selectedEle: HTMLElement | null = $state(null);
+	let selectedIndex = $state(0);
+
+	$effect(() => {
+		let captureChange = selectedIndex;
+		if (selectedEle) {
+			(selectedEle as HTMLElement).scrollIntoView(false);
+		}
+	});
+
+	$inspect(selectedIndex);
+
+	function closeCompletionMenu() {
+		open = false;
+		selectedIndex = 0;
+	}
+
+	function handleSelect(item: string) {
+		searchValue = item;
+		closeCompletionMenu();
+	}
+
+	async function handleKeyDown(event: KeyboardEvent) {
+		switch (event.key) {
+			case 'Enter':
+				event.preventDefault();
+				if (open) {
+					if (filteredItems.at(selectedIndex)) {
+						handleSelect(filteredItems.at(selectedIndex)!);
+					}
+				} else {
+					if (onNewline) {
+						readyToLoseFocusBecauseNewLineIsCalled = true;
+						onNewline();
+					}
+				}
+				event.stopPropagation();
+				break;
+
+			case 'Escape':
+				event.preventDefault();
+				closeCompletionMenu();
+				event.stopPropagation();
+				break;
+
+			case 'ArrowUp':
+				if (open) {
+					event.preventDefault();
+					if (filteredItems.length === 0) {
+						break;
+					}
+					if (selectedIndex - 1 < 0) {
+						selectedIndex = filteredItems.length - 1;
+					} else {
+						selectedIndex = selectedIndex - 1;
+					}
+					event.stopPropagation();
+				}
+				break;
+
+			case 'ArrowDown':
+				if (open) {
+					event.preventDefault();
+					if (filteredItems.length === 0) {
+						break;
+					}
+					if (selectedIndex + 1 >= filteredItems.length) {
+						selectedIndex = 0;
+					} else {
+						selectedIndex = selectedIndex + 1;
+					}
+					event.stopPropagation();
+				}
+				break;
+		}
+	}
+</script>
+
+<div class="relative">
+	<textarea
+		oninput={() => {
+			open = true;
+		}}
+		onfocusout={async (e) => {
+			const nextFocusElement: HTMLElement | null = e.relatedTarget as HTMLElement;
+			const id: string | null = nextFocusElement?.id;
+			if (id && !id.includes('yizy-comp')) {
+				closeCompletionMenu();
+			}
+		}}
+		onkeydown={handleKeyDown}
+		bind:value={searchValue}
+		placeholder="type"
+		class="min-w-44 resize-none bg-transparent outline-none placeholder:text-muted"></textarea>
+	{#if open}
+		<div class="absolute z-50 max-h-40 min-h-14 w-full overflow-y-auto rounded-b-lg bg-muted p-2">
+			{#if filteredItems.length === 0}
+				<div class="p-2 text-sm text-muted-foreground">no match found</div>
+			{/if}
+			<div class="max-h-[200px] overflow-x-hidden overflow-y-hidden pb-4">
+				{#each filteredItems as item, index}
+					{#if index === selectedIndex}
+						<button
+							id={'yizy-comp' + uuid()}
+							bind:this={selectedEle}
+							class="w-full whitespace-normal break-words bg-primary py-2 pl-2 text-left text-sm/4 text-primary-foreground hover:bg-background hover:text-foreground"
+							onclick={() => handleSelect(item)}>
+							{item}
+						</button>
+					{:else}
+						<button
+							id={'yizy-comp' + uuid()}
+							class="w-full whitespace-normal break-words py-2 pl-2 text-left text-sm/4 hover:bg-background hover:text-foreground"
+							onclick={() => handleSelect(item)}
+							onfocus={() => {}}>
+							{item}
+						</button>
+					{/if}
+				{/each}
+			</div>
+		</div>
+	{/if}
+
+	<!--
+	<Popover bind:open>
+		<PopoverContent class="h-[200px] w-[200px] p-0">
+			<div class="p-1">
+				{#if filteredItems.length === 0}
+					<div class="p-2 text-sm text-gray-500">No framework found.</div>
+				{/if}
+				<div class="max-h-[200px] overflow-y-auto">
+					{#each filteredItems as item (item.value)}
+						<button
+							class="flex w-full items-center p-2 text-left hover:bg-gray-100"
+							onclick={() => handleSelect(item)}>
+							<CheckIcon
+								class="mr-2 h-4 w-4 {selectedItem?.value === item.value
+									? 'opacity-100'
+									: 'opacity-0'}" />
+							{item.label}
+						</button>
+					{/each}
+				</div>
+			</div>
+		</PopoverContent>
+	</Popover>
+    -->
+</div>
+
+<style>
+	textarea {
+		field-sizing: content;
+		resize: none;
+		word-break: break-all;
+	}
+</style>
