@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Field as FieldProps } from '../models/models';
-	import { lspTypes } from '../state';
+	//import { lspTypes } from '../state';
 	import { v4 as uuid } from 'uuid';
 	import Complete from './Complete.svelte';
 
@@ -38,7 +38,7 @@
 		use:init
 		class="min-w-44 border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none"
 	></textarea>
-	<Complete bind:searchValue={props.type} additionalTypes={$lspTypes} onNewline={onAddNewItem} />
+	<Complete bind:searchValue={props.type} onNewline={onAddNewItem} />
 </div>
 
 <style>

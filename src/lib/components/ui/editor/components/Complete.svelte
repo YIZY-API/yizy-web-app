@@ -1,51 +1,60 @@
 <script lang="ts">
-	import { tick } from 'svelte';
 	import { v4 as uuid } from 'uuid';
+	import { documentState } from '../state.svelte';
 
-	let {
-		searchValue = $bindable(''),
-		additionalTypes = [],
-		onNewline
-	}: { searchValue?: string; additionalTypes?: string[]; onNewline?: () => void } = $props();
-
-	let items: string[] = [
-		'boolean',
-		'boolean?',
-		'boolean[]',
-		'double',
-		'double?',
-		'double[]',
-		'float',
-		'float?',
-		'float[]',
-		'int',
-		'int?',
-		'int[]',
-		'int32',
-		'int32[]',
-		'int32?',
-		'int64',
-		'int64?',
-		'int64[]',
-		'string',
-		'string?',
-		'string[]',
-		...additionalTypes
-	];
+	let { searchValue = $bindable(''), onNewline }: { searchValue?: string; onNewline?: () => void } =
+		$props();
 
 	let open = $state(false);
 	let filteredItems = $derived.by(() => {
-		return items.filter((item) => item.toLowerCase().includes(searchValue.toLowerCase()));
+		return lspTypes.filter((item) => item.toLowerCase().includes(searchValue.toLowerCase()));
 	});
 	let readyToLoseFocusBecauseNewLineIsCalled = $state(false);
 
 	let selectedEle: HTMLElement | null = $state(null);
 	let selectedIndex = $state(0);
 
+	const lspTypes = $derived.by(() => {
+		const primitiveTypes = [
+			'boolean',
+			'boolean?',
+			'boolean[]',
+			'double',
+			'double?',
+			'double[]',
+			'float',
+			'float?',
+			'float[]',
+			'int',
+			'int?',
+			'int[]',
+			'int32',
+			'int32[]',
+			'int32?',
+			'int64',
+			'int64?',
+			'int64[]',
+			'string',
+			'string?',
+			'string[]'
+		];
+
+		const types = documentState.additionalModels.flatMap((model) => model.name);
+		const res: string[] = [];
+		types.forEach((t: string) => {
+			res.push(t);
+			res.push(t + '?');
+			res.push(t + '[]');
+		});
+		return [...primitiveTypes, ...res];
+	});
+
 	$effect(() => {
 		let captureChange = selectedIndex;
 		if (selectedEle) {
-			(selectedEle as HTMLElement).scrollIntoView(false);
+			(selectedEle as HTMLElement).scrollIntoView({
+				block: 'center'
+			});
 		}
 	});
 

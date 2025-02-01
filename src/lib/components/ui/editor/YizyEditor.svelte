@@ -3,91 +3,31 @@
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
 	import { docToYizySpec, type Document } from './models/models';
-	import { updateLspTypes } from './state';
+	//import { updateLspTypes } from './state.svelte';
 	import AdditionalModelList from './components/AdditionalModelList.svelte';
 	import type { Service } from '@yizy/spec';
+	import { defaultState, updateDocumentState, documentState } from './state.svelte';
 
-	let { doc = $bindable() }: { doc?: Document } = $props();
+	let { doc = defaultState }: { doc: Document } = $props();
 
 	export function toYizySpec(): Service {
-		if (document) {
-			return docToYizySpec(document);
+		if (documentState) {
+			return docToYizySpec(documentState);
 		}
 		throw new Error('doc is not defined!');
 	}
 
-	const defaultState: Document = {
-		name: '',
-		description: '',
-		environment: [
-			{
-				name: '',
-				baseUrl: ''
-			}
-		],
-		endpoints: [
-			{
-				name: '',
-				url: '',
-				description: '',
-				req: {
-					name: '',
-					fields: [
-						{
-							name: '',
-							type: ''
-						}
-					]
-				},
-				res: {
-					name: '',
-					fields: [
-						{
-							name: '',
-							type: ''
-						}
-					]
-				}
-			}
-		],
-		additionalModels: [
-			{
-				name: '',
-				fields: [
-					{
-						name: '',
-						type: ''
-					}
-				]
-			}
-		]
-	};
-
 	export function reset(): void {
-		document = defaultState;
-	}
-
-	export function updateDoc(doc: Document): void {
-		document = doc;
+		updateDocumentState(defaultState);
 	}
 
 	let firstEditableItem: HTMLElement;
 	onMount(async () => {
 		if (doc) {
-			document = doc;
+			updateDocumentState(doc);
 			await tick();
 			firstEditableItem.focus();
 		}
-	});
-
-	let document: Document = $state(defaultState);
-
-	let types = $derived.by(() => {
-		return document.additionalModels.flatMap((model) => model.name);
-	});
-
-	$effect(() => {
-		updateLspTypes(types);
 	});
 </script>
 
@@ -103,20 +43,20 @@
 					bind:this={firstEditableItem}
 					placeholder="ServiceName"
 					class="w-full break-words border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
-					bind:value={document.name} />
+					bind:value={documentState.name} />
 
 				<textarea
 					class="w-full resize-none bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of a service documentation"
-					bind:value={document.description}></textarea>
-				<EnvironmentList bind:props={document.environment} />
+					bind:value={documentState.description}></textarea>
+				<EnvironmentList bind:props={documentState.environment} />
 			</div>
 			<div class="my-2 w-full rounded-lg">
 				<div
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 					Endpoints
 				</div>
-				<EndpointList bind:props={document.endpoints} />
+				<EndpointList bind:props={documentState.endpoints} />
 			</div>
 		</div>
 		<div class="col-span-1 rounded-lg px-6 @lg:col-span-5 @lg:py-6">
@@ -126,7 +66,7 @@
 					Additional Models
 				</div>
 
-				<AdditionalModelList bind:props={document.additionalModels} />
+				<AdditionalModelList bind:props={documentState.additionalModels} />
 			</div>
 		</div>
 	</div>

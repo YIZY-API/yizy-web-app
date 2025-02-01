@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { PlusIcon, TrashIcon } from 'lucide-svelte';
-	import Endpoint from './Endpoint.svelte';
 	import { type Model } from '../models/models';
 	import AdditionalModel from './AdditionalModel.svelte';
 
