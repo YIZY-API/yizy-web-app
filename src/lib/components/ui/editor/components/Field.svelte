@@ -3,6 +3,7 @@
 	//import { lspTypes } from '../state';
 	import { v4 as uuid } from 'uuid';
 	import Complete from './Complete.svelte';
+	import { onMount } from 'svelte';
 
 	let {
 		props = $bindable({ name: '', type: '' }),
@@ -27,10 +28,21 @@
 			el.focus();
 		}
 	}
+
+	let textarea: HTMLTextAreaElement;
+	onMount(() => {
+		if (textarea) {
+			textarea.addEventListener('input', function () {
+				textarea.style.height = '1.4em'; // Reset height
+				textarea.style.height = this.scrollHeight + 'px';
+			});
+		}
+	});
 </script>
 
 <div class="flex flex-row">
 	<textarea
+		bind:this={textarea}
 		id={'yizy-comp' + uuid()}
 		bind:value={props.name}
 		placeholder="field"
@@ -46,5 +58,12 @@
 		field-sizing: content;
 		resize: none;
 		word-break: break-all;
+		min-height: 1.2em; /* Approximately one line of text */
+		height: 1.2em; /* Initial height */
+		overflow-y: hidden; /* Hide scrollbar initially */
+		resize: none; /* Prevent manual resizing */
+		box-sizing: border-box;
+		padding-top: 2px; /* Remove padding to ensure accurate height */
+		line-height: 1.2em; /* Match line-height to height */
 	}
 </style>

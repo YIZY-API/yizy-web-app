@@ -47,12 +47,12 @@
 		{#each props as item, index}
 			<div role="none" class={twMerge('group flex flex-col')}>
 				<div class="flex flex-row">
-					<button class="my-auto flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
+					<button class="flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
 						<PlusIcon
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
 
-					<button class="my-auto flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
+					<button class="flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
 						<TrashIcon
 							class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
 					</button>
