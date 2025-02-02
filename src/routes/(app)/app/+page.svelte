@@ -16,6 +16,7 @@
 	import { DEFAULT_DOCUMENT } from '$lib/components/ui/editor/models/models';
 	import { dev } from '$app/environment';
 	import { twMerge } from 'tailwind-merge';
+	import LlmTab from './components/LlmTab.svelte';
 
 	let { data } = $props();
 
@@ -219,16 +220,22 @@
 		{:else if selectedSpec === null}
 			<div class="m-auto">Select a spec or Create a new spec</div>
 		{:else}
-			<Tabs.Root value="api-spec" class="w-full p-4">
-				<Tabs.List class="grid w-full grid-cols-2">
+			<Tabs.Root value="api-spec" class="flex h-full w-full flex-col p-4">
+				<Tabs.List class="grid w-full grid-cols-3">
 					<Tabs.Trigger value="api-spec">Edit Spec</Tabs.Trigger>
 					<Tabs.Trigger value="code-gen">Generate Code</Tabs.Trigger>
+					<Tabs.Trigger value="llm">Chat With Claude</Tabs.Trigger>
 				</Tabs.List>
-				<Tabs.Content value="api-spec">
+				<Tabs.Content value="api-spec" class="outline-none">
 					<SpecTab bind:doc onGenerateBtnClicked={updateSpecBtnClicked} {onImportSpec}></SpecTab>
 				</Tabs.Content>
-				<Tabs.Content value="code-gen">
+				<Tabs.Content value="code-gen" class="outline-none">
 					<CodeTab bind:doc version={selectedSpecDetails?.version ?? undefined} />
+				</Tabs.Content>
+				<Tabs.Content
+					value="llm"
+					class="flex flex-grow flex-col overflow-y-auto focus-visible:ring-0">
+					<LlmTab></LlmTab>
 				</Tabs.Content>
 			</Tabs.Root>
 		{/if}
