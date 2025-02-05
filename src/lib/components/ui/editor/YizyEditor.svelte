@@ -3,7 +3,6 @@
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
 	import { docToYizySpec, type Document } from './models/models';
-	//import { updateLspTypes } from './state.svelte';
 	import AdditionalModelList from './components/AdditionalModelList.svelte';
 	import type { Service } from '@yizy/spec';
 	import { defaultState, updateDocumentState, documentState } from './state.svelte';
@@ -12,9 +11,14 @@
 
 	export function toYizySpec(): Service {
 		if (documentState) {
+			console.log(documentState);
 			return docToYizySpec(documentState);
 		}
 		throw new Error('doc is not defined!');
+	}
+
+	export function updateDoc(doc: Document) {
+		updateDocumentState(doc);
 	}
 
 	export function reset(): void {

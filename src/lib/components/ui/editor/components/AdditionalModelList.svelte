@@ -33,6 +33,7 @@
 		const updatedItems = [...props];
 		updatedItems.splice(fromIndex, 0, newItem);
 		props = updatedItems;
+		console.log(props);
 	}
 
 	function removeItem(fromIndex: number) {
