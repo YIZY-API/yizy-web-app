@@ -6,8 +6,14 @@
 	import YizyEditor from '$lib/components/ui/editor/YizyEditor.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { EllipsisVertical, LoaderCircle } from 'lucide-svelte';
-	import { yizySpecToDoc, type Document } from '$lib/components/ui/editor/models/models';
+	import {
+		DEFAULT_DOCUMENT,
+		docToYizySpec,
+		yizySpecToDoc,
+		type Document
+	} from '$lib/components/ui/editor/models/models';
 	import * as yizy from '@yizy/spec';
+	import { onMount } from 'svelte';
 
 	let importDialog: ReturnType<typeof ImportSpecDialog>;
 	let exportDialog: ReturnType<typeof ExportSpecDialog>;
@@ -15,27 +21,40 @@
 	let editor: ReturnType<typeof YizyEditor>;
 
 	let isSaving = $state(false);
+	let currentEditorContent: yizy.Service = $state(docToYizySpec(DEFAULT_DOCUMENT));
 
 	let {
-		doc = $bindable(),
-		onGenerateBtnClicked,
-		onImportSpec
+		initialDoc,
+		onGenerateBtnClicked
+		//onImportSpec
 	}: {
-		doc: Document;
-		onGenerateBtnClicked: (content: string) => Promise<void>;
-		onImportSpec: (service: yizy.Service) => void;
+		initialDoc: Document;
+		onGenerateBtnClicked: (content: yizy.Service) => Promise<void>;
+		//onImportSpec: (service: yizy.Service) => void;
 	} = $props();
 
 	async function onSaveAndGenerateClicked() {
 		isSaving = true;
-		await onGenerateBtnClicked(JSON.stringify(editor.toYizySpec()));
+		const before = Date.now();
+		await onGenerateBtnClicked(editor.exportToService());
+
+		const after = Date.now();
+		const diff = after - before;
+		if (diff < 1000 && diff > 0) {
+			const delay = 1000 - diff;
+			await new Promise((resolve) => setTimeout(resolve, delay));
+		}
 		isSaving = false;
 	}
 
 	function onImportSpecBtnClicked(service: yizy.Service) {
-		onImportSpec(service);
-		editor.updateDoc(yizySpecToDoc(service));
+		editor.importDoc(yizySpecToDoc(service));
+		//onImportSpec(service);
 	}
+
+	onMount(() => {
+		currentEditorContent = editor.exportToService();
+	});
 </script>
 
 <Card.Root class="border-none">
@@ -75,6 +94,7 @@
 								<DropdownMenu.Item
 									class="data-[highlighted]:bg-primary"
 									onclick={() => {
+										currentEditorContent = editor.exportToService();
 										exportDialog.show();
 									}}>Export</DropdownMenu.Item>
 							</DropdownMenu.Group>
@@ -85,8 +105,8 @@
 		</Card.Header>
 	</div>
 	<Card.Content class="space-y-2 p-0">
-		<YizyEditor bind:this={editor} bind:doc />
+		<YizyEditor bind:this={editor} {initialDoc} />
 	</Card.Content>
 </Card.Root>
 <ImportSpecDialog bind:this={importDialog} onImport={onImportSpecBtnClicked} />
-<ExportSpecDialog bind:this={exportDialog} bind:doc />
+<ExportSpecDialog bind:this={exportDialog} doc={yizySpecToDoc(currentEditorContent)} />

@@ -1,37 +1,32 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { onMount } from 'svelte';
 	import EndpointList from './components/EndpointList.svelte';
 	import EnvironmentList from './components/EnvironmentList.svelte';
 	import { docToYizySpec, type Document } from './models/models';
 	import AdditionalModelList from './components/AdditionalModelList.svelte';
 	import type { Service } from '@yizy/spec';
-	import { defaultState, updateDocumentState, documentState } from './state.svelte';
+	import { defaultState } from './state.svelte';
 
-	let { doc = defaultState }: { doc: Document } = $props();
+	let { initialDoc = defaultState }: { initialDoc?: Document } = $props();
+	let editorState = $state(initialDoc);
 
-	export function toYizySpec(): Service {
-		if (documentState) {
-			console.log(documentState);
-			return docToYizySpec(documentState);
-		}
-		throw new Error('doc is not defined!');
+	$inspect(editorState);
+
+	export function exportToService(): Service {
+		return docToYizySpec(editorState);
 	}
 
-	export function updateDoc(doc: Document) {
-		updateDocumentState(doc);
+	export function importDoc(doc: Document) {
+		editorState = doc;
 	}
 
-	export function reset(): void {
-		updateDocumentState(defaultState);
+	export function clear(): void {
+		editorState = defaultState;
 	}
 
 	let firstEditableItem: HTMLElement;
 	onMount(async () => {
-		if (doc) {
-			updateDocumentState(doc);
-			await tick();
-			firstEditableItem.focus();
-		}
+		firstEditableItem.focus();
 	});
 </script>
 
@@ -47,20 +42,20 @@
 					bind:this={firstEditableItem}
 					placeholder="ServiceName"
 					class="w-full break-words border-none border-transparent bg-transparent text-2xl font-bold outline-none placeholder:text-muted active:border-none"
-					bind:value={documentState.name} />
+					bind:value={editorState.name} />
 
 				<textarea
 					class="w-full resize-none bg-transparent outline-none placeholder:text-muted"
 					placeholder="This is an example of a service documentation"
-					bind:value={documentState.description}></textarea>
-				<EnvironmentList bind:props={documentState.environment} />
+					bind:value={editorState.description}></textarea>
+				<EnvironmentList bind:props={editorState.environment} />
 			</div>
 			<div class="my-2 w-full rounded-lg">
 				<div
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 					Endpoints
 				</div>
-				<EndpointList bind:props={documentState.endpoints} />
+				<EndpointList bind:props={editorState.endpoints} />
 			</div>
 		</div>
 		<div class="col-span-1 rounded-lg px-6 @lg:col-span-5 @lg:py-6">
@@ -70,7 +65,7 @@
 					Additional Models
 				</div>
 
-				<AdditionalModelList bind:props={documentState.additionalModels} />
+				<AdditionalModelList bind:props={editorState.additionalModels} />
 			</div>
 		</div>
 	</div>

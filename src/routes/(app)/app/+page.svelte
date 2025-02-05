@@ -8,12 +8,14 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import { currentService } from '$lib/state';
-	import { yizySpecToDoc } from '$lib/components/ui/editor/models/models';
+	import {
+		docToYizySpec,
+		yizySpecToDoc,
+		DEFAULT_DOCUMENT
+	} from '$lib/components/ui/editor/models/models';
 	import * as yizySpec from '@yizy/spec';
 	import CodeTab from './components/CodeTab.svelte';
 	import SpecTab from './components/SpecTab.svelte';
-	import { DEFAULT_DOCUMENT } from '$lib/components/ui/editor/models/models';
 	import { dev } from '$app/environment';
 	import { twMerge } from 'tailwind-merge';
 	import LlmTab from './components/LlmTab.svelte';
@@ -31,7 +33,7 @@
 		version: string;
 	}
 
-	let doc = $state(yizySpecToDoc($currentService));
+	let selectedService: yizySpec.Service = $state(docToYizySpec(DEFAULT_DOCUMENT));
 	let specs: SpecDto[] = $state([]);
 	let selectedSpec: SpecDto | null = $state(null);
 	let selectedSpecDetails: SpecDetailDto | null = $state(null);
@@ -70,18 +72,18 @@
 			specContent = res.result?.content;
 			try {
 				const service = JSON.parse(specContent) as yizySpec.Service;
-				doc = yizySpecToDoc(service);
+				selectedService = service;
 			} catch (e) {
 				console.log('cannot parse spec!');
-				doc = DEFAULT_DOCUMENT;
+				selectedService = docToYizySpec(DEFAULT_DOCUMENT);
 			}
 		}
 		isContentLoading = false;
 	}
 
-	async function onImportSpec(service: yizySpec.Service) {
-		doc = yizySpecToDoc(service as yizySpec.Service);
-	}
+	//async function onImportSpec(service: yizySpec.Service) {
+	//	doc = yizySpecToDoc(service as yizySpec.Service);
+	//}
 
 	async function createSpecDialogSaveBtnClicked() {
 		if (data.authState) {
@@ -102,7 +104,9 @@
 		}
 	}
 
-	async function updateSpecBtnClicked(specContent: string) {
+	async function updateSpecBtnClicked(service: yizySpec.Service) {
+		selectedService = service;
+		const specContent = JSON.stringify(service);
 		if (data.authState && selectedSpecDetails) {
 			const res = await yizy.updateSpec(
 				{
@@ -224,13 +228,17 @@
 				<Tabs.List class="grid w-full grid-cols-3">
 					<Tabs.Trigger value="api-spec">Edit Spec</Tabs.Trigger>
 					<Tabs.Trigger value="code-gen">Generate Code</Tabs.Trigger>
-					<Tabs.Trigger value="llm">Chat With Claude</Tabs.Trigger>
+					<Tabs.Trigger value="llm">Chat With Claude (Coming Soon)</Tabs.Trigger>
 				</Tabs.List>
 				<Tabs.Content value="api-spec" class="outline-none">
-					<SpecTab bind:doc onGenerateBtnClicked={updateSpecBtnClicked} {onImportSpec}></SpecTab>
+					<SpecTab
+						initialDoc={yizySpecToDoc(selectedService)}
+						onGenerateBtnClicked={updateSpecBtnClicked}></SpecTab>
 				</Tabs.Content>
 				<Tabs.Content value="code-gen" class="outline-none">
-					<CodeTab bind:doc version={selectedSpecDetails?.version ?? undefined} />
+					<CodeTab
+						doc={yizySpecToDoc(selectedService)}
+						version={selectedSpecDetails?.version ?? undefined} />
 				</Tabs.Content>
 				<Tabs.Content
 					value="llm"

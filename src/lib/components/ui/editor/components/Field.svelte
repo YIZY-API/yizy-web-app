@@ -33,7 +33,7 @@
 	onMount(() => {
 		if (textarea) {
 			textarea.addEventListener('input', function () {
-				textarea.style.height = '1.4em'; // Reset height
+				textarea.style.height = '1.25em'; // Reset height
 				textarea.style.height = this.scrollHeight + 'px';
 			});
 		}
@@ -58,12 +58,12 @@
 		field-sizing: content;
 		resize: none;
 		word-break: break-all;
-		min-height: 1.2em; /* Approximately one line of text */
-		height: 1.2em; /* Initial height */
+		min-height: 1.25em; /* Approximately one line of text */
+		height: 1.25em; /* Initial height */
 		overflow-y: hidden; /* Hide scrollbar initially */
 		resize: none; /* Prevent manual resizing */
 		box-sizing: border-box;
-		padding-top: 2px; /* Remove padding to ensure accurate height */
-		line-height: 1.2em; /* Match line-height to height */
+		/*padding-top: 2px;*/ /* Remove padding to ensure accurate height */
+		line-height: 1.25em; /* Match line-height to height */
 	}
 </style>

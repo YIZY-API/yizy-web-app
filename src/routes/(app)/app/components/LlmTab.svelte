@@ -49,10 +49,10 @@ Hello, World!
 
 That's it! This is the simplest Go program you can write. As you learn more about Go, you can expand on this basic structure to create more complex applications.`;
 	let messages: Array<{ role: 'user' | 'assistant'; content: string }> = $state([
-		{
-			role: 'assistant',
-			content: helloWorldGoGuide
-		}
+		//{
+		//	role: 'assistant',
+		//	content: helloWorldGoGuide
+		//}
 	]);
 	let messageInput = $state('');
 	let isLoading = $state(false);
