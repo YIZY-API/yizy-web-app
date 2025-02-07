@@ -23,7 +23,7 @@
 	</Card.Header>
 	<Card.Content class="space-y-2">
 		<div class="w-full rounded-lg border p-4">
-			<div class="prose prose-slate dark:prose-invert w-full max-w-none">
+			<div class="prose prose-slate w-full max-w-none dark:prose-invert">
 				<h2 class="my-2 font-bold">{$currentService.serviceName}</h2>
 				<h4>Environment</h4>
 				<div class="my-2">
@@ -35,8 +35,7 @@
 							if (val != '') {
 								url = val;
 							}
-						}}
-						controlledValue={true}>
+						}}>
 						<Select.Trigger class="w-[300px]">
 							{triggerContent}
 						</Select.Trigger>

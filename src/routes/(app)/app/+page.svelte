@@ -243,7 +243,7 @@
 				<Tabs.Content
 					value="llm"
 					class="flex flex-grow flex-col overflow-y-auto focus-visible:ring-0">
-					<LlmTab></LlmTab>
+					<LlmTab service={selectedService}></LlmTab>
 				</Tabs.Content>
 			</Tabs.Root>
 		{/if}
