@@ -69,12 +69,12 @@
 					<div role="none" class={twMerge('group flex flex-row')}>
 						<button class="flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
 							<PlusIcon
-								class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+								class="m-auto h-4 text-transparent hover:text-muted-foreground focus:text-muted-foreground active:text-muted-foreground group-hover:text-muted-foreground" />
 						</button>
 
 						<button class="flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
 							<TrashIcon
-								class="m-auto h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+								class="m-auto h-4 text-transparent hover:text-muted-foreground focus:text-muted-foreground active:text-muted-foreground group-hover:text-muted-foreground" />
 						</button>
 						<Environment
 							bind:props={props[index]}

@@ -53,12 +53,12 @@
 				<div class="flex w-full flex-row">
 					<button class="mt-1 flex h-6 w-4" onclick={() => addNewItem(index + 1)} tabindex="-1">
 						<PlusIcon
-							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+							class="h-4 text-transparent hover:text-muted-foreground focus:text-muted-foreground active:text-muted-foreground group-hover:text-muted-foreground" />
 					</button>
 
 					<button class="mt-1 flex h-6 w-4" onclick={() => removeItem(index)} tabindex="-1">
 						<TrashIcon
-							class="h-4 text-transparent hover:text-muted focus:text-muted active:text-muted group-hover:text-muted" />
+							class="h-4 text-transparent hover:text-muted-foreground focus:text-muted-foreground active:text-muted-foreground group-hover:text-muted-foreground" />
 					</button>
 
 					<div class="ml-1 flex-grow">
