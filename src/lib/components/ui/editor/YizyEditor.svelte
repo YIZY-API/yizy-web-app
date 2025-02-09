@@ -9,8 +9,40 @@
 
 	let { initialDoc = defaultState }: { initialDoc?: Document } = $props();
 	let editorState = $state(initialDoc);
+	let lspTypes = $derived.by(() => {
+		const primitiveTypes = [
+			'boolean',
+			'boolean?',
+			'boolean[]',
+			'double',
+			'double?',
+			'double[]',
+			'float',
+			'float?',
+			'float[]',
+			'int',
+			'int?',
+			'int[]',
+			'int32',
+			'int32[]',
+			'int32?',
+			'int64',
+			'int64?',
+			'int64[]',
+			'string',
+			'string?',
+			'string[]'
+		];
 
-	$inspect(editorState);
+		const types = editorState ? editorState.additionalModels.flatMap((model) => model.name) : [];
+		const res: string[] = [];
+		types.forEach((t: string) => {
+			res.push(t);
+			res.push(t + '?');
+			res.push(t + '[]');
+		});
+		return [...primitiveTypes, ...res];
+	});
 
 	export function exportToService(): Service {
 		return docToYizySpec(editorState);
@@ -55,7 +87,7 @@
 					class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 					Endpoints
 				</div>
-				<EndpointList bind:props={editorState.endpoints} />
+				<EndpointList bind:props={editorState.endpoints} {lspTypes} />
 			</div>
 		</div>
 		<div class="col-span-1 rounded-lg px-6 @lg:col-span-5 @lg:py-6">
@@ -65,7 +97,7 @@
 					Additional Models
 				</div>
 
-				<AdditionalModelList bind:props={editorState.additionalModels} />
+				<AdditionalModelList bind:props={editorState.additionalModels} {lspTypes} />
 			</div>
 		</div>
 	</div>

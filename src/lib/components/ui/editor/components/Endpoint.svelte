@@ -27,9 +27,11 @@
 				]
 			}
 		}),
-		shouldFocus = false
+		shouldFocus = false,
+		lspTypes
 	}: {
 		props: EndpointProps;
+		lspTypes: string[];
 		shouldFocus?: boolean;
 	} = $props();
 
@@ -65,7 +67,7 @@
 		class="w-full border-none border-transparent bg-transparent font-light text-accent outline-none placeholder:text-muted active:border-none"
 		bind:value={props.req.name} />
 
-	<FieldList bind:props={props.req.fields} />
+	<FieldList bind:props={props.req.fields} {lspTypes} />
 
 	<div class="my-2 w-fit rounded-r-full bg-primary px-2 text-xs font-bold text-primary-foreground">
 		Response
@@ -75,7 +77,7 @@
 		class="w-full border-none border-transparent bg-transparent font-light text-accent outline-none placeholder:text-muted active:border-none"
 		bind:value={props.res.name} />
 
-	<FieldList bind:props={props.res.fields} />
+	<FieldList bind:props={props.res.fields} {lspTypes} />
 </div>
 
 <style>

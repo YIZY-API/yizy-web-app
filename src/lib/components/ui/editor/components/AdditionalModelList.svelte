@@ -14,8 +14,9 @@
 					}
 				]
 			}
-		])
-	}: { props?: Model[] } = $props();
+		]),
+		lspTypes
+	}: { props?: Model[]; lspTypes: string[] } = $props();
 
 	let lastCreatedIndex: number | null = $state(null);
 

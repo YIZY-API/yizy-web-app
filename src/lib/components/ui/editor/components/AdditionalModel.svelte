@@ -7,8 +7,9 @@
 			name: '',
 			fields: []
 		}),
-		shouldFocus = false
-	}: { props: Model; shouldFocus?: boolean } = $props();
+		shouldFocus = false,
+		lspTypes
+	}: { props: Model; shouldFocus?: boolean; lspTypes: string[] } = $props();
 
 	function init(el: HTMLElement) {
 		if (shouldFocus) {
@@ -24,5 +25,5 @@
 	use:init />
 
 <div class="flex w-full flex-row">
-	<FieldList bind:props={props.fields} />
+	<FieldList bind:props={props.fields} {lspTypes} />
 </div>

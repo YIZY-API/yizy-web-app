@@ -19,6 +19,7 @@
 	import { dev } from '$app/environment';
 	import { twMerge } from 'tailwind-merge';
 	import LlmTab from './components/LlmTab.svelte';
+	import { goto } from '$app/navigation';
 
 	let { data } = $props();
 
@@ -41,6 +42,7 @@
 	let isContentLoading: boolean = $state(false);
 	let createSpecDialogSpecName: string = $state('');
 	let isCreateSpecDialogOpen: boolean = $state(false);
+	let isUpgradeDialogOpen: boolean = $state(false);
 
 	function closeCreateSpecDialog() {
 		isCreateSpecDialogOpen = false;
@@ -97,6 +99,9 @@
 			if (res.error === null && res.result != null) {
 				specs = specs.concat(res.result);
 				closeCreateSpecDialog();
+			} else if (res.error?.code === 403) {
+				closeCreateSpecDialog();
+				isUpgradeDialogOpen = true;
 			}
 		} else {
 			//TODO
@@ -228,7 +233,7 @@
 				<Tabs.List class="grid w-full grid-cols-3">
 					<Tabs.Trigger value="api-spec">Edit Spec</Tabs.Trigger>
 					<Tabs.Trigger value="code-gen">Generate Code</Tabs.Trigger>
-					<Tabs.Trigger value="llm">Chat With Claude (Coming Soon)</Tabs.Trigger>
+					<Tabs.Trigger value="llm">Chat With Claude</Tabs.Trigger>
 				</Tabs.List>
 				<Tabs.Content value="api-spec" class="outline-none">
 					<SpecTab
@@ -248,4 +253,17 @@
 			</Tabs.Root>
 		{/if}
 	</div>
+
+	<Dialog.Root bind:open={isUpgradeDialogOpen}>
+		<Dialog.Content class="sm:max-w-[425px]">
+			<Dialog.Header>
+				<Dialog.Title>Upgrade Now!</Dialog.Title>
+				<Dialog.Description>Upgrade to create unlimited api spec!</Dialog.Description>
+			</Dialog.Header>
+			<Button
+				onclick={() => {
+					goto('/upgrade');
+				}}>Upgrade</Button>
+		</Dialog.Content>
+	</Dialog.Root>
 </div>

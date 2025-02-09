@@ -58,9 +58,6 @@
 		<a href="/" onclick={() => closeSidebar()}
 			><h1 class="my-2 font-bold hover:text-primary">Home</h1></a>
 
-		<a href="/demo" onclick={() => closeSidebar()}
-			><h1 class="my-2 font-bold hover:text-primary">Demo</h1></a>
-
 		<a href="/doc/introduction" onclick={() => closeSidebar()}
 			><h1 class="my-2 font-bold hover:text-primary">Documentation</h1></a>
 

@@ -4,7 +4,10 @@
 	import Field from './Field.svelte';
 	import { type Field as FieldProps } from '../models/models';
 
-	let { props = $bindable([{ name: '', type: '' }]) }: { props?: FieldProps[] } = $props();
+	let {
+		props = $bindable([{ name: '', type: '' }]),
+		lspTypes
+	}: { props?: FieldProps[]; lspTypes: string[] } = $props();
 
 	function focusPrevItem() {
 		const focusableElements = Array.from(
@@ -61,6 +64,7 @@
 						{#key props}
 							<Field
 								bind:props={props[index]}
+								{lspTypes}
 								shouldFocus={index === lastCreatedIndex}
 								onAddNewItem={() => {
 									addNewItem(index + 1);

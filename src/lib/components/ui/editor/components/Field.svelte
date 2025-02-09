@@ -8,11 +8,13 @@
 	let {
 		props = $bindable({ name: '', type: '' }),
 		shouldFocus = false,
+		lspTypes,
 		onAddNewItem,
 		onRemove
 	}: {
 		props: FieldProps;
 		shouldFocus: boolean;
+		lspTypes: string[];
 		onAddNewItem?: () => void;
 		onRemove?: () => void;
 	} = $props();
@@ -50,7 +52,7 @@
 		use:init
 		class="min-w-44 border-none border-transparent bg-transparent font-light outline-none placeholder:text-muted active:border-none"
 	></textarea>
-	<Complete bind:searchValue={props.type} onNewline={onAddNewItem} />
+	<Complete bind:searchValue={props.type} onNewline={onAddNewItem} {lspTypes} />
 </div>
 
 <style>

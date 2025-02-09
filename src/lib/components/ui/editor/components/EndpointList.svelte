@@ -28,8 +28,9 @@
 					]
 				}
 			}
-		])
-	}: { props?: EndpointProps[] } = $props();
+		]),
+		lspTypes
+	}: { props?: EndpointProps[]; lspTypes: string[] } = $props();
 	let lastCreatedIndex: number | null = $state(null);
 
 	function addNewItem(fromIndex: number) {
@@ -88,7 +89,10 @@
 					</button>
 
 					<div class="ml-2 flex-grow">
-						<Endpoint bind:props={props[index]} shouldFocus={index === lastCreatedIndex} />
+						<Endpoint
+							bind:props={props[index]}
+							shouldFocus={index === lastCreatedIndex}
+							{lspTypes} />
 					</div>
 				</div>
 			</div>

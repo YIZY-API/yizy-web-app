@@ -3,7 +3,6 @@
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Label } from '$lib/components/ui/label';
-	import { importService } from '$lib/state';
 	import * as yizy from '@yizy/spec';
 
 	let { onImport }: { onImport: (service: yizy.Service) => void } = $props();

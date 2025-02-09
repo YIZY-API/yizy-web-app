@@ -21,7 +21,9 @@
 				'Unlimited Spec Import and Export in JSON',
 				'Unlimited Model Generation',
 				'Unlimited Client Code Generation',
-				'Community support'
+				'Community support',
+				'One Spec Limit',
+				'AI Assistant'
 			],
 			ctaText: 'Get Started',
 			popular: false
@@ -37,7 +39,9 @@
 				'Unlimited Client Code Generation',
 				'Community support',
 				'Auto API Spec Versioning',
-				'Spec Storage and Management'
+				'Spec Storage and Management',
+				'Unlimited Spec',
+				'AI Assistant'
 			],
 			ctaText: 'Get Started',
 			popular: false
@@ -54,10 +58,10 @@
 				'Community support',
 				'Auto API Spec Versioning',
 				'Spec Storage and Management',
+				'AI Assistant',
 				'Team Collaboration (Coming Soon!)',
 				'Github Actions (Coming Soon!)',
 				'CLI Tool (Coming Soon!)',
-
 				'Self-Hosting'
 			],
 			ctaText: 'Contact Us',
@@ -70,7 +74,7 @@
 		const IndieHacker = 1;
 		const Team = 2;
 		if (name === plans[Community].name) {
-			window.location.href = '/demo';
+			window.location.href = '/app';
 		}
 
 		if (name === plans[IndieHacker].name) {
@@ -100,8 +104,8 @@
 			<Button
 				class="mx-auto my-2 rounded-full font-bold"
 				onclick={() => {
-					window.location.href = '/demo';
-				}}>Try Online Editor</Button>
+					window.location.href = '/app';
+				}}>Start Now</Button>
 			<a href="/doc/introduction" class="mx-auto my-2">
 				<Button class="mx-auto rounded-full font-bold" variant="outline">View Documentation</Button>
 			</a>

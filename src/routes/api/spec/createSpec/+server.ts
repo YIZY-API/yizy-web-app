@@ -1,5 +1,6 @@
 import { json, type RequestEvent } from "@sveltejs/kit";
 import * as specService from "$lib/server/services/application/specService";
+import * as subscriptionService from "$lib/server/services/application/subscriptionService";
 import { object, ObjectSchema, string, ValidationError } from "yup";
 import * as yizyService from "$lib/api-client/yizyClient";
 
@@ -28,6 +29,22 @@ export async function POST(
   }
 
   const req = body as yizyService.CreateSpecRequest;
+
+  const sub = await subscriptionService.getSubscriptionWithUserId(
+    req.creatorUserId,
+  );
+  if (sub === null) {
+    const specs = await specService.getSpecs(req.creatorUserId);
+    if (specs.length > 0) {
+      return json({
+        result: null,
+        error: {
+          code: 403,
+          msg: "Subscribe Now to Create More Than 1 API Spec!",
+        },
+      }, { status: 200 });
+    }
+  }
 
   const result = await specService.createSpec(req.name, req.creatorUserId);
   if (!result) {
