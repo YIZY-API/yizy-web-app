@@ -63,7 +63,10 @@
 					</button>
 
 					<div class="ml-1 flex-grow">
-						<AdditionalModel bind:props={props[index]} shouldFocus={index === lastCreatedIndex} />
+						<AdditionalModel
+							bind:props={props[index]}
+							shouldFocus={index === lastCreatedIndex}
+							{lspTypes} />
 					</div>
 				</div>
 			</div>
