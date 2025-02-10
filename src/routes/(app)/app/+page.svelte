@@ -235,21 +235,21 @@
 					<Tabs.Trigger value="code-gen">Generate Code</Tabs.Trigger>
 					<Tabs.Trigger value="llm">Chat With Claude</Tabs.Trigger>
 				</Tabs.List>
-				<Tabs.Content value="api-spec" class="outline-none">
-					<SpecTab
-						initialDoc={yizySpecToDoc(selectedService)}
-						onGenerateBtnClicked={updateSpecBtnClicked}></SpecTab>
-				</Tabs.Content>
-				<Tabs.Content value="code-gen" class="outline-none">
-					<CodeTab
-						doc={yizySpecToDoc(selectedService)}
-						version={selectedSpecDetails?.version ?? undefined} />
-				</Tabs.Content>
-				<Tabs.Content
-					value="llm"
-					class="flex flex-grow flex-col overflow-y-auto focus-visible:ring-0">
-					<LlmTab service={selectedService}></LlmTab>
-				</Tabs.Content>
+				<div class="flex flex-grow flex-col overflow-y-auto outline-none focus-visible:ring-0">
+					<Tabs.Content value="api-spec" class="flex-grow outline-none">
+						<SpecTab
+							initialDoc={yizySpecToDoc(selectedService)}
+							onGenerateBtnClicked={updateSpecBtnClicked}></SpecTab>
+					</Tabs.Content>
+					<Tabs.Content value="code-gen" class="flex-grow outline-none">
+						<CodeTab
+							doc={yizySpecToDoc(selectedService)}
+							version={selectedSpecDetails?.version ?? undefined} />
+					</Tabs.Content>
+					<Tabs.Content value="llm" class="flex-grow overflow-y-auto outline-none">
+						<LlmTab service={selectedService}></LlmTab>
+					</Tabs.Content>
+				</div>
 			</Tabs.Root>
 		{/if}
 	</div>
