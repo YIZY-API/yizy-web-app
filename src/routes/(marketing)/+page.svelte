@@ -4,9 +4,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
 	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
-	import demoImg from '$lib/assets/1.png';
-	import codeDemoImg from '$lib/assets/2.png';
-	import exportImg from '$lib/assets/3.png';
+	//import demoImg from '$lib/assets/1.png';
+	//import codeDemoImg from '$lib/assets/2.png';
+	//import exportImg from '$lib/assets/3.png';
 	import { onMount } from 'svelte';
 
 	onMount(() => {});
@@ -98,7 +98,8 @@
 		</h1>
 		<h1 class="mx-auto px-4 text-center text-3xl font-bold md:text-5xl">Made YIZY</h1>
 		<h1 class="text-md mx-auto px-4 py-2 text-center md:text-xl">
-			Build Typesafe HTTP JSON APIs with Instant Code Generation. All in the Browser.
+			Document and Build Typesafe JSON APIs with Instant Code Generation. Boost Development
+			Productivity with AI.
 		</h1>
 		<div class="mx-auto my-2 flex flex-col gap-2 sm:flex-row">
 			<Button
@@ -126,26 +127,44 @@
 				Export the specification in JSON format and version control the spec with Git. Import it
 				later to update the spec and re-run code generation.
 			</div>
-			<img src={demoImg} alt="yizy editor" />
+			<!--<img src={demoImg} alt="yizy editor" />-->
+			<div class="p-8">
+				<video class="rounded-lg" controls>
+					<source src="https://assets.yizy.dev/edit.mov" type="video/mp4" />
+					<track kind="captions" />
+				</video>
+			</div>
 		</div>
 		<div class="mx-auto flex flex-col">
 			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
-				2. Generate Model Definition and Client SDK Instantly
+				2. Generate Model Definition and Client SDK Instantly From Documentation
 			</h1>
 			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
 				Generate Model Definition and Client code instantly in the browser instantly
 			</div>
-			<img src={codeDemoImg} alt="yizy generator" />
+			<!--<img src={codeDemoImg} alt="yizy generator" />-->
+
+			<div class="p-8">
+				<video class="rounded-lg" controls>
+					<source src="https://assets.yizy.dev/codegen.mov" type="video/mp4" />
+					<track kind="captions" />
+				</video>
+			</div>
 		</div>
 
 		<div class="mx-auto flex flex-col">
 			<h1 class="px-4 text-lg font-bold text-[#171f30] sm:px-10 sm:text-2xl">
-				3. Import / Export / Share API Specification in JSON
+				3. Chat with a LLM that knows about your API Spec
 			</h1>
 			<div class="text-md px-4 font-light text-[#171f30] sm:px-10 sm:text-xl">
-				Export the specification in JSON format for version control with Git or collaboration.
+				Generate curl command, request body in JSON, backend boilerplate code, you name it!
 			</div>
-			<img src={exportImg} alt="yizy generator" />
+			<div class="p-8">
+				<video class="rounded-lg" controls>
+					<source src="https://assets.yizy.dev/llm.mov" type="video/mp4" />
+					<track kind="captions" />
+				</video>
+			</div>
 		</div>
 	</div>
 </section>
