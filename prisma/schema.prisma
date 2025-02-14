@@ -20,6 +20,7 @@ model User {
   sessions                   Session[]
   username                   String
   google_id                  String?
+  stripe_id                  String?
   bridgeUserAndSpecification BridgeUserAndSpecfication[]
   SpecificationSnapshot      SpecificationSnapshot[]
   Workspaces                 BridgeWorkspaceAndUser[]

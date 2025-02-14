@@ -6,6 +6,7 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
+import { stripeClient } from "$lib/server/services/data/stripeClient";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 const HALF_MONTH = ONE_MONTH / 2;
@@ -41,6 +42,7 @@ export type SessionValidationResult = {
     email: string;
     uuid: string;
     isSubscribed: boolean;
+    stripeId: string;
   };
 };
 
@@ -103,6 +105,7 @@ export async function validateSessionToken(
       email: user.email,
       username: user.username,
       isSubscribed: userHasSubscription,
+      stripeId: user.stripe_id ?? "",
     },
   };
 
@@ -140,12 +143,20 @@ export async function getOrCreateUser(
       ...user,
     };
   } else {
+    const uuid = crypto.randomUUID();
+    const customer = await stripeClient.customers.create({
+      email: email,
+      metadata: {
+        userId: uuid,
+      },
+    });
     const res: User = await prisma.user.create({
       data: {
         username,
         email,
-        uuid: crypto.randomUUID(),
+        uuid: uuid,
         google_id: googleId,
+        stripe_id: customer.id,
       },
     });
     return {

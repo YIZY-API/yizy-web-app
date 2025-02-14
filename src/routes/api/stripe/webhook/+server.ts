@@ -34,15 +34,16 @@ export async function POST(
 
   let subscription: Stripe.Subscription;
   let checkoutSession: Stripe.Checkout.Session;
-  const customerId = event?.data?.object as { customer: string };
+  const customerObj = event?.data?.object as { customer: string };
   let subscriptionId = "";
   let yizyUserId = "";
 
-  if (typeof customerId !== "string") {
+  if (typeof customerObj.customer !== "string") {
     throw new Error(
       `[STRIPE HOOK] ID isn't string.\nEvent type: ${event.type}`,
     );
   }
+  const customerId = customerObj.customer;
 
   switch (event.type) {
     case "checkout.session.completed":

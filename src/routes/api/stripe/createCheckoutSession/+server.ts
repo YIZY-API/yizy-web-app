@@ -8,15 +8,8 @@ export async function POST(
   if (!locals.authState?.user.email) {
     return new Response(undefined, { status: 401 });
   }
-  const customerEmail = locals.authState?.user.email;
-  const customer = await stripeClient.customers.create({
-    email: customerEmail,
-    metadata: {
-      userId: locals.authState.user.uuid,
-    },
-  });
   const session = await stripeClient.checkout.sessions.create({
-    customer: customer.id,
+    customer: locals.authState.user.stripeId,
     billing_address_collection: "auto",
     line_items: [
       {
@@ -28,7 +21,6 @@ export async function POST(
     success_url: DOMAIN + `/upgrade?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: DOMAIN + `/stripe/cancel`,
     client_reference_id: "1",
-    customer_email: customerEmail,
     metadata: {
       userId: locals.authState.user.uuid,
     },
