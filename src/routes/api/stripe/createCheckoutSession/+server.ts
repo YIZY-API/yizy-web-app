@@ -9,7 +9,14 @@ export async function POST(
     return new Response(undefined, { status: 401 });
   }
   const customerEmail = locals.authState?.user.email;
+  const customer = await stripeClient.customers.create({
+    email: customerEmail,
+    metadata: {
+      userId: locals.authState.user.uuid,
+    },
+  });
   const session = await stripeClient.checkout.sessions.create({
+    customer: customer.id,
     billing_address_collection: "auto",
     line_items: [
       {
