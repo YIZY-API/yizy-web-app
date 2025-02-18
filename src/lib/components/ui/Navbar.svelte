@@ -44,7 +44,7 @@
 			>Home</a>
 
 		<a
-			href="/doc/introduction"
+			href="/doc/introduction/quick-start"
 			class="mx-2 my-auto hidden text-center text-sm font-bold hover:text-primary sm:mx-4 sm:text-left sm:text-lg md:block"
 			>Documentation</a>
 

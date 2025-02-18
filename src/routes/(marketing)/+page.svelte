@@ -107,7 +107,7 @@
 				onclick={() => {
 					window.location.href = '/app';
 				}}>Start Now</Button>
-			<a href="/doc/introduction" class="mx-auto my-2">
+			<a href="/doc/introduction/quick-start" class="mx-auto my-2">
 				<Button class="mx-auto rounded-full font-bold" variant="outline">View Documentation</Button>
 			</a>
 		</div>

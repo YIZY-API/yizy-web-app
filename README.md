@@ -1,41 +1,44 @@
-# Introduction
+# YIZY - Documentation First API Development Made Easy
 
-I am a big fan of schema-first / contract-first design where I’d write an Open
-API spec and then use code generators to generate server and client code. It’s a
-pretty good workflow when it works, but it requires a lot of fiddling and setup
-to get everything to work nicely across the stack such as
+> I love writing API documentation! — said no software developer ever.
 
-- writing the spec in json / yaml is tedious since there is limited code
-  completion and a ton of optional fields, I find myself having to read the
-  documentation constantly while writing the spec
-- picking (installing, configuring, and testing) a generator that works
-- finding the perfect combination between the spec style and the generated code
-  (things like whether to define models inline or in the #components section, or
-  sometimes the generator would outright ignore what I have in the spec
-- always forgetting to update the version after changing the spec
+API documentation is like abs, everybody wants them but nobody wants to put in
+the time to build them.
 
-# Simplify Open API Spec by Giving up Restful Conventions
+Developers have mastered the art of dodging this chore. Some claim their code is
+the documentation. Others generate docs from code comments and annotations,
+crossing their fingers it stays accurate. And the brave souls who do write docs
+from scratch? They’re stuck playing update every time the API changes.
 
-Here is a crazy thought. What if we give up Restful conventions and use Open API
-Spec for a simple POST-request-based JSON RPC described below?
+Yet when using an API, every developer demands clear, up-to-date docs. Without
+them, integration becomes guesswork.
 
-- Use 'Action' instead of 'Resource' in url. Eg. /getUserById instead of
-  /user/{'{id}'}
-- Endpoints must only accept POST request with content type application/json.
-- Endpoints must only allow POST requests with headers and a body. Query and
-  path parameters are ignored
-- Endpoints must return a response body with consistent schema regardless of
-  status code
+This is where Yizy changes the game. Yizy is re-imagining API development by
+providing a framework to help teams build API documentation, client SDKs, and a
+context aware AI all at the same time.
 
-# Further Simplifying Open API Spec by Distilling It
+## Yizy Doc
 
-- remove security (this can be documented either in the service description or
-  endpoint description
-- remove validation rules (this can be documented in the field description)
-- remove the ability to define inline model
+A structured, intuitive documentation format that’s AI and human readable. To
+write an Yizy Doc, the only thing developers have to do is fill out a form in
+their browser. That's right, you get code completion in this form. No more YAML
+or JSON.
 
-# The Result
+![An Example Yizy Doc with Code Completion](https://assets.yizy.dev/completion.png)
 
-We end up with a minimalistic spec that is both machine and human friendly.
+## Yizy Generator
 
-![yizy-spec-example](https://github.com/YIZY-API/yizy-web-app/blob/master/src/lib/assets/exampleSpec.png?raw=true)
+Yizy’s deterministic code generators produce polished client SDKs in multiple
+languages—directly in your browser. No waiting, no setup, no AI. Just plain,
+consistent code generation.
+
+![](https://assets.yizy.dev/codegen.png)
+
+## Yizy AI
+
+Yizy’s built in AI assistant trained on your API’s specifics. Whether you want
+to generate backend boilerplate code matching your team’s style, craft test
+requests, or need help on the generated SDK, you can expect Yizy AI to be at
+your service.
+
+![](https://assets.yizy.dev/chat-with-claude.png)

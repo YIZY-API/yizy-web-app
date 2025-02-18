@@ -39,6 +39,14 @@
   </pre>
 </div>`;
 	};
+	renderer.image = ({ href, title, text }) => {
+		return `
+<figure>
+  <img src="${href}" class="drop-shadow-2xl border rounded-lg "/>
+  <figcaption>${text}</figcaption>
+</figure>
+        `;
+	};
 	const m = new Marked(
 		markedHighlight({
 			emptyLangClass: 'hljs',

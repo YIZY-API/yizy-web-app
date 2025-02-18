@@ -193,35 +193,38 @@ export async function getSpecs(userId: string) {
 }
 
 const defaultService: yizy.Service = {
-  serviceName: "ExampleService",
-  description: "This is an example service",
-  environment: [{ name: "local", url: "http://localhost:5173" }],
+  serviceName: "SecretService",
+  description: "This is an API documentation for SecretService",
+  environment: [{ name: "local", url: "http://localhost:5173" }, {
+    name: "dev",
+    url: "http://dev.localhost:5174",
+  }],
   endpoints: [
     {
-      name: "getExampleById",
-      description: "This is an example endpoint",
-      url: "/getExampleById",
+      name: "getAgentByName",
+      description: "This endpoint returns a secret service agent by name.",
+      url: "/getAgentByName",
       requestModel: {
-        name: "GetExampleByIdRequest",
+        name: "GetAgentByNameRequest",
         type: yizy.TypeIdentifier.ObjectType,
         fields: [
           {
-            name: "id",
+            name: "name",
             type: "string",
           },
         ],
       },
       responseModel: {
-        name: "GetExampleByIdResponse",
+        name: "GetAgentByNameResponse",
         type: yizy.TypeIdentifier.ObjectType,
         fields: [
           {
             name: "result",
-            type: yizy.nullableReferenceType("ExampleResult"),
+            type: yizy.nullableReferenceType("Agent"),
           },
           {
             name: "error",
-            type: yizy.nullableReferenceType("ExampleServiceError"),
+            type: yizy.nullableReferenceType("SecretServiceError"),
           },
         ],
       },
@@ -229,13 +232,9 @@ const defaultService: yizy.Service = {
   ],
   referenceTypes: [
     {
-      name: "ExampleServiceError",
+      name: "SecretServiceError",
       type: yizy.TypeIdentifier.ObjectType,
       fields: [
-        {
-          name: "code",
-          type: "int",
-        },
         {
           name: "message",
           type: "string",
@@ -243,7 +242,7 @@ const defaultService: yizy.Service = {
       ],
     },
     {
-      name: "ExampleResult",
+      name: "Agent",
       type: yizy.TypeIdentifier.ObjectType,
       fields: [
         {
@@ -251,9 +250,14 @@ const defaultService: yizy.Service = {
           type: "string",
         },
         {
-          name: "description",
+          name: "firstname",
           type: "string",
         },
+        {
+          name: "lastname",
+          type: "string",
+        },
+        yizy.field("knownAliases", yizy.arrayType("string")),
       ],
     },
   ],
