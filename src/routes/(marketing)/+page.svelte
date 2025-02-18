@@ -3,10 +3,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Decoration from './components/Decoration.svelte';
-	import { Languages, HardHat, Link, Zap, CakeSlice, File } from 'lucide-svelte';
-	//import demoImg from '$lib/assets/1.png';
-	//import codeDemoImg from '$lib/assets/2.png';
-	//import exportImg from '$lib/assets/3.png';
+	import { Languages, HardHat, Link, Zap, File, ArrowRight, BicepsFlexed } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	onMount(() => {});
@@ -91,13 +88,15 @@
 	<title>Home</title>
 </svelte:head>
 
-<section class="mx-auto w-full pb-20 pt-40">
-	<div class="my-28 flex flex-col">
+<section class="mx-auto w-full pb-20 pt-40 xl:pb-0">
+	<div class="my-24 flex flex-col">
 		<h1 class="mx-auto px-4 text-center text-3xl font-bold md:text-5xl">
-			Schema-First API Development
+			Documentation First API Dev
 		</h1>
-		<h1 class="mx-auto px-4 text-center text-3xl font-bold md:text-5xl">Made YIZY</h1>
-		<h1 class="text-md mx-auto px-4 py-2 text-center md:text-xl">
+		<h1 class="mx-auto mb-2 px-4 text-center text-3xl font-bold md:text-5xl">
+			Made <spen class=" animate-pulse-slow text-primary">Yizy</spen>
+		</h1>
+		<h1 class=" mx-auto max-w-2xl px-4 py-2 text-center text-xl text-muted-foreground md:text-xl">
 			Document and Build Typesafe JSON APIs with Instant Code Generation. Boost Development
 			Productivity with AI.
 		</h1>
@@ -212,9 +211,9 @@
 	</div>
 	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
 		<div class="m-auto flex flex-col">
-			<CakeSlice class="mx-auto text-primary" />
-			<h1 class="pt-2 text-center text-lg font-bold text-primary">Aggressively Simple</h1>
-			<p class="px-4 text-center text-sm font-light text-foreground">POST Request Under the Hood</p>
+			<BicepsFlexed class="mx-auto text-primary" />
+			<h1 class="pt-2 text-center text-lg font-bold text-primary">AI Power</h1>
+			<p class="px-4 text-center text-sm font-light text-foreground">Chat With Context Aware AI</p>
 		</div>
 	</div>
 	<div class="mx-auto flex h-48 w-full max-w-80 rounded-lg border-2 border-primary">
@@ -278,4 +277,19 @@
 </section>
 
 <Decoration rotate={true} />
-<section class="h-20 bg-background"></section>
+<section class="flex flex-col bg-background py-20">
+	<h2 class="mx-auto mb-6 text-4xl font-bold">Ready to Build APIs the Yizy Way?</h2>
+	<p class="mx-auto mb-8 max-w-2xl text-xl text-muted-foreground">Experience the Yizy Way</p>
+	<Button
+		size="lg"
+		class="mx-auto animate-bounce rounded-full"
+		onclick={() => {
+			window.location.href = '/app';
+		}}>
+		Start Building Now <ArrowRight class="ml-2" />
+	</Button>
+</section>
+
+<Decoration rotate={false} />
+
+<section class="flex h-20 flex-col bg-primary"></section>
